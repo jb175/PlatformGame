@@ -9,7 +9,7 @@ import java.io.IOException;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
-import com.jbmo60927.main.Game;
+import com.jbmo60927.App;
 import com.jbmo60927.main.GameLinkThread;
 import com.jbmo60927.ui.Component;
 import com.jbmo60927.ui.Input;
@@ -35,17 +35,20 @@ public class Connect extends State implements StateMethods {
     private final int UP_ANIMATION = 100;
     private int counter = 0;
 
-    public Connect(Game game) {
-        super(game);
+    private App app;
+
+    public Connect(App app) {
+        super(app);
+        this.app = app;
         LoadComponents();
     }
 
 
     private void LoadComponents() {
-        components[0] = new PointNumberInput(Game.GAME_WIDTH/2, (int) (100 * Game.scale), 50, "ip adress", "188.165.242.225");
-        components[1] = new NumberInput(Game.GAME_WIDTH/2, (int) (170 * Game.scale), 50, "port", "7777");
-        components[2] = new LetterNumberInput(Game.GAME_WIDTH/2, (int) (240 * Game.scale), 50, "name", "jb");
-        components[3] = new Component(Game.GAME_WIDTH/2, (int) (300 * Game.scale), 50, "play") {
+        components[0] = new PointNumberInput(App.GAME_WIDTH/2, (int) (100 * App.scale), 50, "ip adress", "188.165.242.225");
+        components[1] = new NumberInput(App.GAME_WIDTH/2, (int) (170 * App.scale), 50, "port", "7777");
+        components[2] = new LetterNumberInput(App.GAME_WIDTH/2, (int) (240 * App.scale), 50, "name", "jb");
+        components[3] = new Component(App.GAME_WIDTH/2, (int) (300 * App.scale), 50, "play") {
             @Override
             public void mouseReleased(MouseEvent e) {
                 connect();
@@ -82,12 +85,12 @@ public class Connect extends State implements StateMethods {
 
         //try connection
         try {
-            game.getPlaying().getPlayer().setName(((Input)components[2]).getValue());
+            app.getPlaying().getPlayer().setName(((Input)components[2]).getValue());
             // Send a request to connect to the server is listening
             // on machine given ip address port 7777.
             socketOfClient = new Socket(((Input)components[0]).getValue(), Integer.parseInt(((Input)components[1]).getValue()));
 
-            gameLinkThread = new GameLinkThread(socketOfClient, game);
+            gameLinkThread = new GameLinkThread(socketOfClient, app);
 
             gameLinkThread.start();
             connected = true;

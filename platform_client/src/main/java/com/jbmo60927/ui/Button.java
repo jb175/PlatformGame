@@ -3,7 +3,7 @@ package com.jbmo60927.ui;
 import java.awt.event.MouseEvent;
 
 import com.jbmo60927.gamestates.GameStates;
-import com.jbmo60927.main.Game;
+import com.jbmo60927.App;
 
 public class Button extends Component {
 
@@ -23,8 +23,8 @@ public class Button extends Component {
     public void update() {
         super.update();
         
-        if(4*Game.scale*size-metrics.stringWidth(text) < 0) {
-            while (4*Game.scale*size-metrics.stringWidth(text) < 16) {
+        if(4*App.scale*size-metrics.stringWidth(text) < 0) {
+            while (4*App.scale*size-metrics.stringWidth(text) < 16) {
                 text=text.substring(0, text.length()-2);
             }
             text +="..";
@@ -35,8 +35,8 @@ public class Button extends Component {
     public void selectedUpdate() {
         super.selectedUpdate();
 
-        if(4*Game.scale*size-metrics.stringWidth(text) < 0) {
-            while (4*Game.scale*size-metrics.stringWidth(text) < 16) {
+        if(4*App.scale*size-metrics.stringWidth(text) < 0) {
+            while (4*App.scale*size-metrics.stringWidth(text) < 16) {
                 text=text.substring(0, text.length()-2);
             }
             text +="..";

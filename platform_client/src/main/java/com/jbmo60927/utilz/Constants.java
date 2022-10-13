@@ -1,6 +1,6 @@
 package com.jbmo60927.utilz;
 
-import com.jbmo60927.main.Game;
+import com.jbmo60927.App;
 
 public class Constants {
 	public static class TrameName {
@@ -19,27 +19,27 @@ public class Constants {
 			public static final int WIDTH_DEFAULT_MIDDLE = 4;
 			public static final int WIDTH_DEFAULT_END = 16;
 			public static final int HEIGHT_DEFAULT = 56;
-			public static final int WIDTH_BEGIN = (int) (WIDTH_DEFAULT_BEGIN * Game.scale);
-			public static final int WIDTH_MIDDLE = (int) (WIDTH_DEFAULT_MIDDLE * Game.scale);
-			public static final int WIDTH_END = (int) (WIDTH_DEFAULT_END * Game.scale);
-			public static final int HEIGHT = (int) (HEIGHT_DEFAULT * Game.scale);
+			public static final int WIDTH_BEGIN = (int) (WIDTH_DEFAULT_BEGIN * App.scale);
+			public static final int WIDTH_MIDDLE = (int) (WIDTH_DEFAULT_MIDDLE * App.scale);
+			public static final int WIDTH_END = (int) (WIDTH_DEFAULT_END * App.scale);
+			public static final int HEIGHT = (int) (HEIGHT_DEFAULT * App.scale);
 		}
 		
 		public static class Buttons{
 			public static final int B_WIDTH_DEFAULT = 140;
 			public static final int B_HEIGHT_DEFAULT = 56;
-			public static final int B_WIDTH = (int) (B_WIDTH_DEFAULT * Game.scale);
-			public static final int B_HEIGHT = (int) (B_HEIGHT_DEFAULT * Game.scale);
+			public static final int B_WIDTH = (int) (B_WIDTH_DEFAULT * App.scale);
+			public static final int B_HEIGHT = (int) (B_HEIGHT_DEFAULT * App.scale);
 		}
 		public static class Inputs{
 			public static final int I_X_BOUNDS_POSITION = 10;
 			public static final int I_Y_BOUNDS_POSITION = 32;
 			public static final int I_FONT_SIZE_DEFAULT = 20;
-			public static final int I_FONT_SIZE = (int) (I_FONT_SIZE_DEFAULT * Game.scale);
+			public static final int I_FONT_SIZE = (int) (I_FONT_SIZE_DEFAULT * App.scale);
 			public static final int I_WIDTH_DEFAULT = 356;
 			public static final int I_HEIGHT_DEFAULT = 56;
-			public static final int I_WIDTH = (int) (I_WIDTH_DEFAULT * Game.scale);
-			public static final int I_HEIGHT = (int) (I_HEIGHT_DEFAULT * Game.scale);
+			public static final int I_WIDTH = (int) (I_WIDTH_DEFAULT * App.scale);
+			public static final int I_HEIGHT = (int) (I_HEIGHT_DEFAULT * App.scale);
 			public static final int LETTER_AND_NUMBER = 0;
 			public static final int NUMBER_AND_POINT = 1;
 			public static final int NUMBER_ONLY = 2;

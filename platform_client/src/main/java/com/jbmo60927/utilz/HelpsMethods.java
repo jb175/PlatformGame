@@ -1,6 +1,6 @@
 package com.jbmo60927.utilz;
 
-import com.jbmo60927.main.Game;
+import com.jbmo60927.App;
 import java.awt.geom.Rectangle2D;
 
 public class HelpsMethods {
@@ -15,13 +15,13 @@ public class HelpsMethods {
 	}
 
     private static boolean IsSolid(float x, float y, int[][] lvlData) {
-		if (x < 0 || x >= Game.GAME_WIDTH)
+		if (x < 0 || x >= App.GAME_WIDTH)
 			return true;
-		if (y < 0 || y >= Game.GAME_HEIGHT)
+		if (y < 0 || y >= App.GAME_HEIGHT)
 			return true;
 
-		float xIndex = x / Game.TILE_SIZE;
-		float yIndex = y / Game.TILE_SIZE;
+		float xIndex = x / App.TILE_SIZE;
+		float yIndex = y / App.TILE_SIZE;
 
 		int value = lvlData[(int) yIndex][(int) xIndex];
 
@@ -31,24 +31,24 @@ public class HelpsMethods {
 	}
 
     public static float GetEntityXPosNextToWall(Rectangle2D.Float hitbox, float xSpeed) {
-		int currentTile = (int) (hitbox.x / Game.TILE_SIZE);
+		int currentTile = (int) (hitbox.x / App.TILE_SIZE);
         if(xSpeed > 0) { //wall on right
-			int tileXPos = currentTile * Game.TILE_SIZE;
-			int xOffset = (int) (Game.TILE_SIZE - hitbox.width);
+			int tileXPos = currentTile * App.TILE_SIZE;
+			int xOffset = (int) (App.TILE_SIZE - hitbox.width);
 			return tileXPos+xOffset-1;
 		} else { //wall on left
-			return currentTile * Game.TILE_SIZE;
+			return currentTile * App.TILE_SIZE;
 		}
     }
 
     public static float GetEntityYPosUnderAboveFloor(Rectangle2D.Float hitbox, float airSpeed) {
-		int currentTile = (int) (hitbox.y / Game.TILE_SIZE);
+		int currentTile = (int) (hitbox.y / App.TILE_SIZE);
         if(airSpeed > 0) { //falling on floor
-			int tileYPos = currentTile * Game.TILE_SIZE;
-			int YOffset = (int) (Game.TILE_SIZE - hitbox.height);
+			int tileYPos = currentTile * App.TILE_SIZE;
+			int YOffset = (int) (App.TILE_SIZE - hitbox.height);
 			return tileYPos+YOffset-1;
 		} else { //jumping
-			return currentTile * Game.TILE_SIZE;
+			return currentTile * App.TILE_SIZE;
 		}
     }
 	

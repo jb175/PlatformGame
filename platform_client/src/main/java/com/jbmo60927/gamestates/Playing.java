@@ -9,7 +9,7 @@ import java.util.Iterator;
 import com.jbmo60927.entities.MovablePlayer;
 import com.jbmo60927.entities.OtherPlayer;
 import com.jbmo60927.levels.LevelHandler;
-import com.jbmo60927.main.Game;
+import com.jbmo60927.App;
 
 public class Playing extends State implements StateMethods {
 
@@ -17,14 +17,14 @@ public class Playing extends State implements StateMethods {
     private HashMap<Integer, OtherPlayer> players = new HashMap<>();
     private LevelHandler LevelHandler;
 
-    public Playing(Game game) {
-        super(game);
+    public Playing(App app) {
+        super(app);
         initClasses();
     }
 
     private void initClasses() {
-        LevelHandler = new LevelHandler(game);
-        player = new MovablePlayer(130*Game.scale, 130*Game.scale);
+        LevelHandler = new LevelHandler(app);
+        player = new MovablePlayer(130*App.scale, 130*App.scale);
         player.loadLvlData(LevelHandler.getCurrentLevel().getLvlData());
     }
 
@@ -47,7 +47,7 @@ public class Playing extends State implements StateMethods {
         }
         LevelHandler.update();
         //send updates to other players
-        game.getConnect().getGameLinkThread().sendUpdates();
+        app.getConnect().getGameLinkThread().sendUpdates();
     }
 
     @Override
@@ -98,16 +98,16 @@ public class Playing extends State implements StateMethods {
 			player.setJump(true);
             break;
         case KeyEvent.VK_ESCAPE:
-            game.getConnect().getGameLinkThread().close();
+            app.getConnect().getGameLinkThread().close();
             //wait until disconnection
             long time = System.currentTimeMillis();
-            while (game.getConnect().isConnected()) {
+            while (app.getConnect().isConnected()) {
                 if (System.currentTimeMillis() > time+10000) {
                     throw new Error("Can't disconnect player");
                 }
                 //System.out.println(game.getConnect().isConnected());
             }
-            game.setPlaying(new Playing(game));
+            app.setPlaying(new Playing(app));
             GameStates.state = GameStates.MENU;
             break;
 		}

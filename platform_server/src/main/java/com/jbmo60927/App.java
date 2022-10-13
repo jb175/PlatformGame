@@ -136,6 +136,7 @@ public final class App {
                 } catch (IndexOutOfBoundsException e) {
                     continue;
                 }
+                LOGGER.log(Level.FINE, "ip found");
             }
         }
         return ipRefined.get(0);

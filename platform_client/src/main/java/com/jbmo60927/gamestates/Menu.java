@@ -4,7 +4,7 @@ import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 
-import com.jbmo60927.main.Game;
+import com.jbmo60927.App;
 import com.jbmo60927.ui.Button;
 import com.jbmo60927.ui.Component;
 
@@ -15,16 +15,16 @@ public class Menu extends State implements StateMethods {
     private Component[] components = new Component[3];
 
 
-    public Menu(Game game) {
-        super(game);
+    public Menu(App app) {
+        super(app);
         LoadComponents();
         selectedComponent = -1;
     }
 
     private void LoadComponents() {
-        components[0] = new Button(Game.GAME_WIDTH/2, (int) (150 * Game.scale), 25, "play", GameStates.CONNECT);
-        components[1] = new Button(Game.GAME_WIDTH/2, (int) (220 * Game.scale), 25, "options", GameStates.OPTIONS);
-        components[2] = new Button(Game.GAME_WIDTH/2, (int) (290 * Game.scale), 25, "quit", GameStates.QUIT);
+        components[0] = new Button(App.GAME_WIDTH/2, (int) (150 * App.scale), 25, "play", GameStates.CONNECT);
+        components[1] = new Button(App.GAME_WIDTH/2, (int) (220 * App.scale), 25, "options", GameStates.OPTIONS);
+        components[2] = new Button(App.GAME_WIDTH/2, (int) (290 * App.scale), 25, "quit", GameStates.QUIT);
     }
 
     @Override

@@ -6,12 +6,14 @@ import java.awt.event.WindowFocusListener;
 
 import javax.swing.JFrame;
 
+import com.jbmo60927.App;
+
 public class GameWindow {
 	private final JFrame jframe;
-	private final Game game;
+	private final App app;
 
-	public GameWindow(final GamePanel gamePanel, final Game game) {
-		this.game = game; //store game 
+	public GameWindow(final GamePanel gamePanel, final App app) {
+		this.app = app; //store game 
 		jframe = new JFrame(); //create the frame
 
 		jframe.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //default action on closing button
@@ -40,7 +42,7 @@ public class GameWindow {
 			 * stop the player when changing the focus window
 			 */
 			public void windowLostFocus(final WindowEvent e) {
-				game.windowLostFocus();
+				app.windowLostFocus();
 			}
 		});
 	}
@@ -51,12 +53,12 @@ public class GameWindow {
 	private void windowCloseAction() {
 		jframe.addWindowListener(new WindowAdapter() {
 			public void windowClosing(final WindowEvent e) {
-				if (game.getConnect().isConnected()) {
-					game.getConnect().getGameLinkThread().close();
+				if (app.getConnect().isConnected()) {
+					app.getConnect().getGameLinkThread().close();
 					
 					//wait until disconnection
 					long time = System.currentTimeMillis();
-					while (game.getConnect().isConnected()) {
+					while (app.getConnect().isConnected()) {
 						if (System.currentTimeMillis() > time+10000) {
 							throw new Error("Can't disconnect player");
 						}

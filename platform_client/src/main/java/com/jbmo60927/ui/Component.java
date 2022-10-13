@@ -1,6 +1,6 @@
 package com.jbmo60927.ui;
 
-import com.jbmo60927.main.Game;
+import com.jbmo60927.App;
 import com.jbmo60927.utilz.Constants;
 import com.jbmo60927.utilz.LoadSave;
 
@@ -92,7 +92,7 @@ public abstract class Component {
         //text offset
         int offset = 0;
         if(index==2)
-            offset=(int)(4*Game.scale);
+            offset=(int)(4*App.scale);
         g.drawString(text, xPos-metrics.stringWidth(text)/2, yPos+Constants.UI.Inputs.I_HEIGHT/2+2+offset);
     }
 
