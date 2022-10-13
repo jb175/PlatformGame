@@ -52,6 +52,7 @@ public final class App {
         //open the selected port
         ServerSocket listener = null;
         try {
+            LOGGER.log(Level.FINE, "local port correctly open");
             listener = new ServerSocket(localPort);
         } catch (IOException e) {
             LOGGER.log(Level.SEVERE, "Cannot open server", e);
@@ -102,7 +103,11 @@ public final class App {
     public int readIntProperty(PropertyFile propertyFile, String name) {
         if (propertyFile.getProperties().getProperty(name) != null) {
             LOGGER.log(Level.CONFIG, () -> String.format("%s sucessfully read", name));
-            return Integer.parseInt(propertyFile.getProperties().getProperty(name));
+            try {
+                return Integer.parseInt(propertyFile.getProperties().getProperty(name));
+            } catch (Exception e) {
+                LOGGER.log(Level.SEVERE, "cannot parse string property into an integer", e);
+            }
         } else {
             LOGGER.log(Level.SEVERE, () -> String.format("%s cannot be read on the server.xml file", name));
             System.exit(1);
@@ -133,7 +138,7 @@ public final class App {
                 }
             }
         }
-        return ipRefined.get(ipRefined.size());
+        return ipRefined.get(0);
     }
 
     /**
