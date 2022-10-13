@@ -1,9 +1,10 @@
 package com.jbmo60927;
 
 import java.awt.Graphics;
-import java.io.FileInputStream;
-import java.io.FileWriter;
 import java.io.IOException;
+import java.util.Properties;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import com.jbmo60927.gamestates.Connect;
 import com.jbmo60927.gamestates.GameStates;
@@ -11,13 +12,7 @@ import com.jbmo60927.gamestates.Menu;
 import com.jbmo60927.gamestates.Playing;
 import com.jbmo60927.logger.MyLogger;
 import com.jbmo60927.main.GamePanel;
-import com.jbmo60927.main.GameLinkThread;
 import com.jbmo60927.main.GameWindow;
-
-import java.util.Properties;
-import java.util.logging.Level;
-import java.util.logging.LogManager;
-import java.util.logging.Logger;
 
 /**
  * Hello world!
@@ -65,7 +60,8 @@ public final class App implements Runnable {
     private static final Logger LOGGER = Logger.getLogger(App.class.getName());
 
     private App() {
-        readConfigFiles();
+        LOGGER.setLevel(Level.INFO);
+        //readConfigFiles();
         initClasses("test");
 
         gamePanel = new GamePanel(this);
@@ -77,39 +73,6 @@ public final class App implements Runnable {
         }
 
         startGameLoop();
-    }
-
-    private void readConfigFiles() {
-        // read the properties
-        for (int i = 0; i < CLIENT_CONFIG_LIST.length; i++) {
-            //if the property is correctly assign in the config file
-            try {
-                System.out.println(this.getClass().getDeclaredField(CLIENT_CONFIG_LIST[i][0].toString()).get(this));
-                this.getClass().getDeclaredField(CLIENT_CONFIG_LIST[i][0].toString()).set(this, CLIENT_CONFIG_LIST[i][1]);
-                System.out.println(this.getClass().getDeclaredField(CLIENT_CONFIG_LIST[i][0].toString()).get(this));
-
-                System.out.println(CLIENT_CONFIG_LIST[i][0].toString()+CLIENT_CONFIG_LIST[i][1].toString());
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            
-            LOGGER.log(Level.INFO, "{0} ({1}) successfully read on client.properties file", new Object[] {CLIENT_CONFIG_LIST[i][0], CLIENT_CONFIG_PROPERTY[i]});
-        }
-
-        for (int i = 0; i < clientProperties.size(); i++) {
-            //if the property is correctly assign in the config file
-            try {
-                //System.out.println(this.getClass().getDeclaredField(clientProperties.).get(this));
-                this.getClass().getDeclaredField(CLIENT_CONFIG_LIST[i][0].toString()).set(this, CLIENT_CONFIG_LIST[i][1]);
-                System.out.println(this.getClass().getDeclaredField(CLIENT_CONFIG_LIST[i][0].toString()).get(this));
-
-                System.out.println(CLIENT_CONFIG_LIST[i][0].toString()+CLIENT_CONFIG_LIST[i][1].toString());
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            
-            LOGGER.log(Level.INFO, "{0} ({1}) successfully read on client.properties file", new Object[] {CLIENT_CONFIG_LIST[i][0], CLIENT_CONFIG_PROPERTY[i]});
-        }
     }
 
     private void initClasses(String name) {

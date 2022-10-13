@@ -29,7 +29,7 @@ public final class App {
     private Thread acceptUserThread; //thread to accept new client
     private HashMap<ServiceThread,Player> players = new HashMap<>(); //map of all player and their thread
     private PropertyFile propertyFile; //property file ()
-    private String propertyFileName = "com/jbmo60927/utilz/server.xml"; //path for the property file
+    private String propertyFileName = "com/jbmo60927/properties/server.xml"; //path for the property file
 
     //logger for this class
     private static final Logger LOGGER = Logger.getLogger(App.class.getName());
