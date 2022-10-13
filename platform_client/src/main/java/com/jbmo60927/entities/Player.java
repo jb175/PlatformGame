@@ -20,7 +20,7 @@ public class Player extends Entity {
 	protected int aniTick, aniIndex; //animation variables   aniTick count the update an image has received   aniIndex store the actual displayed image from an animation
     protected final int aniSpeed = 25; //animation variables   anispeed is the number of tick an image while be displayed (all images from animations stay the same time)
     protected String name; //name of the player
-    private float xDrawOffset = 21 * App.scale, yDrawOffset = 4 * App.scale;
+    private float xDrawOffset = 21 * App.SCALE, yDrawOffset = 4 * App.SCALE;
 
     //images
     private final static int PLAYER_DEFAULT_WIDTH = 64, PLAYER_DEFAULT_HEIGH = 40;
@@ -32,9 +32,9 @@ public class Player extends Entity {
      * @param y position y
      */
     public Player(final float x, final float y, String name) {
-        super(x, y, (int) (64 * App.scale), (int) (40 * App.scale)); //send default position to entities
+        super(x, y, (int) (64 * App.SCALE), (int) (40 * App.SCALE)); //send default position to entities
         loadAnimations(); //load all animations
-		initHitbox(x, y, 20 * App.scale, 28 * App.scale);
+		initHitbox(x, y, 20 * App.SCALE, 28 * App.SCALE);
     }
 
     /**

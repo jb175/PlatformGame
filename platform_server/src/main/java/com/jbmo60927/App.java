@@ -24,12 +24,12 @@ import com.jbmo60927.utilz.PropertyFile;
  */
 public final class App {
 
-    private int localPort=7777; //default port 
-    private String version="1.0"; //default version value
+    private final int localPort; //default port 
+    private final String version; //default version value
     private Thread acceptUserThread; //thread to accept new client
-    private HashMap<ServiceThread,Player> players = new HashMap<>(); //map of all player and their thread
-    private PropertyFile propertyFile; //property file ()
-    private String propertyFileName = "com/jbmo60927/properties/server.xml"; //path for the property file
+    private final HashMap<ServiceThread,Player> players = new HashMap<>(); //map of all player and their thread
+    private final PropertyFile propertyFile; //property file
+    private final String propertyFileName = "com/jbmo60927/properties/server.xml"; //path for the property file
 
     //logger for this class
     private static final Logger LOGGER = Logger.getLogger(App.class.getName());
@@ -46,15 +46,15 @@ public final class App {
         propertyFile = new PropertyFile(this.propertyFileName);
 
         //read properties from the file
-        this.localPort = readIntProperty(this.propertyFile, "port");
         this.version = readStringProperty(this.propertyFile, "version");
+        this.localPort = readIntProperty(this.propertyFile, "port");
 
         //open the selected port
         ServerSocket listener = null;
         try {
             LOGGER.log(Level.FINE, "local port correctly open");
             listener = new ServerSocket(localPort);
-        } catch (IOException e) {
+        } catch (final IOException e) {
             LOGGER.log(Level.SEVERE, "Cannot open server", e);
             System.exit(1);
         }
@@ -83,7 +83,7 @@ public final class App {
      * @param name the name of the property
      * @return return the value of the property or stop the server if the property is not found
      */
-    public String readStringProperty(PropertyFile propertyFile, String name) {
+    public String readStringProperty(final PropertyFile propertyFile, final String name) {
         if (propertyFile.getProperties().getProperty(name) != null) {
             LOGGER.log(Level.CONFIG, () -> String.format("%s sucessfully read", name));
             return propertyFile.getProperties().getProperty(name);
@@ -100,12 +100,12 @@ public final class App {
      * @param name the name of the property
      * @return return the value of the property or stop the server if the property is not found
      */
-    public int readIntProperty(PropertyFile propertyFile, String name) {
+    public int readIntProperty(final PropertyFile propertyFile, final String name) {
         if (propertyFile.getProperties().getProperty(name) != null) {
             LOGGER.log(Level.CONFIG, () -> String.format("%s sucessfully read", name));
             try {
                 return Integer.parseInt(propertyFile.getProperties().getProperty(name));
-            } catch (Exception e) {
+            } catch (final Exception e) {
                 LOGGER.log(Level.SEVERE, "cannot parse string property into an integer", e);
             }
         } else {
@@ -121,10 +121,10 @@ public final class App {
      */
     public static String getIpV4Address() {
         List<String> ip = new ArrayList<>();
-        List<String> ipRefined = new ArrayList<>();
+        final List<String> ipRefined = new ArrayList<>();
         try {
             ip = getIpAddresses();
-        } catch (Exception e) {
+        } catch (final Exception e) {
             LOGGER.log(Level.SEVERE, "cant find the ip address", e);
         }
         for(int x = 0; x < ip.size(); x++){
@@ -133,7 +133,7 @@ public final class App {
                     if (ip.get(x + 1).contains(".")) {
                         ipRefined.add(ip.get(x + 1));
                     }
-                } catch (IndexOutOfBoundsException e) {
+                } catch (final IndexOutOfBoundsException e) {
                     continue;
                 }
                 LOGGER.log(Level.FINE, "ip found");
@@ -148,13 +148,13 @@ public final class App {
      * @throws SocketException exception with the socket
      */
     public static List<String> getIpAddresses() throws SocketException {
-        List<String> ip = new ArrayList<>();
-        Enumeration<NetworkInterface> interfaces = NetworkInterface.getNetworkInterfaces();
+        final List<String> ip = new ArrayList<>();
+        final Enumeration<NetworkInterface> interfaces = NetworkInterface.getNetworkInterfaces();
         while (interfaces.hasMoreElements()) {
-            NetworkInterface iface = interfaces.nextElement();
+            final NetworkInterface iface = interfaces.nextElement();
             if (iface.isLoopback() || !iface.isUp())
                 continue;
-            Enumeration<InetAddress> addresses = iface.getInetAddresses();
+            final Enumeration<InetAddress> addresses = iface.getInetAddresses();
             while(addresses.hasMoreElements()) {
                 ip.add(addresses.nextElement().getHostAddress());
             }

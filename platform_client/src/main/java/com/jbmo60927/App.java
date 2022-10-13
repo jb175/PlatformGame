@@ -2,7 +2,6 @@ package com.jbmo60927;
 
 import java.awt.Graphics;
 import java.io.IOException;
-import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -13,6 +12,7 @@ import com.jbmo60927.gamestates.Playing;
 import com.jbmo60927.logger.MyLogger;
 import com.jbmo60927.main.GamePanel;
 import com.jbmo60927.main.GameWindow;
+import com.jbmo60927.utilz.PropertyFile;
 
 /**
  * Hello world!
@@ -25,13 +25,6 @@ public final class App implements Runnable {
     //thread running continuously to display the game
     private Thread gameThread;
 
-    //default value for the game refreshement
-    private static final int UPSSET = 200;
-    //default value for the game display update
-    private static int fpsSet = 120;
-    //default value for the size of the game
-    public static float scale = 1.5f;
-
     private Playing playing;
     private Menu menu;
     private Connect connect;
@@ -39,30 +32,48 @@ public final class App implements Runnable {
     public static final int TILE_DEFAULT_SIZE = 32;
     public static final int TILE_IN_WIDTH = 26;
     public static final int TILE_IN_HEIGHT = 14;
-    public static int TILE_SIZE = (int)(TILE_DEFAULT_SIZE * scale);
-    public static int GAME_WIDTH = TILE_SIZE * TILE_IN_WIDTH;
-    public static int GAME_HEIGHT = TILE_SIZE * TILE_IN_HEIGHT;
+
+    public static final String VERSION;
+    public static final int FPSSET;
+    public static final int UPSSET = 200;
+    public static final Float SCALE;
+    public static final String IP;
+    public static final int PORT;
+    public static final String NAME;
     
-    static Properties clientProperties = new Properties();
 
-    public static final String LOGGER_CONFIG_PATH = "logger.properties";
-    public static final String CLIENT_CONFIG_PATH = "./client.properties";
+    public static final int TILE_SIZE;
+    public static final int GAME_WIDTH;
+    public static final int GAME_HEIGHT;
 
-
-    protected static final Object[][] CLIENT_CONFIG_LIST = {{"upsSet", 200}, {"fpsSet", 120}, {"scale", 1.5f}};
-    public static final String CONFIG_START = "com.jbmo60927.main.Game.";
-	public static final Object[] CLIENT_CONFIG_PROPERTY = new Object[CLIENT_CONFIG_LIST.length];
-
-    public static final int UPS_DEFAULT_VALUE = 200;
-    public static final int FPS_DEFAULT_VALUE = 120;
-    public static final float SCALE_DEFAULT_VALUE = 1.5f;
+    private static PropertyFile propertyFile; //property file
+    private static String propertyFileName = "com/jbmo60927/properties/client.xml"; //path for the property file
 
     private static final Logger LOGGER = Logger.getLogger(App.class.getName());
 
+    static {
+        //read configuration file
+        propertyFile = new PropertyFile(propertyFileName);
+
+        //read properties from the file
+        VERSION = readStringProperty(propertyFile, "version");
+        FPSSET = readIntProperty(propertyFile, "fps");
+        SCALE = readFloatProperty(propertyFile, "scale");
+        IP = readStringProperty(propertyFile, "ip");
+        PORT = readIntProperty(propertyFile, "port");
+        NAME = readStringProperty(propertyFile, "name");
+
+        //init window size values
+        TILE_SIZE = (int)(TILE_DEFAULT_SIZE * SCALE);
+        GAME_WIDTH = TILE_SIZE * TILE_IN_WIDTH;
+        GAME_HEIGHT = TILE_SIZE * TILE_IN_HEIGHT;
+    }
+    
     private App() {
         LOGGER.setLevel(Level.INFO);
-        //readConfigFiles();
-        initClasses("test");
+
+
+        initClasses();
 
         gamePanel = new GamePanel(this);
         new GameWindow(gamePanel, this);
@@ -75,7 +86,66 @@ public final class App implements Runnable {
         startGameLoop();
     }
 
-    private void initClasses(String name) {
+    /**
+     * read a string property
+     * @param propertyFile the file from where we read the property
+     * @param name the name of the property
+     * @return return the value of the property or stop the server if the property is not found
+     */
+    public static String readStringProperty(PropertyFile propertyFile, String name) {
+        if (propertyFile.getProperties().getProperty(name) != null) {
+            LOGGER.log(Level.CONFIG, () -> String.format("%s sucessfully read", name));
+            return propertyFile.getProperties().getProperty(name);
+        } else {
+            LOGGER.log(Level.SEVERE, () -> String.format("%s cannot be read on the server.xml file", name));
+            System.exit(1);
+        }
+        return "";
+    }
+
+    /**
+     * read an integer property
+     * @param propertyFile the file from where we read the property
+     * @param name the name of the property
+     * @return return the value of the property or stop the server if the property is not found
+     */
+    public static int readIntProperty(PropertyFile propertyFile, String name) {
+        if (propertyFile.getProperties().getProperty(name) != null) {
+            LOGGER.log(Level.CONFIG, () -> String.format("%s sucessfully read", name));
+            try {
+                return Integer.parseInt(propertyFile.getProperties().getProperty(name));
+            } catch (Exception e) {
+                LOGGER.log(Level.SEVERE, "cannot parse string property into an integer", e);
+            }
+        } else {
+            LOGGER.log(Level.SEVERE, () -> String.format("%s cannot be read on the server.xml file", name));
+            System.exit(1);
+        }
+        return 0;
+    }
+
+    /**
+     * read a float property
+     * @param propertyFile the file from where we read the property
+     * @param name the name of the property
+     * @return return the value of the property or stop the server if the property is not found
+     */
+    public static float readFloatProperty(PropertyFile propertyFile, String name) {
+        if (propertyFile.getProperties().getProperty(name) != null) {
+            LOGGER.log(Level.CONFIG, () -> String.format("%s sucessfully read", name));
+            try {
+                return Float.parseFloat(propertyFile.getProperties().getProperty(name));
+            } catch (Exception e) {
+                LOGGER.log(Level.SEVERE, "cannot parse string property into an integer", e);
+            }
+        } else {
+            LOGGER.log(Level.SEVERE, () -> String.format("%s cannot be read on the server.xml file", name));
+            System.exit(1);
+        }
+        return 0f;
+    }
+
+    private void initClasses() {
         menu = new Menu(this);
         playing = new Playing(this);
         connect = new Connect(this);
@@ -129,7 +199,7 @@ public final class App implements Runnable {
      */
     public void run() {
         double timePerUpdate = 1000000000.0 / UPSSET; //time between 2 update in nano second
-        double timePerFrame = 1000000000.0 / fpsSet; //time between 2 image in nano second
+        double timePerFrame = 1000000000.0 / FPSSET; //time between 2 image in nano second
 
         long previousTime = System.nanoTime(); //set a memory with the last time check
 

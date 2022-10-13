@@ -23,8 +23,8 @@ public class Button extends Component {
     public void update() {
         super.update();
         
-        if(4*App.scale*size-metrics.stringWidth(text) < 0) {
-            while (4*App.scale*size-metrics.stringWidth(text) < 16) {
+        if(4*App.SCALE*size-metrics.stringWidth(text) < 0) {
+            while (4*App.SCALE*size-metrics.stringWidth(text) < 16) {
                 text=text.substring(0, text.length()-2);
             }
             text +="..";
@@ -35,8 +35,8 @@ public class Button extends Component {
     public void selectedUpdate() {
         super.selectedUpdate();
 
-        if(4*App.scale*size-metrics.stringWidth(text) < 0) {
-            while (4*App.scale*size-metrics.stringWidth(text) < 16) {
+        if(4*App.SCALE*size-metrics.stringWidth(text) < 0) {
+            while (4*App.SCALE*size-metrics.stringWidth(text) < 16) {
                 text=text.substring(0, text.length()-2);
             }
             text +="..";
