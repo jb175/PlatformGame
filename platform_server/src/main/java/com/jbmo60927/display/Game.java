@@ -5,13 +5,16 @@ import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.net.InetAddress;
+import java.net.NetworkInterface;
 import java.net.ServerSocket;
+import java.net.SocketException;
+import java.util.ArrayList;
+import java.util.Enumeration;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Properties;
-import java.util.Scanner;
 import java.util.logging.Level;
-import java.util.logging.LogManager;
 import java.util.logging.Logger;
 
 import com.jbmo60927.entities.Player;
@@ -23,52 +26,14 @@ public class Game {
     private Thread acceptUserThread;
     private HashMap<ServiceThread,Player> players = new HashMap<>();
 
-    private static final LogManager LOGMANAGER = LogManager.getLogManager();
-
+    //logger for this class
     private static final Logger LOGGER = Logger.getLogger(Game.class.getName());
 
-    private final Scanner sc = new Scanner(System.in);
 
     /**
      * Read configuration file or generate it if it is the first time the server run
      */
     static {
-        for (int index = 0; index < 3; index++) { //we try to read/generate the configuration file up to 3 times
-            try {
-                LOGMANAGER.readConfiguration(new FileInputStream("./logger.properties"));
-                LOGGER.log(Level.INFO, "Logger Configuration file sucessfully read");
-                break;
-            } catch (Exception e) {
-                LOGGER.log(Level.SEVERE, "Cannot read the logger configuration file", e);
-                try {
-                    FileWriter myWriter = new FileWriter("logger.properties");
-                    myWriter.write("# On log sur la console et dans un fichier.\n");
-                    myWriter.write("handlers=java.util.logging.ConsoleHandler, java.util.logging.FileHandler\n\n");
-                    
-                    myWriter.write("# On peut configurer le ConsoleHandler, mais ici j'utilise sa configuration par défaut.\n");
-                    myWriter.write("# java.util.logging.ConsoleHandler.formatter=java.util.logging.SimpleFormatter (c'est pas défaut)\n\n");
-                    
-                    myWriter.write("# On configure notre FileHandler (il utilise lui aussi un SimpleFormatter).\n");
-                    myWriter.write("java.util.logging.FileHandler.formatter=java.util.logging.SimpleFormatter\n");
-                    myWriter.write("java.util.logging.FileHandler.pattern=app-%u-%g.log\n\n");
-                    
-                    myWriter.write("# On change le format des logs pour notre SimpleFormatter.\n");
-                    myWriter.write("java.util.logging.SimpleFormatter.format=[%1$tF %1$tT][%2$s] %4$s: %5$s %n\n\n");
-                    
-                    myWriter.write("# Rappels sur les niveaux : OFF / SEVERE / WARNING / INFO / CONFIG / FINE / FINER / FINEST / ALL\n");
-                    myWriter.write("# On limite tous les logs des autres composants (des autres packages) à l'affichage des erreurs.\n");
-                    myWriter.write("# .level=SEVERE\n\n");
-                    
-                    myWriter.write("# On active les logs du package fr.koor.samples.jul sur INFO (et donc WARNING et SEVERE).\n");
-                    myWriter.write("com.jbmo60927.display.level=INFO\n");
-                    myWriter.close();
-    
-                    LOGGER.log(Level.INFO, "Logger configuration file has been generated");
-                } catch (IOException e2) {
-                    LOGGER.log(Level.SEVERE, "Logger configuration file cannot be generated", e2);
-                }
-            }
-        }
         
         for (int index = 0; index < 3; index++) { //we try to read/generate the configuration file up to 3 times
             try {
@@ -106,10 +71,11 @@ public class Game {
     }
 
     public Game() throws IOException {
-        ServerSocket listener = null;
-        LOGGER.log(Level.INFO, "Server (ip:{0} port:{1}) is waiting to accept user...", new Object[] {InetAddress.getLocalHost().getHostAddress(), localPort});
+        //setup log level
+        LOGGER.setLevel(Level.INFO);
 
-        //open the server to get connections
+        //open the selected port 
+        ServerSocket listener = null;
         try {
             listener = new ServerSocket(localPort);
         } catch (IOException e) {
@@ -117,35 +83,50 @@ public class Game {
             System.exit(1);
         }
 
+        //allow client to 
         acceptUserThread = new AcceptUserThread(listener, this);
+        LOGGER.log(Level.INFO, "Server (ip:{0} port:{1}) is waiting to accept user...", new Object[] {getIpAddress().get(0), localPort});
 
         try {
 
             //receive connections
             acceptUserThread.start();
-
-            //commands
             while (true) {
-                String command = sc.nextLine();
-                
-                if(command.equals("stop")) {
-                    LOGGER.log(Level.INFO, "Server is closing...");
-                    acceptUserThread.interrupt();
-                    LOGGER.log(Level.INFO, "Users cannot join anymore");
-                    listener.close();
-                    LOGGER.log(Level.INFO, "Users are kicked from the server");
-
-                    LOGGER.log(Level.INFO, "server closed");
-                    break;
-                } else if (command.equals("player")) {
-                    LOGGER.log(Level.INFO, "connected player:{0}", players);
-                } else {
-                    LOGGER.log(Level.INFO, "{0}", command);
-                }
+                //wait for the server to be stopped
             }
         } finally {
             System.exit(0);
         }
+    }
+    
+    public static List<String> getIpAddress() {
+        List<String> ip = new ArrayList<>();
+        List<String> ipRefined = new ArrayList<>();
+        try {
+            Enumeration<NetworkInterface> interfaces = NetworkInterface.getNetworkInterfaces();
+            while (interfaces.hasMoreElements()) {
+                NetworkInterface iface = interfaces.nextElement();
+                if (iface.isLoopback() || !iface.isUp())
+                    continue;
+                Enumeration<InetAddress> addresses = iface.getInetAddresses();
+                while(addresses.hasMoreElements()) {
+                    ip.add(addresses.nextElement().getHostAddress());
+                }
+            }
+        } catch (SocketException e) {
+            throw new RuntimeException(e);
+        }
+        for(int x = 0; x < ip.size(); x++){
+            if(ip.get(x).contains("%")){
+                try {
+                    if (ip.get(x + 1).contains(".")) {
+                        ipRefined.add(ip.get(x + 1));
+                    }
+                } catch (IndexOutOfBoundsException ae) {
+                }
+            }
+        }
+        return ipRefined;
     }
 
     public Map<ServiceThread, Player> getPlayers() {

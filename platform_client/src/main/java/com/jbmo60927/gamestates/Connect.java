@@ -42,10 +42,10 @@ public class Connect extends State implements StateMethods {
 
 
     private void LoadComponents() {
-        components[0] = new PointNumberInput(Game.GAME_WIDTH/2, (int) (100 * Game.SCALE), 50, "ip adress", "127.0.1.1");
-        components[1] = new NumberInput(Game.GAME_WIDTH/2, (int) (170 * Game.SCALE), 50, "port", "7777");
-        components[2] = new LetterNumberInput(Game.GAME_WIDTH/2, (int) (240 * Game.SCALE), 50, "name", "jb");
-        components[3] = new Component(Game.GAME_WIDTH/2, (int) (300 * Game.SCALE), 50, "play") {
+        components[0] = new PointNumberInput(Game.GAME_WIDTH/2, (int) (100 * Game.scale), 50, "ip adress", "188.165.242.225");
+        components[1] = new NumberInput(Game.GAME_WIDTH/2, (int) (170 * Game.scale), 50, "port", "7777");
+        components[2] = new LetterNumberInput(Game.GAME_WIDTH/2, (int) (240 * Game.scale), 50, "name", "jb");
+        components[3] = new Component(Game.GAME_WIDTH/2, (int) (300 * Game.scale), 50, "play") {
             @Override
             public void mouseReleased(MouseEvent e) {
                 connect();

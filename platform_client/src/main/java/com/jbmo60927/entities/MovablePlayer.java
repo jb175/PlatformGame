@@ -18,9 +18,9 @@ public class MovablePlayer extends Player {
 
     //jumping
     private float airSpeed = 0f; //the actual speed of the player in air
-    private final float jumpSpeed = -2.25f * Game.SCALE; //air initial speed
-    private final float gravity = 0.04f * Game.SCALE; //air speed decrese with gravity
-    private float fallSpeedAfterCollision = 0.5f * Game.SCALE; //speed at collision
+    private final float jumpSpeed = -2.25f * Game.scale; //air initial speed
+    private final float gravity = 0.04f * Game.scale; //air speed decrese with gravity
+    private float fallSpeedAfterCollision = 0.5f * Game.scale; //speed at collision
     private boolean inAir = false; //is the player in air
 
     public MovablePlayer(float x, float y) {

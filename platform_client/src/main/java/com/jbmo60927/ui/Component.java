@@ -92,7 +92,7 @@ public abstract class Component {
         //text offset
         int offset = 0;
         if(index==2)
-            offset=(int)(4*Game.SCALE);
+            offset=(int)(4*Game.scale);
         g.drawString(text, xPos-metrics.stringWidth(text)/2, yPos+Constants.UI.Inputs.I_HEIGHT/2+2+offset);
     }
 

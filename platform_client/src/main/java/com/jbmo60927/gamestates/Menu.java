@@ -22,9 +22,9 @@ public class Menu extends State implements StateMethods {
     }
 
     private void LoadComponents() {
-        components[0] = new Button(Game.GAME_WIDTH/2, (int) (150 * Game.SCALE), 25, "play", GameStates.CONNECT);
-        components[1] = new Button(Game.GAME_WIDTH/2, (int) (220 * Game.SCALE), 25, "options", GameStates.OPTIONS);
-        components[2] = new Button(Game.GAME_WIDTH/2, (int) (290 * Game.SCALE), 25, "quit", GameStates.QUIT);
+        components[0] = new Button(Game.GAME_WIDTH/2, (int) (150 * Game.scale), 25, "play", GameStates.CONNECT);
+        components[1] = new Button(Game.GAME_WIDTH/2, (int) (220 * Game.scale), 25, "options", GameStates.OPTIONS);
+        components[2] = new Button(Game.GAME_WIDTH/2, (int) (290 * Game.scale), 25, "quit", GameStates.QUIT);
     }
 
     @Override
