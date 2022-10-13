@@ -39,7 +39,7 @@ public class MyFormatter extends Formatter {
 
         } catch (Exception e) {
             //if the log doesn't get any error we return the basic custom log
-            return String.format("[%s][%s <%s>] %s: %s %n", date, className, methodName, level, message);
+            return String.format("[%s][%s %s] %s: %s %n", date, className, methodName, level, message);
         }
     }
 
