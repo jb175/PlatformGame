@@ -15,12 +15,32 @@ public class MyFormatter extends Formatter {
      * [Date][ClassName <MethodName>] Level: Message
      */
     public String format(final LogRecord rec) {
-        final String date = dateFormatter(rec.getMillis());
-        final String className = rec.getSourceClassName();
-        final String methodName = rec.getSourceMethodName();
-        final String level = rec.getLevel().toString();
-        final String message = rec.getMessage();
-        return String.format("[%s][%s <%s>] %s: %s %n", date, className, methodName, level, message);
+        final String date = dateFormatter(rec.getMillis()); //date
+        final String className = rec.getSourceClassName(); //logger class
+        final String methodName = rec.getSourceMethodName(); //logger method
+        final String level = rec.getLevel().toString(); //log level
+        final String message = rec.getMessage(); //log message
+
+        try {
+            final Throwable errorCause = rec.getThrown(); //if the log contain an error
+
+            StringBuilder out = new StringBuilder(); //we create a string builder
+
+            //we add basic log informations
+            out.append(String.format("[%s][%s <%s>] %s: %s %n%s%n", date, className, methodName, level, message, errorCause.getMessage()));
+            
+            //and all the traces
+            for (StackTraceElement stackTraceElement : errorCause.getStackTrace()) {
+                out.append("        "+stackTraceElement.toString()+"\n");
+            }
+
+            //and we return the custom error log
+            return out.toString();
+
+        } catch (Exception e) {
+            //if the log doesn't get any error we return the basic custom log
+            return String.format("[%s][%s <%s>] %s: %s %n", date, className, methodName, level, message);
+        }
     }
 
     /**
