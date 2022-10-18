@@ -78,7 +78,7 @@ public class Player extends Entity {
 			aniIndex++; //we increase the index to view the nesxt image
 		}
         //out of the boucle because if the animation change and the print image is not defined for this animation we should hide it
-        if (aniIndex >= GetSpriteAmount(playerAction)) { //if the value is bigger than the total number of image
+        if (aniIndex >= getSpriteAmount(playerAction)) { //if the value is bigger than the total number of image
             aniIndex = 0; //we display the first image of the animation
         }
 	}

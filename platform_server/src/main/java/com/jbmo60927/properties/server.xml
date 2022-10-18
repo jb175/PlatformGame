@@ -4,4 +4,5 @@
     <comment>xml example</comment>
     <entry key="version">1.0</entry>
     <entry key="port">7777</entry>
+    <entry key="maxPlayer">10</entry>
 </properties>

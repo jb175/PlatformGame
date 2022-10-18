@@ -3,7 +3,17 @@ package com.jbmo60927.utilz;
 import com.jbmo60927.App;
 
 public class Constants {
+	private static String errorMessage = "Utility class";
+
+	private Constants() {
+	  	throw new IllegalStateException(Constants.errorMessage);
+	}
+
 	public static class TrameName {
+		private TrameName() {
+		  	throw new IllegalStateException(Constants.errorMessage);
+		}
+
 		public static final int INITPLAYER 		= 0; //send
 		public static final int INITDATA 		= 1; //received
 		public static final int NEWPLAYER 		= 2; //send / received
@@ -14,7 +24,15 @@ public class Constants {
 	}
 
 	public static class UI{
+		private UI() {
+		  	throw new IllegalStateException(Constants.errorMessage);
+		}
+
 		public static class Component{
+			private Component() {
+			  	throw new IllegalStateException(Constants.errorMessage);
+			}
+	
 			public static final int WIDTH_DEFAULT_BEGIN = 24;
 			public static final int WIDTH_DEFAULT_MIDDLE = 4;
 			public static final int WIDTH_DEFAULT_END = 16;
@@ -26,12 +44,20 @@ public class Constants {
 		}
 		
 		public static class Buttons{
+			private Buttons() {
+			  	throw new IllegalStateException(Constants.errorMessage);
+			}
+	
 			public static final int B_WIDTH_DEFAULT = 140;
 			public static final int B_HEIGHT_DEFAULT = 56;
 			public static final int B_WIDTH = (int) (B_WIDTH_DEFAULT * App.SCALE);
 			public static final int B_HEIGHT = (int) (B_HEIGHT_DEFAULT * App.SCALE);
 		}
 		public static class Inputs{
+			private Inputs() {
+			  	throw new IllegalStateException(Constants.errorMessage);
+			}
+	
 			public static final int I_X_BOUNDS_POSITION = 10;
 			public static final int I_Y_BOUNDS_POSITION = 32;
 			public static final int I_FONT_SIZE_DEFAULT = 20;
@@ -46,6 +72,10 @@ public class Constants {
 		}
 	}
 	public static class Directions {
+		private Directions() {
+			  throw new IllegalStateException(Constants.errorMessage);
+		}
+
 		public static final int LEFT = 0;
 		public static final int UP = 1;
 		public static final int RIGHT = 2;
@@ -53,6 +83,10 @@ public class Constants {
 	}
 
 	public static class PlayerConstants {
+		private PlayerConstants() {
+			  throw new IllegalStateException(Constants.errorMessage);
+		}
+
 		public static final int IDLE = 0;
 		public static final int RUNNING = 1;
 		public static final int JUMP = 2;
@@ -66,11 +100,11 @@ public class Constants {
 		/**
 		 * number of image per animation
 		 * 
-		 * @param player_action for each action
+		 * @param playerAction for each action
 		 * @return
 		 */
-		public static int GetSpriteAmount(int player_action) {
-			switch (player_action) {
+		public static int getSpriteAmount(int playerAction) {
+			switch (playerAction) {
 			case RUNNING:
 				return 6;
 			case IDLE:

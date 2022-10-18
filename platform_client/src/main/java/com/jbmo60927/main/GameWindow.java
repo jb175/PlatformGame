@@ -3,6 +3,8 @@ package com.jbmo60927.main;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowFocusListener;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.swing.JFrame;
 
@@ -12,7 +14,13 @@ public class GameWindow {
 	private final JFrame jframe;
 	private final App app;
 
+    //logger for this class
+    protected static final Logger LOGGER = Logger.getLogger(GameWindow.class.getName());
+
 	public GameWindow(final GamePanel gamePanel, final App app) {
+        //set logger level
+        LOGGER.setLevel(Level.INFO);
+		
 		this.app = app; //store game 
 		jframe = new JFrame(); //create the frame
 
@@ -52,18 +60,23 @@ public class GameWindow {
 	 */
 	private void windowCloseAction() {
 		jframe.addWindowListener(new WindowAdapter() {
+			@Override
 			public void windowClosing(final WindowEvent e) {
-				if (app.getConnect().isConnected()) {
-					app.getConnect().getGameLinkThread().close();
-					
-					//wait until disconnection
-					long time = System.currentTimeMillis();
-					while (app.getConnect().isConnected()) {
-						if (System.currentTimeMillis() > time+10000) {
-							throw new Error("Can't disconnect player");
+				try {
+					if (app.getConnect().isConnected()) {
+						app.getConnect().getGameLinkThread().close();
+						
+						//wait until disconnection
+						long time = System.currentTimeMillis();
+						while (app.getConnect().isConnected()) {
+							if (System.currentTimeMillis() > time+10000) {
+								throw new Error("Can't disconnect player");
+							}
+							//System.out.println(game.getConnect().isConnected());
 						}
-						//System.out.println(game.getConnect().isConnected());
 					}
+				} finally {
+					app.saveData();
 				}
 			}
 		});

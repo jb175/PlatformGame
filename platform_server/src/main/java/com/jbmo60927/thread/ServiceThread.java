@@ -41,34 +41,41 @@ public class ServiceThread extends Thread {
         
         //receive data from client
         String line;
-        do {
-            line = is.readLine();
-        } while (line.split(" ")[0].compareTo("INITPLAYER") != 0);
-        final Float xPos = Float.parseFloat(line.split(" ")[1]);
-        final Float yPos = Float.parseFloat(line.split(" ")[2]);
-        final String name = line.split(" ")[3];
-
-        //add player
-        app.getPlayers().put(this, new Player(xPos, yPos, name));
-
-        //send client parameters to all other clients
-        broadcast(String.format("NEWPLAYER %d %s", clientNumber, clientNumber+line.replace("INITPLAYER ", "")));
-
-        for (final ServiceThread thread : app.getPlayers().keySet()) {
-            if(thread != this) {
-                os.write(String.format("NEWPLAYER %d %s %s %s", thread.getClientNumber(), app.getPlayers().get(thread).getX(), app.getPlayers().get(thread).getY(), app.getPlayers().get(thread).getName()));
-                os.newLine();
-                os.flush();
+        try {
+            do {
+                line = is.readLine();
+            } while (line.split(" ")[0].compareTo("INITPLAYER") != 0);
+            final Float xPos = Float.parseFloat(line.split(" ")[1]);
+            final Float yPos = Float.parseFloat(line.split(" ")[2]);
+            final String name = line.split(" ")[3];
+    
+            //add player
+            app.getPlayers().put(this, new Player(xPos, yPos, name));
+    
+            //send client parameters to all other clients
+            broadcast(String.format("NEWPLAYER %d %s", clientNumber, clientNumber+line.replace("INITPLAYER ", "")));
+    
+            for (final ServiceThread thread : app.getPlayers().keySet()) {
+                if(thread != this) {
+                    os.write(String.format("NEWPLAYER %d %s %s %s", thread.getClientNumber(), app.getPlayers().get(thread).getX(), app.getPlayers().get(thread).getY(), app.getPlayers().get(thread).getName()));
+                    os.newLine();
+                    os.flush();
+                }
             }
+    
+            //send data to client
+            os.write("INITDATA ");
+            os.newLine();
+            os.flush();
+    
+            //log connection
+            LOGGER.log(Level.INFO, () -> String.format("New connection with client# %d at %s named %s", this.clientNumber, this.socketOfServer.getInetAddress().toString().replace("/", ""), name));
+        
+        //in case the client is not a game client (packet sends are not required)
+        } catch (Exception e) {
+            LOGGER.log(Level.SEVERE, String.format("connection cannot be initalized (ip:%s)", this.socketOfServer.getInetAddress().toString().replace("/", "")), e);
+            this.interrupt();
         }
-
-        //send data to client
-        os.write("INITDATA ");
-        os.newLine();
-        os.flush();
-
-        //log connection
-        LOGGER.log(Level.INFO, () -> String.format("New connection with client# %d at %s named %s", this.clientNumber, this.socketOfServer.getInetAddress().toString(), name));
     }
 
     /**

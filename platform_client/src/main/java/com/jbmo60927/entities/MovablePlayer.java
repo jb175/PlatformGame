@@ -1,10 +1,10 @@
 package com.jbmo60927.entities;
 
 import static com.jbmo60927.utilz.Constants.PlayerConstants.*;
-import static com.jbmo60927.utilz.HelpsMethods.CanMoveHere;
-import static com.jbmo60927.utilz.HelpsMethods.GetEntityXPosNextToWall;
-import static com.jbmo60927.utilz.HelpsMethods.GetEntityYPosUnderAboveFloor;
-import static com.jbmo60927.utilz.HelpsMethods.IsEntityOnFloor;
+import static com.jbmo60927.utilz.HelpsMethods.canMoveHere;
+import static com.jbmo60927.utilz.HelpsMethods.getEntityXPosNextToWall;
+import static com.jbmo60927.utilz.HelpsMethods.getEntityYPosUnderAboveFloor;
+import static com.jbmo60927.utilz.HelpsMethods.isEntityOnFloor;
 
 import com.jbmo60927.App;
 
@@ -39,7 +39,7 @@ public class MovablePlayer extends Player {
 
     public void loadLvlData(int[][] lvlData) {
         this.lvlData = lvlData;
-        if(!IsEntityOnFloor(hitbox, lvlData))
+        if(!isEntityOnFloor(hitbox, lvlData))
             inAir = true;
     }
 
@@ -64,18 +64,17 @@ public class MovablePlayer extends Player {
         
             
 
-		if (!inAir)
-            if (!IsEntityOnFloor(hitbox, lvlData))
-                inAir = true;
+		if (!inAir && !isEntityOnFloor(hitbox, lvlData))
+            inAir = true;
         
         if (inAir) {
            
-            if(CanMoveHere(hitbox.x, hitbox.y + airSpeed, hitbox.width, hitbox.height, lvlData)) {
+            if(canMoveHere(hitbox.x, hitbox.y + airSpeed, hitbox.width, hitbox.height, lvlData)) {
                 hitbox.y += airSpeed;
                 airSpeed += gravity;
                 updateXPos(xSpeed);
             } else {
-                hitbox.y = GetEntityYPosUnderAboveFloor(hitbox, airSpeed);
+                hitbox.y = getEntityYPosUnderAboveFloor(hitbox, airSpeed);
                 if(airSpeed > 0)
                     resetInAir();
                 else
@@ -100,10 +99,10 @@ public class MovablePlayer extends Player {
     }
 
     private void updateXPos(float xSpeed) {
-        if(CanMoveHere(hitbox.x + xSpeed, hitbox.y, hitbox.width, hitbox.height, lvlData)) {
+        if(canMoveHere(hitbox.x + xSpeed, hitbox.y, hitbox.width, hitbox.height, lvlData)) {
             hitbox.x += xSpeed;
         } else {
-            hitbox.x = GetEntityXPosNextToWall(hitbox, xSpeed);
+            hitbox.x = getEntityXPosNextToWall(hitbox, xSpeed);
         }
     }
 
@@ -151,7 +150,7 @@ public class MovablePlayer extends Player {
 			aniIndex++; //we increase the index to view the nesxt image
 		}
         //out of the boucle because if the animation change and the print image is not defined for this animation we should hide it
-        if (aniIndex >= GetSpriteAmount(playerAction)) { //if the value is bigger than the total number of image
+        if (aniIndex >= getSpriteAmount(playerAction)) { //if the value is bigger than the total number of image
             aniIndex = 0; //we display the first image of the animation
             attacking = false;
         }

@@ -3,6 +3,7 @@ package com.jbmo60927.gamestates;
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
+import java.util.logging.Level;
 
 import com.jbmo60927.App;
 import com.jbmo60927.ui.Button;
@@ -107,7 +108,7 @@ public class Menu extends State implements StateMethods {
             default:
                 if (selectedComponent >= 0)
                     components[selectedComponent].keyPressed(e);
-                //System.out.println(e.getKeyCode());
+                    State.LOGGER.log(Level.FINE, Integer.toString(e.getKeyCode()));
                 break;
         }
     }

@@ -48,6 +48,7 @@ public class GamePanel extends JPanel {
 	/**
 	 * method to update all images on the game
 	 */
+	@Override
 	public void paintComponent(final Graphics g) {
 		super.paintComponent(g);
 		app.render(g);
