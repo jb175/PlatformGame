@@ -3,7 +3,7 @@
 <properties>
 <comment>client properties</comment>
 <entry key="port">7777</entry>
-<entry key="ip">192.168.1.38</entry>
+<entry key="ip">188.165.242.225</entry>
 <entry key="fps">120</entry>
 <entry key="name">jb</entry>
 <entry key="scale">1.5</entry>

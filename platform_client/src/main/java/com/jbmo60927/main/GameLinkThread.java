@@ -10,6 +10,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.jbmo60927.entities.OtherPlayer;
+import com.jbmo60927.gamestates.Connect;
 import com.jbmo60927.App;
 
 public class GameLinkThread extends Thread {
@@ -31,19 +32,11 @@ public class GameLinkThread extends Thread {
         is = new BufferedReader(new InputStreamReader(socketOfClient.getInputStream()));
         os = new BufferedWriter(new OutputStreamWriter(socketOfClient.getOutputStream()));
 
-        os.write("");
-        os.newLine();
-        os.flush();
-
-        Boolean test = true;
-        while (test) {
-
-        }
-
         //send data to server
         os.write(String.format("INITPLAYER %s %s %s", app.getPlaying().getPlayer().getX(), app.getPlaying().getPlayer().getY(), app.getPlaying().getPlayer().getName()));
         os.newLine();
         os.flush();
+        LOGGER.log(Level.INFO, "data correctly send to the server");
 
         //receive data from server
         String line;
@@ -51,7 +44,10 @@ public class GameLinkThread extends Thread {
             line = is.readLine();
             if(line.split(" ")[0].compareTo("NEWPLAYER") == 0)
                 app.getPlaying().getPlayers().put(Integer.parseInt(line.split(" ")[1]), new OtherPlayer(Float.parseFloat(line.split(" ")[2]), Float.parseFloat(line.split(" ")[3]), line.split(" ")[4]));
+            else if(line.split(" ")[0].compareTo("LEVEL") == 0)
+                LOGGER.log(Level.INFO, line);
         } while (line.split(" ")[0].compareTo("INITDATA") != 0);
+        LOGGER.log(Level.INFO, "player data correctly received from the server");
     }
 
     private void sendData(String trame) {
@@ -86,16 +82,12 @@ public class GameLinkThread extends Thread {
                     app.getPlaying().getPlayers().remove(Integer.parseInt(line.split(" ")[1]));
 
                 } else if(line.equals("OK")) {
-                    LOGGER.log(Level.INFO, "you leave the server (1/5)");
                     //stop the connection
                     is.close();
-                    LOGGER.log(Level.INFO, "you leave the server (2/5)");
                     os.close();
-                    LOGGER.log(Level.INFO, "you leave the server (3/5)");
                     socketOfClient.close();
-                    LOGGER.log(Level.INFO, "you leave the server (4/5)");
-                    app.getConnect().setConnected(false);
-                    LOGGER.log(Level.INFO, "you leave the server (5/5)");
+                    app.getConnect().setConnected(false);;
+                    LOGGER.log(Level.INFO, "you leave the server");
 
                 } else {
                     LOGGER.log(Level.INFO, line);
@@ -123,5 +115,6 @@ public class GameLinkThread extends Thread {
 
     public void close() {
         sendData("QUIT");
+        LOGGER.log(Level.INFO, "close request send to server");
     }
 }

@@ -119,8 +119,8 @@ public class PropertyFile {
         try {
         } catch (Exception e) {
         }
-        //a modifier avant compilation
-        try (FileOutputStream fos = new FileOutputStream(System.getProperty("user.dir")+"/src/main/java/"+fileName)) {
+        //try (FileOutputStream fos = new FileOutputStream(System.getProperty("user.dir")+"/src/main/java/"+fileName)) {
+        try (FileOutputStream fos = new FileOutputStream(System.getProperty("user.dir")+"/platform_client.jar/"+fileName)) {
             // store the properties in the specific xml
             properties.storeToXML(fos, "client properties");
         } catch (Exception e) {

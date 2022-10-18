@@ -9,6 +9,7 @@ import java.util.logging.Logger;
 import javax.swing.JFrame;
 
 import com.jbmo60927.App;
+import com.jbmo60927.gamestates.Connect;
 
 public class GameWindow {
 	private final JFrame jframe;
@@ -69,10 +70,8 @@ public class GameWindow {
 						//wait until disconnection
 						long time = System.currentTimeMillis();
 						while (app.getConnect().isConnected()) {
-							if (System.currentTimeMillis() > time+10000) {
+							if (System.currentTimeMillis() > time+10000)
 								throw new Error("Can't disconnect player");
-							}
-							//System.out.println(game.getConnect().isConnected());
 						}
 					}
 				} finally {

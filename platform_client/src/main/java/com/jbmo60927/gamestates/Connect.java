@@ -20,7 +20,7 @@ import com.jbmo60927.ui.PointNumberInput;
 
 public class Connect extends State implements StateMethods {
 
-    private boolean connected = false;
+    private boolean isConnected = false;
 
     private GameLinkThread gameLinkThread;
     private BufferedWriter os;
@@ -94,7 +94,7 @@ public class Connect extends State implements StateMethods {
             gameLinkThread = new GameLinkThread(socketOfClient, app);
 
             gameLinkThread.start();
-            connected = true;
+            isConnected = true;
             GameStates.state = GameStates.PLAYING;
 
         } catch (UnknownHostException e) {
@@ -170,7 +170,6 @@ public class Connect extends State implements StateMethods {
             default:
                 if (selectedComponent >= 0)
                     components[selectedComponent].keyPressed(e);
-                //System.out.println(e.getKeyCode());
                 break;
         }
     }
@@ -196,10 +195,12 @@ public class Connect extends State implements StateMethods {
     }
 
     public boolean isConnected() {
-        return connected;
+        return isConnected;
     }
 
-    public void setConnected(boolean connected) {
-        this.connected = connected;
+
+    public void setConnected(boolean isConnected) {
+        this.isConnected = isConnected;
     }
+
 }

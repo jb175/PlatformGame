@@ -5,6 +5,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.logging.Level;
 
 import com.jbmo60927.entities.MovablePlayer;
 import com.jbmo60927.entities.OtherPlayer;
@@ -82,12 +83,6 @@ public class Playing extends State implements StateMethods {
     @Override
     public void keyPressed(KeyEvent e) {
 		switch (e.getKeyCode()) {
-		// case KeyEvent.VK_Z:
-		// 	player.setUp(true);
-		// 	break;
-		// case KeyEvent.VK_S:
-		// 	player.setDown(true);
-		// 	break;
 		case KeyEvent.VK_D:
 			player.setRight(true);
 			break;
@@ -102,14 +97,15 @@ public class Playing extends State implements StateMethods {
             //wait until disconnection
             long time = System.currentTimeMillis();
             while (app.getConnect().isConnected()) {
-                if (System.currentTimeMillis() > time+10000) {
+                if (System.currentTimeMillis() > time+10000)
                     throw new Error("Can't disconnect player");
-                }
-                //System.out.println(game.getConnect().isConnected());
             }
             app.setPlaying(new Playing(app));
             GameStates.state = GameStates.MENU;
             break;
+        default:
+            String msg = String.format("key pressed %d named %s", e.getKeyCode(), java.awt.event.KeyEvent.getKeyText(e.getKeyCode()));
+            LOGGER.log(Level.FINE, msg);
 		}
     }
 
