@@ -224,6 +224,4 @@
 <error line="145" severity="error" message="La première ligne de la Javadoc doit se terminer avec un point." source="com.puppycrawl.tools.checkstyle.checks.javadoc.JavadocStyleCheck"/>
 <error line="153" column="13" severity="error" message="Il manque une espace après &apos;if&apos;." source="com.puppycrawl.tools.checkstyle.checks.whitespace.WhitespaceAfterCheck"/>
 </file>
-<file name="/home/jb/Project/java/PlatformGame/platform_server/src/test/java/com/jbmo60927/AppTest.java">
-</file>
 </checkstyle>

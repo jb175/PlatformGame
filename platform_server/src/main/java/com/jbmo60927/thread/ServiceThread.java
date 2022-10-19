@@ -110,7 +110,7 @@ public class ServiceThread extends Thread {
 
                     is.close();
                     os.close();
-                    LOGGER.log(Level.INFO, () -> String.format("Connection stop with client# %d at %s", this.clientNumber, this.socketOfServer.getInetAddress().toString()));
+                    LOGGER.log(Level.INFO, () -> String.format("Connection stop with client# %d at %s", this.clientNumber, this.socketOfServer.getInetAddress().toString().replace("/", "")));
 
                     break;
                 
