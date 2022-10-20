@@ -53,12 +53,11 @@ public class Playing extends State implements StateMethods {
 
     @Override
     public void draw(Graphics g) {
-        Boolean showHitbox = true;
         LevelHandler.draw(g); //level behind player
-        player.render(g, showHitbox);
+        player.render(g, app.hitbox);
         for (Iterator<Integer> it = players.keySet().iterator(); it.hasNext(); ) {
             int index = it.next();
-            players.get(index).render(g, showHitbox);
+            players.get(index).render(g, app.hitbox);
         }
     }
 

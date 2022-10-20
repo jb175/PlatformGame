@@ -13,7 +13,7 @@ public class MovablePlayer extends Player {
     //movements
     private boolean moving = false, attacking = false; //is player moving
     private boolean right, left, jump; //player moving directions
-    private final float playerSped = 2.0f; //player speed
+    private final float playerSped = 1.3f * App.SCALE; //player speed
     private int[][] lvlData;
 
     //jumping

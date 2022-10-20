@@ -49,7 +49,8 @@ public class Connect extends State implements StateMethods {
         components[3] = new Component(App.GAME_WIDTH/2, (int) (300 * App.SCALE), 50, "play") {
             @Override
             public void mouseReleased(MouseEvent e) {
-                connect();
+                if (!"".equals(((Input)components[2]).getValue()))
+                    connect();
             }
         };
     }

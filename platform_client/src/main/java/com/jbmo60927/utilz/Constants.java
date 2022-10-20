@@ -124,4 +124,12 @@ public class Constants {
 			}
 		}
 	}
+
+	public static class PathConstants {
+		private PathConstants() {
+			  throw new IllegalStateException(Constants.errorMessage);
+		}
+
+		public static final String PROJECT_ROOT = System.getProperty("user.dir")+"/";
+	}
 }

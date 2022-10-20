@@ -1,10 +1,16 @@
 package com.jbmo60927.utilz;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import com.jbmo60927.utilz.Constants.PathConstants;
 
 /**
  * Class to read a property file.
@@ -26,12 +32,7 @@ public class PropertyFile {
 
         LOGGER.setLevel(Level.CONFIG); //we wants to see config log
 
-        try {
-            readFile();
-            LOGGER.log(Level.CONFIG, "property file succesfully read");
-        } catch (final IOException e) {
-            LOGGER.log(Level.SEVERE, "property file not found", e);
-        }
+        readXMLFile();
     }
 
     /**
@@ -46,8 +47,33 @@ public class PropertyFile {
      * read the file and store the properties.
      * @throws IOException exception if the file is not found
      */
-    private void readFile() throws IOException{
-        properties.loadFromXML(this.getClass().getClassLoader().getResourceAsStream(fileName));
+    private void readXMLFile(){
+        try {
+            readFile();
+        } catch (IOException e) {
+            LOGGER.log(Level.SEVERE, "Cant read XML file", e);
+        }
+    }
+
+    /**
+     * read the file and store the properties.
+     * @throws IOException exception if the file is not found
+     */
+    private void readFile() throws IOException {
+        try (FileInputStream fis = new FileInputStream(PathConstants.PROJECT_ROOT+fileName)) {
+            properties.loadFromXML(fis);
+        } catch (FileNotFoundException e) {
+            LOGGER.log(Level.WARNING, "Cant open and save the XML file\nXML file regenerated", e);
+            String path = "platform_client.jar/com/jbmo60927/utilz/client.xml";
+            //path = "src/main/java/com/jbmo60927/utilz/client.xml";
+            path = "src/main/java/com/jbmo60927/utilz/client.xml";
+            try (FileInputStream fis = new FileInputStream(PathConstants.PROJECT_ROOT+path)) {
+                properties.loadFromXML(fis);
+            } catch (FileNotFoundException e2) {
+                LOGGER.log(Level.SEVERE, "Cant open the data stored XML file", e2);
+            }
+        }
+        LOGGER.log(Level.CONFIG, "property file succesfully read");
     }
 
     /**
@@ -72,10 +98,28 @@ public class PropertyFile {
      * @return return the value of the property or stop the server if the property is not found
      */
     public int readIntProperty(String name) {
-        try {
-            return Integer.parseInt(readStringProperty(name));
-        } catch (Exception e) {
-            LOGGER.log(Level.SEVERE, "cannot parse string property into an integer", e);
+        return readIntProperty(name, 0);
+    }
+
+    /**
+     * read an integer property
+     * @param name the name of the property
+     * @return return the value of the property or stop the server if the property is not found
+     */
+    public int readIntProperty(String name, int attempt) {
+        final int maxAttempts = 2;
+        if (attempt < maxAttempts) {
+            try {
+                return Integer.parseInt(readStringProperty(name));
+            } catch (Exception e) {
+                LOGGER.log(Level.SEVERE, "cannot parse string property into an integer. file is regenerated", e);
+                deletePropertyFile();
+                readXMLFile();
+                return readIntProperty(name, attempt+1);
+            }
+        } else {
+            LOGGER.log(Level.SEVERE, "default file has been modified");
+            System.exit(1);
         }
         return 0;
     }
@@ -86,12 +130,39 @@ public class PropertyFile {
      * @return return the value of the property or stop the server if the property is not found
      */
     public float readFloatProperty(String name) {
-        try {
-            return Float.parseFloat(readStringProperty(name));
-        } catch (Exception e) {
-            LOGGER.log(Level.SEVERE, "cannot parse string property into a float", e);
+        return readFloatProperty(name, 0);
+    }
+
+    /**
+     * read a float property
+     * @param name the name of the property
+     * @return return the value of the property or stop the server if the property is not found
+     */
+    public float readFloatProperty(String name, int attempt) {
+        final int maxAttempts = 2;
+        if (attempt < maxAttempts) {
+            try {
+                return Float.parseFloat(readStringProperty(name));
+            } catch (Exception e) {
+                LOGGER.log(Level.SEVERE, "cannot parse string property into a float. file is regenerated", e);
+                deletePropertyFile();
+                readXMLFile();
+                return readFloatProperty(name, attempt+1);
+            }
+        } else {
+            LOGGER.log(Level.SEVERE, "default file has been modified");
+            System.exit(1);
         }
         return 0f;
+    }
+
+    /**
+     * read a boolean property
+     * @param name the name of the property
+     * @return return the value of the property or stop the server if the property is not found
+     */
+    public Boolean readBooleanProperty(String name) {
+        return "true".equals(readStringProperty(name));
     }
 
     public void saveStringProperty(String name, String value) {
@@ -110,22 +181,32 @@ public class PropertyFile {
         saveStringProperty(name, Float.toString(value));
     }
 
+    public void saveBooleanProperty(String name, Boolean value) {
+        if (Boolean.TRUE.equals(value))
+            saveStringProperty(name, "true");
+        else
+            saveStringProperty(name, "false");
+    }
+
 
 
     /**
      * read the file and store the properties.
      */
     public void saveFile() {
-        try {
-        } catch (Exception e) {
-        }
-        try (FileOutputStream fos = new FileOutputStream(System.getProperty("user.dir")+"/src/main/java/"+fileName)) {
-        //try (FileOutputStream fos = new FileOutputStream(System.getProperty("user.dir")+"/platform_client.jar/"+fileName)) {
+        try (FileOutputStream fos = new FileOutputStream(PathConstants.PROJECT_ROOT+fileName)) {
             // store the properties in the specific xml
             properties.storeToXML(fos, "client properties");
         } catch (Exception e) {
-            LOGGER.log(Level.SEVERE, "Can't open and save the XML file", e);
-            e.printStackTrace();
+            LOGGER.log(Level.SEVERE, "Cant open and save the XML file", e);
         }
     }
+
+    public void deletePropertyFile() {
+        try {
+            Files.delete(Paths.get(PathConstants.PROJECT_ROOT+fileName));
+        } catch (Exception e) {
+            LOGGER.log(Level.SEVERE, "XML file cant be reset", e);
+        }
+      }
 }

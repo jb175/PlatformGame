@@ -1,6 +1,7 @@
 package com.jbmo60927;
 
 import java.awt.Graphics;
+import java.io.File;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -46,6 +47,7 @@ public final class App implements Runnable {
     public String ip;
     public int port;
     public String name;
+    public Boolean hitbox;
     
     //value initialized when data is read from a file
     public static final int TILE_SIZE;
@@ -55,7 +57,7 @@ public final class App implements Runnable {
     //property file
     private static PropertyFile propertyFile;
     //path for the property file
-    private static String propertyFileName = "com/jbmo60927/properties/client.xml";
+    private static String propertyFileName = "client.xml";
 
     //logger for this class
     private static final Logger LOGGER = Logger.getLogger(App.class.getName());
@@ -109,18 +111,20 @@ public final class App implements Runnable {
         ip = propertyFile.readStringProperty("ip");
         port = propertyFile.readIntProperty("port");
         name = propertyFile.readStringProperty("name");
+        hitbox = propertyFile.readBooleanProperty("hitbox");
     }
 
     /**
      * save data to XML file at the end of the app
      */
     public void saveData() {
-        saveProperty(propertyFile, "version", version);
-        saveProperty(propertyFile, "fps", Integer.toString(fpsSet));
-        saveProperty(propertyFile, "scale", Float.toString(modifiedScale));
-        saveProperty(propertyFile, "ip", ip);
-        saveProperty(propertyFile, "port", Integer.toString(port));
-        saveProperty(propertyFile, "name", name);
+        propertyFile.saveStringProperty("version", version);
+        propertyFile.saveIntProperty("fps", fpsSet);
+        propertyFile.saveFloatProperty("scale", modifiedScale);
+        propertyFile.saveStringProperty("ip", ip);
+        propertyFile.saveIntProperty("port", port);
+        propertyFile.saveStringProperty("name", name);
+        propertyFile.saveBooleanProperty("hitbox", hitbox);
         propertyFile.saveFile();
         LOGGER.log(Level.INFO, "properties sucessfully register");
     }
