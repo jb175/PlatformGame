@@ -216,12 +216,12 @@
 <error line="81" severity="error" message="La première ligne de la Javadoc doit se terminer avec un point." source="com.puppycrawl.tools.checkstyle.checks.javadoc.JavadocStyleCheck"/>
 <error line="99" column="97" severity="error" message="&apos;3&apos; devrait être défini comme une constante." source="com.puppycrawl.tools.checkstyle.checks.coding.MagicNumberCheck"/>
 <error line="103" column="39" severity="error" message="Les chaînes littérales devraient être sur le côté gauche d&apos;une comparaison &apos;equals&apos;." source="com.puppycrawl.tools.checkstyle.checks.coding.EqualsAvoidNullCheck"/>
-<error line="113" severity="error" message="La ligne excède 120 caractères (trouvé 173)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
-<error line="116" severity="error" message="Line has trailing spaces." source="com.puppycrawl.tools.checkstyle.checks.regexp.RegexpSinglelineCheck"/>
-<error line="124" column="11" severity="error" message="Catcher l&apos;exception &apos;Exception&apos; est prohibé." source="com.puppycrawl.tools.checkstyle.checks.coding.IllegalCatchCheck"/>
-<error line="129" severity="error" message="La première ligne de la Javadoc doit se terminer avec un point." source="com.puppycrawl.tools.checkstyle.checks.javadoc.JavadocStyleCheck"/>
-<error line="137" severity="error" message="La première ligne de la Javadoc doit se terminer avec un point." source="com.puppycrawl.tools.checkstyle.checks.javadoc.JavadocStyleCheck"/>
-<error line="145" severity="error" message="La première ligne de la Javadoc doit se terminer avec un point." source="com.puppycrawl.tools.checkstyle.checks.javadoc.JavadocStyleCheck"/>
-<error line="153" column="13" severity="error" message="Il manque une espace après &apos;if&apos;." source="com.puppycrawl.tools.checkstyle.checks.whitespace.WhitespaceAfterCheck"/>
+<error line="109" severity="error" message="La ligne excède 120 caractères (trouvé 190)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
+<error line="112" severity="error" message="Line has trailing spaces." source="com.puppycrawl.tools.checkstyle.checks.regexp.RegexpSinglelineCheck"/>
+<error line="120" column="11" severity="error" message="Catcher l&apos;exception &apos;Exception&apos; est prohibé." source="com.puppycrawl.tools.checkstyle.checks.coding.IllegalCatchCheck"/>
+<error line="125" severity="error" message="La première ligne de la Javadoc doit se terminer avec un point." source="com.puppycrawl.tools.checkstyle.checks.javadoc.JavadocStyleCheck"/>
+<error line="133" severity="error" message="La première ligne de la Javadoc doit se terminer avec un point." source="com.puppycrawl.tools.checkstyle.checks.javadoc.JavadocStyleCheck"/>
+<error line="141" severity="error" message="La première ligne de la Javadoc doit se terminer avec un point." source="com.puppycrawl.tools.checkstyle.checks.javadoc.JavadocStyleCheck"/>
+<error line="149" column="13" severity="error" message="Il manque une espace après &apos;if&apos;." source="com.puppycrawl.tools.checkstyle.checks.whitespace.WhitespaceAfterCheck"/>
 </file>
 </checkstyle>

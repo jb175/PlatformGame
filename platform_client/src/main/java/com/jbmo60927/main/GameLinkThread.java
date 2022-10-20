@@ -82,13 +82,7 @@ public class GameLinkThread extends Thread {
                     app.getPlaying().getPlayers().remove(Integer.parseInt(line.split(" ")[1]));
 
                 } else if(line.equals("OK")) {
-                    //stop the connection
-                    is.close();
-                    os.close();
-                    socketOfClient.close();
-                    app.getConnect().setConnected(false);;
-                    LOGGER.log(Level.INFO, "you leave the server");
-
+                    
                 } else {
                     LOGGER.log(Level.INFO, line);
                 }
@@ -102,7 +96,7 @@ public class GameLinkThread extends Thread {
 
     private void updatePlayerPosition(String line) {
         try {
-            app.getPlaying().getPlayers().get(Integer.parseInt(line.split(" ")[1])).setPosition(Float.parseFloat(line.split(" ")[2]), Float.parseFloat(line.split(" ")[3]));
+            app.getPlaying().getPlayers().get(Integer.parseInt(line.split(" ")[1])).setPosition(Float.parseFloat(line.split(" ")[2])*App.SCALE, Float.parseFloat(line.split(" ")[3])*App.SCALE);
             app.getPlaying().getPlayers().get(Integer.parseInt(line.split(" ")[1])).setPlayerAction(Integer.parseInt(line.split(" ")[4]));
         } catch (Exception e) {
             LOGGER.log(Level.SEVERE, "error while receiving player position", e);
@@ -116,5 +110,17 @@ public class GameLinkThread extends Thread {
     public void close() {
         sendData("QUIT");
         LOGGER.log(Level.INFO, "close request send to server");
+        //stop the connection
+        try {
+            is.close();
+            os.close();
+            socketOfClient.close();
+            app.getConnect().setConnected(false);;
+            LOGGER.log(Level.INFO, "you leave the server");
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+
     }
 }

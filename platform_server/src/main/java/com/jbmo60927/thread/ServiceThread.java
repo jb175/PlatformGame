@@ -104,10 +104,6 @@ public class ServiceThread extends Thread {
                     app.getPlayers().remove(this);
                     broadcast(String.format("REMOVEPLAYER %d", clientNumber));
 
-                    os.write("OK");
-                    os.newLine();
-                    os.flush();
-
                     is.close();
                     os.close();
                     LOGGER.log(Level.INFO, () -> String.format("Connection stop with client# %d at %s", this.clientNumber, this.socketOfServer.getInetAddress().toString().replace("/", "")));

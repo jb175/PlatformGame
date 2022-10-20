@@ -181,7 +181,7 @@ public class MovablePlayer extends Player {
     }
 
     public String getData() {
-        return String.valueOf(hitbox.x)+" "+String.valueOf(hitbox.y)+" "+Integer.toString(playerAction);
+        return Float.toString(hitbox.x/App.SCALE)+" "+Float.toString(hitbox.y/App.SCALE)+" "+Integer.toString(playerAction);
     }
 
     public void setName(String name) {
