@@ -34,10 +34,10 @@ public class MyLogger {
         final String date = dateFormatter(System.currentTimeMillis());
         FileHandler logfile;
         try {
-            logfile = new FileHandler("log/server_"+date+".log"); //we try to create the log file
+            logfile = new FileHandler("log/client_"+date+".log"); //we try to create the log file
         } catch (final NoSuchFileException e) { //if the log folder doesn't exist
             new File("log").mkdirs(); //we create the folder
-            logfile = new FileHandler("log/server_"+date+".log"); //and create the log file
+            logfile = new FileHandler("log/client_"+date+".log"); //and create the log file
         }
 
         //we add the file log handler to the root logger
@@ -56,7 +56,7 @@ public class MyLogger {
      */
     private static String dateFormatter(final long millisecs) {
         final Date resultDate = new Date(millisecs);
-        final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss");
+        final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss");
         return dateFormat.format(resultDate);
     }
 }
