@@ -33,6 +33,7 @@ public class Player extends Entity {
      */
     public Player(final float x, final float y, String name) {
         super(x, y, (int) (64 * App.SCALE), (int) (40 * App.SCALE)); //send default position to entities
+        this.name = name; //empty at begining (should be remove?)
         loadAnimations(); //load all animations
 		initHitbox(x, y, 20 * App.SCALE, 28 * App.SCALE);
     }

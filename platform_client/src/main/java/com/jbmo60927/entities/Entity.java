@@ -16,7 +16,7 @@ public abstract class Entity {
      * @param x
      * @param y
      */
-    public Entity(final float x, final float y, int width, int height) {
+    protected Entity(final float x, final float y, int width, int height) {
         this.x = x;
         this.y = y;
         this.width = width;

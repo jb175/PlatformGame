@@ -1,7 +1,6 @@
 package com.jbmo60927;
 
 import java.awt.Graphics;
-import java.io.File;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -146,7 +145,7 @@ public final class App implements Runnable {
     }
 
     private void update() {
-        switch (GameStates.state) {
+        switch (GameStates.getGameState()) {
             case MENU:
                 menu.update();
                 break;
@@ -168,7 +167,7 @@ public final class App implements Runnable {
     }
 
     public void render(Graphics g) {
-        switch (GameStates.state) {
+        switch (GameStates.getGameState()) {
             case MENU:
                 menu.draw(g);
                 break;
@@ -206,8 +205,10 @@ public final class App implements Runnable {
         int frames = 0;
         int updates = 0;
 
+        Boolean running = true;
 
-        while (true) {
+
+        while (Boolean.TRUE.equals(running)) {
             //to allow in-game fps modification
             if (lastFps != fpsSet)
                 timePerFrame = 1000000000.0 / fpsSet;
@@ -246,7 +247,7 @@ public final class App implements Runnable {
      * when the window lost focus
      */
     public void windowLostFocus() {
-        if(GameStates.state == GameStates.PLAYING)
+        if(GameStates.getGameState() == GameStates.PLAYING)
             playing.getPlayer().resetDirBooleans();
     }
 

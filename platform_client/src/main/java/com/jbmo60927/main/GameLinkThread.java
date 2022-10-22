@@ -10,7 +10,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.jbmo60927.entities.OtherPlayer;
-import com.jbmo60927.gamestates.Connect;
 import com.jbmo60927.App;
 
 public class GameLinkThread extends Thread {
@@ -81,8 +80,6 @@ public class GameLinkThread extends Thread {
                     LOGGER.log(Level.INFO, () -> String.format("%s leave the server", app.getPlaying().getPlayers().get(Integer.parseInt(line.split(" ")[1]))));
                     app.getPlaying().getPlayers().remove(Integer.parseInt(line.split(" ")[1]));
 
-                } else if(line.equals("OK")) {
-                    
                 } else {
                     LOGGER.log(Level.INFO, line);
                 }

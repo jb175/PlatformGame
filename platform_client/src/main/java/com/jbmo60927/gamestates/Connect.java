@@ -96,7 +96,7 @@ public class Connect extends State implements StateMethods {
 
             gameLinkThread.start();
             isConnected = true;
-            GameStates.state = GameStates.PLAYING;
+            GameStates.setGameState(GameStates.PLAYING);
 
         } catch (UnknownHostException e) {
             LOGGER.log(Level.SEVERE, String.format("Don\'t know about host %s", app.ip), e);

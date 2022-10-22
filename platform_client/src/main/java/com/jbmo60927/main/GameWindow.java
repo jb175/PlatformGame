@@ -7,9 +7,9 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.swing.JFrame;
+import javax.swing.WindowConstants;
 
 import com.jbmo60927.App;
-import com.jbmo60927.gamestates.Connect;
 
 public class GameWindow {
 	private final JFrame jframe;
@@ -25,7 +25,7 @@ public class GameWindow {
 		this.app = app; //store game 
 		jframe = new JFrame(); //create the frame
 
-		jframe.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //default action on closing button
+		jframe.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE); //default action on closing button
 		jframe.add(gamePanel); //link panel to the window
 		//jframe.setLocationRelativeTo(null); //default position o nthe screen
 		jframe.setTitle("PlatformGame"); //game title
@@ -44,6 +44,7 @@ public class GameWindow {
 		jframe.addWindowFocusListener(new WindowFocusListener() {
 			@Override
 			public void windowGainedFocus(final WindowEvent e) {
+				//nothing happen when the client come back to the app
 			}
 
 			@Override
@@ -70,8 +71,8 @@ public class GameWindow {
 						//wait until disconnection
 						long time = System.currentTimeMillis();
 						while (app.getConnect().isConnected()) {
-							if (System.currentTimeMillis() > time+10000)
-								throw new Error("Can't disconnect player");
+							if (System.currentTimeMillis() > time+3000)
+								LOGGER.log(Level.SEVERE, "cant disconnect player");
 						}
 					}
 				} finally {

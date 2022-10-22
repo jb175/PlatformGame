@@ -66,7 +66,7 @@ public class PropertyFile {
             LOGGER.log(Level.WARNING, "Cant open and save the XML file\nXML file regenerated", e);
             String path = "platform_client.jar/com/jbmo60927/utilz/client.xml";
             //path = "src/main/java/com/jbmo60927/utilz/client.xml";
-            path = "src/main/java/com/jbmo60927/utilz/client.xml";
+            path = path.replace("platform_client.jar", "src/main/java");
             try (FileInputStream fis = new FileInputStream(PathConstants.PROJECT_ROOT+path)) {
                 properties.loadFromXML(fis);
             } catch (FileNotFoundException e2) {

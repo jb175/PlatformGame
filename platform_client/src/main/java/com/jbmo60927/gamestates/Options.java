@@ -31,7 +31,7 @@ public class Options extends State implements StateMethods {
         components[3] = new Component(App.GAME_WIDTH/2, (int) (300 * App.SCALE), 50, "save") {
             @Override
             public void mouseReleased(MouseEvent e) {
-                GameStates.state = GameStates.MENU;
+                GameStates.setGameState(GameStates.MENU);
             }
         };
     }

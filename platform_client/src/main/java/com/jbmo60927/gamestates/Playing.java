@@ -96,11 +96,11 @@ public class Playing extends State implements StateMethods {
             //wait until disconnection
             long time = System.currentTimeMillis();
             while (app.getConnect().isConnected()) {
-                if (System.currentTimeMillis() > time+10000)
-                    throw new Error("Can't disconnect player");
+                if (System.currentTimeMillis() > time+3000)
+                    LOGGER.log(Level.SEVERE, "Cant disconnect player");
             }
             app.setPlaying(new Playing(app));
-            GameStates.state = GameStates.MENU;
+            GameStates.setGameState(GameStates.MENU);
             break;
         default:
             String msg = String.format("key pressed %d named %s", e.getKeyCode(), java.awt.event.KeyEvent.getKeyText(e.getKeyCode()));
@@ -111,22 +111,17 @@ public class Playing extends State implements StateMethods {
     @Override
     public void keyReleased(KeyEvent e) {
 		switch (e.getKeyCode()) {
-		// case KeyEvent.VK_Z:
-		// 	player.setUp(false);
-		// 	break;
-		// case KeyEvent.VK_S:
-		// 	player.setDown(false);
-		// 	break;
-		case KeyEvent.VK_D:
-			player.setRight(false);
-			break;
-		case KeyEvent.VK_Q:
-			player.setLeft(false);
-			break;
-		case KeyEvent.VK_SPACE:
-			player.setJump(false);
-            break;
+            case KeyEvent.VK_D:
+                player.setRight(false);
+                break;
+            case KeyEvent.VK_Q:
+                player.setLeft(false);
+                break;
+            case KeyEvent.VK_SPACE:
+                player.setJump(false);
+                break;
+            default:
+                break;
 		}
-		//System.out.println(e.getKeyCode());
     }
 }

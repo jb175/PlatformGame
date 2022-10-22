@@ -20,7 +20,7 @@ public class KeyboardInputs implements KeyListener {
 
 	@Override
 	public void keyReleased(final KeyEvent e) {
-		switch (GameStates.state) {
+		switch (GameStates.getGameState()) {
 			case MENU:
 				gamePanel.getGame().getMenu().keyReleased(e);
 				break;
@@ -37,7 +37,7 @@ public class KeyboardInputs implements KeyListener {
 
 	@Override
 	public void keyPressed(final KeyEvent e) {
-		switch (GameStates.state) {
+		switch (GameStates.getGameState()) {
 			case MENU:
 				gamePanel.getGame().getMenu().keyPressed(e);
 				break;

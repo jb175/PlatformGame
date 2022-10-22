@@ -16,7 +16,7 @@ public class Button extends Component {
 
     @Override
     public void mouseReleased(MouseEvent e) {
-        GameStates.state = state;
+        GameStates.setGameState(state);
     }
 
     @Override
