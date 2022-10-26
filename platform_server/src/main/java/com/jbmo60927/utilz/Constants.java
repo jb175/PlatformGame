@@ -91,4 +91,26 @@ public final class Constants {
 			}
 		}
 	}
+
+	/**
+	 * Packet type class
+	 * every packet first byte contain the type of the packet
+	 * this byte is composed from 4 bits for the type and 4 others for the sub-type
+	 */
+	public static final class PacketType {
+		private PacketType() {
+			throw new IllegalStateException("Utility class");
+		}
+		//Player
+		public static final int NEWJOINER 		= 0;
+		public static final int NEWPLAYER 		= 1;
+		public static final int POSITION 		= 2;
+		public static final int REMOVEPLAYER 	= 3;
+		//Connection
+		public static final int JOIN 			= 16;
+		public static final int QUIT 			= 17;
+		public static final int WELCOME 		= 18;
+		public static final int VERSION 		= 19;
+		public static final int LEVEL 			= 20;
+	}
 }
