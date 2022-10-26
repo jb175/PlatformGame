@@ -6,11 +6,18 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.Socket;
+import java.nio.charset.StandardCharsets;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.jbmo60927.App;
-import com.jbmo60927.entities.Player;
+import com.jbmo60927.packets.new_joiner_packet.ReceivedNewJoinerPacket;
+import com.jbmo60927.packets.position_packet.ReceivedPositionPacket;
+import com.jbmo60927.packets.quit_packet.ReceivedQuitPacket;
+import com.jbmo60927.packets.version_packet.ReceivedVersionPacket;
+import com.jbmo60927.packets.version_packet.SendVersionPacket;
+import com.jbmo60927.packets.welcome_packet.SendWelcomePacket;
+import com.jbmo60927.utilz.Constants.PacketType;
 
 public class ServiceThread extends Thread {
 
@@ -20,6 +27,8 @@ public class ServiceThread extends Thread {
     private final App app; //link to the data
     private final BufferedReader is; //input stream
     private final BufferedWriter os; //output stream
+
+    private String clientVersion = "";
 
     /**
      * thread to communicate with a unique client
@@ -38,44 +47,17 @@ public class ServiceThread extends Thread {
         is = new BufferedReader(new InputStreamReader(socketOfServer.getInputStream()));
         os = new BufferedWriter(new OutputStreamWriter(socketOfServer.getOutputStream()));
 
-        
-        //receive data from client
         String line;
-        try {
-            do {
-                line = is.readLine();
-            } while (line.split(" ")[0].compareTo("INITPLAYER") != 0);
-            final Float xPos = Float.parseFloat(line.split(" ")[1]);
-            final Float yPos = Float.parseFloat(line.split(" ")[2]);
-            final String name = line.split(" ")[3];
-    
-            //add player
-            app.getPlayers().put(this, new Player(xPos, yPos, name));
-    
-            //send client parameters to all other clients
-            broadcast(String.format("NEWPLAYER %d %s", clientNumber, clientNumber+line.replace("INITPLAYER ", "")));
-    
-            for (final ServiceThread thread : app.getPlayers().keySet()) {
-                if(thread != this) {
-                    os.write(String.format("NEWPLAYER %d %s %s %s", thread.getClientNumber(), app.getPlayers().get(thread).getX(), app.getPlayers().get(thread).getY(), app.getPlayers().get(thread).getName()));
-                    os.newLine();
-                    os.flush();
-                }
-            }
-    
-            //send data to client
-            os.write("INITDATA ");
-            os.newLine();
-            os.flush();
-    
-            //log connection
-            LOGGER.log(Level.INFO, () -> String.format("New connection with client# %d at %s named %s", this.clientNumber, this.socketOfServer.getInetAddress().toString().replace("/", ""), name));
-        
-        //in case the client is not a game client (packet sends are not required)
-        } catch (Exception e) {
-            LOGGER.log(Level.SEVERE, String.format("connection cannot be initalized (ip:%s)", this.socketOfServer.getInetAddress().toString().replace("/", "")), e);
-            this.interrupt();
-        }
+
+        sendPacket((new SendWelcomePacket()).toString());
+
+        do {
+            line = is.readLine();
+        } while (line.getBytes()[0] != (byte) PacketType.VERSION);
+        createPacket(line);
+
+        sendPacket((new SendVersionPacket(app, this)).toString());
+
     }
 
     /**
@@ -152,5 +134,48 @@ public class ServiceThread extends Thread {
                 thread.getOs().flush();
             }
         }
+    }
+
+    private void sendPacket(String packet) {
+        try {
+            os.write(packet);
+            os.newLine();
+            os.flush();
+        } catch (Exception e) {
+            LOGGER.log(Level.SEVERE, "error while sending packet", e);
+        }
+    }
+
+    public void createPacket(String data){
+        byte[] byteArray = data.getBytes(StandardCharsets.UTF_8);
+        byte[] parameters = new byte[byteArray.length-1];
+        for (int i = 0; i < parameters.length; i++) {
+            parameters[i] = byteArray[i+1];
+        }
+        switch (byteArray[0]) {
+            case PacketType.VERSION:
+                new ReceivedVersionPacket(parameters, app, this).execute();
+                break;
+            case PacketType.NEWJOINER:
+                new ReceivedNewJoinerPacket(parameters).execute();
+                break;
+            case PacketType.POSITION:
+                new ReceivedPositionPacket(parameters).execute();
+                break;
+            case PacketType.QUIT:
+                new ReceivedQuitPacket(parameters).execute();
+                break;
+            default:
+                LOGGER.log(Level.SEVERE, "a packet has been received and allow to be interpreted but not recognize by the function");
+                break;
+        }
+    }
+
+    public String getClientVersion() {
+        return clientVersion;
+    }
+
+    public void setClientVersion(String clientVersion) {
+        this.clientVersion = clientVersion;
     }
 }

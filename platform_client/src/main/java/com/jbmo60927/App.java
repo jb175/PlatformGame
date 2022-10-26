@@ -38,7 +38,7 @@ public final class App implements Runnable {
     public static final int TILE_IN_HEIGHT = 14;
 
     //constants that can be read from a file
-    public String version;
+    public static final String VERSION = "1.2";
     public int fpsSet;
     public static final int UPS_SET = 200;
     public static final Float SCALE;
@@ -104,7 +104,6 @@ public final class App implements Runnable {
     public void loadData() {
 
         //read properties from the file
-        version = propertyFile.readStringProperty("version");
         fpsSet = propertyFile.readIntProperty("fps");
         modifiedScale = App.SCALE;
         ip = propertyFile.readStringProperty("ip");
@@ -117,7 +116,6 @@ public final class App implements Runnable {
      * save data to XML file at the end of the app
      */
     public void saveData() {
-        propertyFile.saveStringProperty("version", version);
         propertyFile.saveIntProperty("fps", fpsSet);
         propertyFile.saveFloatProperty("scale", modifiedScale);
         propertyFile.saveStringProperty("ip", ip);

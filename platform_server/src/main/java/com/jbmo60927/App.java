@@ -170,6 +170,10 @@ public final class App {
         return players;
     }
 
+    public String getVersion() {
+        return this.version;
+    }
+
     /**
      * Run the server for the game Platform.
      * @param args The arguments of the program.
