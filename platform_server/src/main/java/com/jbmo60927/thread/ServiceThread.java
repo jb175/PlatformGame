@@ -2,12 +2,9 @@ package com.jbmo60927.thread;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.Socket;
@@ -31,6 +28,12 @@ public class ServiceThread extends Thread {
     private final BufferedReader is; //input stream
     private final BufferedWriter os; //output stream
 
+    private final String ip;
+    private String country = "";
+    private String city = "";
+    private String longitude = "";
+    private String latitude = "";
+
     /**
      * thread to communicate with a unique client
      * @param socketOfServer socket of the client
@@ -48,6 +51,29 @@ public class ServiceThread extends Thread {
         is = new BufferedReader(new InputStreamReader(socketOfServer.getInputStream()));
         os = new BufferedWriter(new OutputStreamWriter(socketOfServer.getOutputStream()));
 
+        //get ip from the client
+        ip = this.socketOfServer.getInetAddress().toString().replace("/", "");
+        //request information about ip
+        try {
+            URL url = new URL("https://www.iplocation.net/ip-lookup?query="+ip+"&submit=IP%20Lookup");
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+
+            // Now it's "open", we can set the request method, headers etc.
+            connection.setRequestProperty("accept", "application/json");
+
+            // This line makes the request
+            InputStream responseStream = connection.getInputStream();
+            Document html = Jsoup.parse(new String(responseStream.readAllBytes()));
+            Element table = html.body().getElementsByClass("table_dark_green").first();
+            Element row1 = table.child(1).child(0);
+            Element row3 = table.child(3).child(0);
+            country = row1.child(1).text();
+            city = row1.child(3).text();
+            longitude = row3.child(2).text();
+            latitude = row3.child(3).text();
+        } catch (Exception e2) {
+            e2.printStackTrace();
+        }
         
         //receive data from client
         String line;
@@ -79,29 +105,11 @@ public class ServiceThread extends Thread {
             os.flush();
     
             //log connection
-            LOGGER.log(Level.INFO, () -> String.format("New connection with client# %d at %s named %s", this.clientNumber, this.socketOfServer.getInetAddress().toString().replace("/", ""), name));
+            LOGGER.log(Level.INFO, () -> String.format("New connection with client# %d named %s (ip:%s country:%s city:%s link:http://www.google.com/maps/place/%s,%s)", this.clientNumber, name, ip, country, city, longitude, latitude));
         
         //in case the client is not a game client (packet sends are not required)
         } catch (Exception e) {
-            String ip = this.socketOfServer.getInetAddress().toString().replace("/", "");
-            String country = "";
-            String city = "";
-            try {
-                URL url = new URL("https://www.iplocation.net/ip-lookup?query="+ip+"&submit=IP%20Lookup");
-                HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-
-                // Now it's "open", we can set the request method, headers etc.
-                connection.setRequestProperty("accept", "application/json");
-
-                // This line makes the request
-                InputStream responseStream = connection.getInputStream();
-                Document html = Jsoup.parse(new String(responseStream.readAllBytes()));
-                country = html.body().getElementsByClass("table_dark_green").first().child(1).child(0).child(1).text();
-                city = html.body().getElementsByClass("table_dark_green").first().child(1).child(0).child(3).text();
-            } catch (Exception e2) {
-                e2.printStackTrace();
-            }
-            LOGGER.log(Level.SEVERE, String.format("connection cannot be initalized (ip:%s country:%s city:%s)", ip, country, city), e);
+            LOGGER.log(Level.SEVERE, String.format("connection cannot be initalized (ip:%s country:%s city:%s link:http://www.google.com/maps/place/%s,%s)", ip, country, city, longitude, latitude), e);
             this.interrupt();
         }
     }
