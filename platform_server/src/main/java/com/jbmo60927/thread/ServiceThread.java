@@ -2,12 +2,22 @@ package com.jbmo60927.thread;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.io.OutputStreamWriter;
+import java.net.HttpURLConnection;
 import java.net.Socket;
+import java.net.URL;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
 
 import com.jbmo60927.App;
 import com.jbmo60927.entities.Player;
@@ -73,7 +83,25 @@ public class ServiceThread extends Thread {
         
         //in case the client is not a game client (packet sends are not required)
         } catch (Exception e) {
-            LOGGER.log(Level.SEVERE, String.format("connection cannot be initalized (ip:%s)", this.socketOfServer.getInetAddress().toString().replace("/", "")), e);
+            String ip = this.socketOfServer.getInetAddress().toString().replace("/", "");
+            String country = "";
+            String city = "";
+            try {
+                URL url = new URL("https://www.iplocation.net/ip-lookup?query="+ip+"&submit=IP%20Lookup");
+                HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+
+                // Now it's "open", we can set the request method, headers etc.
+                connection.setRequestProperty("accept", "application/json");
+
+                // This line makes the request
+                InputStream responseStream = connection.getInputStream();
+                Document html = Jsoup.parse(new String(responseStream.readAllBytes()));
+                country = html.body().getElementsByClass("table_dark_green").first().child(1).child(0).child(1).text();
+                city = html.body().getElementsByClass("table_dark_green").first().child(1).child(0).child(3).text();
+            } catch (Exception e2) {
+                e2.printStackTrace();
+            }
+            LOGGER.log(Level.SEVERE, String.format("connection cannot be initalized (ip:%s country:%s city:%s)", ip, country, city), e);
             this.interrupt();
         }
     }
