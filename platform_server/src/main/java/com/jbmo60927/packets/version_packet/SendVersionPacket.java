@@ -3,7 +3,6 @@ package com.jbmo60927.packets.version_packet;
 import com.jbmo60927.App;
 import com.jbmo60927.packets.SendPacket;
 import com.jbmo60927.thread.ServiceThread;
-import com.jbmo60927.utilz.Constants.PacketType;
 import java.util.Objects;
 
 public class SendVersionPacket extends SendPacket implements VersionPacket {

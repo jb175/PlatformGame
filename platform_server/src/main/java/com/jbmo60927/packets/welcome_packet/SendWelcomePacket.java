@@ -3,7 +3,6 @@ package com.jbmo60927.packets.welcome_packet;
 import java.nio.charset.StandardCharsets;
 
 import com.jbmo60927.packets.SendPacket;
-import com.jbmo60927.utilz.Constants.PacketType;
 
 public class SendWelcomePacket extends SendPacket implements WelcomePacket{
 

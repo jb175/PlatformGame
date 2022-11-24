@@ -30,7 +30,7 @@ public class AcceptUserThread extends Thread{
      * @param app link to the app
      */
     public AcceptUserThread(ServerSocket listener, final App app) {
-        LOGGER.setLevel(Level.WARNING);
+        LOGGER.setLevel(Level.INFO);
         this.listener = listener;
         this.app = app;
         LOGGER.log(Level.FINE, "thread to accept new client corectly initialized");
@@ -42,15 +42,17 @@ public class AcceptUserThread extends Thread{
     @Override
     public void run() {
         try {
-            LOGGER.log(Level.INFO, "thread to accept new client is running");
+            LOGGER.log(Level.INFO, "thread that accept new client is running");
             while (!this.isInterrupted()) {
                 //accept client connection request
                 Socket socketOfServer = listener.accept();
 
+                LOGGER.log(Level.INFO, "new connection detected");
                 //create new Socket at server
                 new ServiceThread(socketOfServer, clientNumber++, app).start();
+
             }
-            LOGGER.log(Level.SEVERE, "thread stopped");
+            LOGGER.log(Level.SEVERE, "AcceptUserThread stopped");
         } catch (final Exception e) {
             if(!this.isInterrupted()) {
                 LOGGER.log(Level.SEVERE, "Error while trying to accept new user", e);

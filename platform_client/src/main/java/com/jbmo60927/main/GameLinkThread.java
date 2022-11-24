@@ -15,11 +15,12 @@ import com.jbmo60927.packets.level_packet.ReceivedLevelPacket;
 import com.jbmo60927.packets.new_joiner_packet.ReceivedNewJoinerPacket;
 import com.jbmo60927.packets.new_player_packet.ReceivedNewPlayerPacket;
 import com.jbmo60927.packets.position_packet.ReceivedPositionPacket;
+import com.jbmo60927.packets.reception_packet.SendReceptionPacket;
 import com.jbmo60927.packets.remove_player_packet.ReceivedRemovePlayerPacket;
 import com.jbmo60927.packets.version_packet.ReceivedVersionPacket;
 import com.jbmo60927.packets.version_packet.SendVersionPacket;
 import com.jbmo60927.packets.welcome_packet.ReceivedWelcomePacket;
-import com.jbmo60927.utilz.Constants.PacketType;
+import com.jbmo60927.packets.Packet.PacketType;
 import com.jbmo60927.App;
 
 public class GameLinkThread extends Thread {
@@ -41,48 +42,37 @@ public class GameLinkThread extends Thread {
         is = new BufferedReader(new InputStreamReader(socketOfClient.getInputStream()));
         os = new BufferedWriter(new OutputStreamWriter(socketOfClient.getOutputStream()));
 
-        String line;
         //receive data from server
-        do {
-            line = is.readLine();
-        } while (line.getBytes()[0] != (byte) PacketType.WELCOME);
-        createPacket(line);
+        receive((byte) PacketType.WELCOME);
 
-        sendPacket((new SendVersionPacket()).toString());
+        sendPacket(new SendVersionPacket().toString());
         
+        receive((byte) PacketType.VERSION);
+
+        sendPacket(new SendReceptionPacket(true).toString());
+
+        receive((byte) PacketType.LEVEL);
+
+    }
+
+    private void receive(byte packetType) throws IOException {
+        String line;
         do {
             line = is.readLine();
-        } while (line.getBytes()[0] != (byte) PacketType.VERSION);
+        } while (line.getBytes()[0] != packetType);
         createPacket(line);
-
     }
 
     @Override
     public void run() {
+        String line;
         try {
-            // Open input and output streams
-
             while (true) {
-                String line = is.readLine();
-                LOGGER.log(Level.FINEST, () -> String.format("new paquet: %s", line));
-
-                if (line.split(" ")[0].compareTo("PLAYER") == 0) {
-                    updatePlayerPosition(line);
-                } else if(line.split(" ")[0].compareTo("NEWPLAYER") == 0) {
-                    LOGGER.log(Level.INFO, () -> String.format("%s joined the server", line.split(" ")[4]));
-                    app.getPlaying().getPlayers().put(Integer.parseInt(line.split(" ")[1]), new OtherPlayer(Float.parseFloat(line.split(" ")[2]), Float.parseFloat(line.split(" ")[3]), line.split(" ")[4]));
-                } else if(line.split(" ")[0].compareTo("REMOVEPLAYER") == 0) {
-                    LOGGER.log(Level.INFO, () -> String.format("%s leave the server", app.getPlaying().getPlayers().get(Integer.parseInt(line.split(" ")[1]))));
-                    app.getPlaying().getPlayers().remove(Integer.parseInt(line.split(" ")[1]));
-
-                } else {
-                    LOGGER.log(Level.INFO, line);
-                }
+                    line = is.readLine();
+                LOGGER.log(Level.INFO, line);
             }
-
         } catch (IOException e) {
-            if(!("Stream closed".equals(e.getMessage()) || "Socket closed".equals(e.getMessage())))
-                e.printStackTrace();
+            LOGGER.log(Level.SEVERE, "error during the thread", e);
         }
     }
 
@@ -139,7 +129,7 @@ public class GameLinkThread extends Thread {
                 new ReceivedVersionPacket(parameters).execute();
                 break;
             case PacketType.LEVEL:
-                new ReceivedLevelPacket(parameters);
+                new ReceivedLevelPacket(parameters).execute();
                 break;
             case PacketType.NEWJOINER:
                 new ReceivedNewJoinerPacket(parameters);

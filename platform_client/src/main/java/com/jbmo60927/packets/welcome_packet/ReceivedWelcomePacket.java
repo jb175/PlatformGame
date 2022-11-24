@@ -4,7 +4,6 @@ import java.nio.charset.StandardCharsets;
 import java.util.logging.Level;
 
 import com.jbmo60927.packets.ReceivedPacket;
-import com.jbmo60927.utilz.Constants.PacketType;
 
 public class ReceivedWelcomePacket extends ReceivedPacket implements WelcomePacket{
     public ReceivedWelcomePacket(byte[] parameters) {

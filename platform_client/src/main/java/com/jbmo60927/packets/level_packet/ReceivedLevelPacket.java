@@ -1,7 +1,9 @@
 package com.jbmo60927.packets.level_packet;
 
+import java.nio.charset.StandardCharsets;
+import java.util.logging.Level;
+
 import com.jbmo60927.packets.ReceivedPacket;
-import com.jbmo60927.utilz.Constants.PacketType;
 
 public class ReceivedLevelPacket extends ReceivedPacket implements LevelPacket{
 
@@ -11,6 +13,18 @@ public class ReceivedLevelPacket extends ReceivedPacket implements LevelPacket{
 
     @Override
     public void execute() {
-        // TODO Auto-generated method stub
+        if(LOGGER.isLoggable(Level.INFO))
+            LOGGER.log(Level.INFO, new String(parameters, StandardCharsets.UTF_8));
+
+        // int columnSize = parameters[0];
+        // int lineSize = parameters[1];
+
+        // int[][] level = new int[columnSize][lineSize];
+
+        // for (int i = 0; i < columnSize; i++) {
+        //     for (int j = 0; j < lineSize; j++) {
+        //         level[i][j] = parameters[i*lineSize+j+2];
+        //     }
+        // }
     }
 }

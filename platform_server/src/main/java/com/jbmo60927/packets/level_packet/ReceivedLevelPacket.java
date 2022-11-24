@@ -1,7 +1,6 @@
 package com.jbmo60927.packets.level_packet;
 
 import com.jbmo60927.packets.ReceivedPacket;
-import com.jbmo60927.utilz.Constants.PacketType;
 
 public class ReceivedLevelPacket extends ReceivedPacket implements LevelPacket{
 

@@ -3,11 +3,10 @@ package com.jbmo60927.packets.welcome_packet;
 import java.nio.charset.StandardCharsets;
 
 import com.jbmo60927.packets.SendPacket;
-import com.jbmo60927.utilz.Constants.PacketType;
 
 public class SendWelcomePacket extends SendPacket implements WelcomePacket{
 
-    private static final String MESSAGE = "Welcome to the Platform Game. See more information at https://github.com/jb175/PlatformGame";
+    private static final String MESSAGE = "";
     private static final byte[] packet;
 
     static {

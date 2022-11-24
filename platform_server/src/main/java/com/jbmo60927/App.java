@@ -1,6 +1,8 @@
 package com.jbmo60927;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.net.ServerSocket;
@@ -14,6 +16,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.jbmo60927.entities.Player;
+import com.jbmo60927.levels.LevelHandler;
 import com.jbmo60927.logger.MyLogger;
 import com.jbmo60927.thread.AcceptUserThread;
 import com.jbmo60927.thread.ServiceThread;
@@ -30,6 +33,11 @@ public final class App {
     private final HashMap<ServiceThread,Player> players = new HashMap<>(); //map of all player and their thread
     private final PropertyFile propertyFile; //property file
     private final String propertyFileName = "com/jbmo60927/properties/server.xml"; //path for the property file
+    private final BufferedReader ks; //keyboard input stream
+
+    public static final int TILE_IN_WIDTH = 26;
+    public static final int TILE_IN_HEIGHT = 14;
+    private LevelHandler LevelHandler;
 
     //logger for this class
     private static final Logger LOGGER = Logger.getLogger(App.class.getName());
@@ -49,6 +57,9 @@ public final class App {
         this.version = readStringProperty(this.propertyFile, "version");
         this.localPort = readIntProperty(this.propertyFile, "port");
 
+        //read levelData
+        LevelHandler = new LevelHandler();
+
         //open the selected port
         ServerSocket listener = null;
         try {
@@ -63,11 +74,13 @@ public final class App {
             //allow client to connect to the port
             acceptUserThread = new AcceptUserThread(listener, this);
             acceptUserThread.start();
+
+            ks = new BufferedReader(new InputStreamReader(System.in));
             LOGGER.log(Level.INFO, () -> String.format("Server (ip:%s port:%s) is waiting to accept user...", getIpV4Address(), Integer.toString(localPort)));
 
-
-            while (true) {
-                //wait for the server to be stopped
+            String str;
+            while ((str = ks.readLine()) != null) {
+                LOGGER.log(Level.INFO, str);
             }
         
         //stop the server
@@ -172,6 +185,10 @@ public final class App {
 
     public String getVersion() {
         return this.version;
+    }
+
+    public LevelHandler getLevelHandler() {
+        return this.LevelHandler;
     }
 
     /**

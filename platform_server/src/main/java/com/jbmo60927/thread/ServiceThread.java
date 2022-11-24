@@ -3,6 +3,7 @@ package com.jbmo60927.thread;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.Socket;
@@ -11,13 +12,16 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.jbmo60927.App;
+import com.jbmo60927.errors.UnknowPacketError;
+import com.jbmo60927.packets.level_packet.SendLevelPacket;
 import com.jbmo60927.packets.new_joiner_packet.ReceivedNewJoinerPacket;
 import com.jbmo60927.packets.position_packet.ReceivedPositionPacket;
 import com.jbmo60927.packets.quit_packet.ReceivedQuitPacket;
+import com.jbmo60927.packets.reception_packet.ReceivedReceptionPacket;
 import com.jbmo60927.packets.version_packet.ReceivedVersionPacket;
 import com.jbmo60927.packets.version_packet.SendVersionPacket;
 import com.jbmo60927.packets.welcome_packet.SendWelcomePacket;
-import com.jbmo60927.utilz.Constants.PacketType;
+import com.jbmo60927.packets.Packet.PacketType;
 
 public class ServiceThread extends Thread {
 
@@ -47,17 +51,23 @@ public class ServiceThread extends Thread {
         is = new BufferedReader(new InputStreamReader(socketOfServer.getInputStream()));
         os = new BufferedWriter(new OutputStreamWriter(socketOfServer.getOutputStream()));
 
+        sendPacket(new SendWelcomePacket().toString());
+
+        receive((byte) PacketType.VERSION);
+
+        sendPacket(new SendVersionPacket(app, this).toString());
+
+        receive((byte) PacketType.RECEPTION);
+
+        sendPacket(new SendLevelPacket(app).toString());
+    }
+
+    private void receive(byte packetType) throws IOException {
         String line;
-
-        sendPacket((new SendWelcomePacket()).toString());
-
         do {
             line = is.readLine();
-        } while (line.getBytes()[0] != (byte) PacketType.VERSION);
+        } while (line.getBytes()[0] != packetType);
         createPacket(line);
-
-        sendPacket((new SendVersionPacket(app, this)).toString());
-
     }
 
     /**
@@ -66,38 +76,7 @@ public class ServiceThread extends Thread {
     @Override
     public void run() {
         try {
-            while (true) {
-
-                //read data to the server (sent from client).
-                final String line = is.readLine();
-
-                //log the paquet
-                LOGGER.log(Level.FINEST, () -> String.format("paquet received: %s", line));
-
-                //new position for a player
-                if (line.split(" ")[0].compareTo("PLAYER") == 0) {
-                    app.getPlayers().get(this).setX(Float.parseFloat(line.split(" ")[1]));
-                    app.getPlayers().get(this).setY(Float.parseFloat(line.split(" ")[2]));
-                    app.getPlayers().get(this).setPlayerAction(Integer.parseInt(line.split(" ")[3]));
-                    broadcast(String.format("PLAYER %d %s", clientNumber, line.replace("PLAYER ", "")));
-
-                //if users send QUIT (To end conversation).
-                } else if (line.equals("QUIT")) {
-                    app.getPlayers().remove(this);
-                    broadcast(String.format("REMOVEPLAYER %d", clientNumber));
-
-                    is.close();
-                    os.close();
-                    LOGGER.log(Level.INFO, () -> String.format("Connection stop with client# %d at %s", this.clientNumber, this.socketOfServer.getInetAddress().toString().replace("/", "")));
-
-                    break;
-                
-                //else display command
-                } else {
-                    LOGGER.log(Level.INFO, line);
-                }
-            }
-
+            
         //error
         } catch (final Exception e) {
             LOGGER.log(Level.SEVERE, "error during the service thread", e);
@@ -146,7 +125,7 @@ public class ServiceThread extends Thread {
         }
     }
 
-    public void createPacket(String data){
+    public void createPacket(String data) throws UnknowPacketError{
         byte[] byteArray = data.getBytes(StandardCharsets.UTF_8);
         byte[] parameters = new byte[byteArray.length-1];
         for (int i = 0; i < parameters.length; i++) {
@@ -165,9 +144,11 @@ public class ServiceThread extends Thread {
             case PacketType.QUIT:
                 new ReceivedQuitPacket(parameters).execute();
                 break;
-            default:
-                LOGGER.log(Level.SEVERE, "a packet has been received and allow to be interpreted but not recognize by the function");
+            case PacketType.RECEPTION:
+                new ReceivedReceptionPacket(parameters).execute();
                 break;
+            default:
+                throw new UnknowPacketError();
         }
     }
 

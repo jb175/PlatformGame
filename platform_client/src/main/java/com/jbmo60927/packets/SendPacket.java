@@ -4,11 +4,8 @@ import java.nio.charset.StandardCharsets;
 
 public abstract class SendPacket extends Packet {
 
-    private final int packetType;
-
     protected SendPacket(int packetType, byte[] parameters) {
         super(packetType, parameters);
-        this.packetType = packetType;
     }
 
     public String toString() {

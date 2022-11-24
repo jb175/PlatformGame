@@ -3,7 +3,6 @@ package com.jbmo60927.packets.version_packet;
 import com.jbmo60927.App;
 import com.jbmo60927.packets.ReceivedPacket;
 import com.jbmo60927.thread.ServiceThread;
-import com.jbmo60927.utilz.Constants.PacketType;
 import java.util.Objects;
 import java.util.logging.Level;
 
@@ -24,7 +23,7 @@ public class ReceivedVersionPacket extends ReceivedPacket implements VersionPack
         if (!Objects.equals(serviceThread.getClientVersion(), app.getVersion())) {
             throw new VersionError();
         } else {
-            LOGGER.log(Level.FINE, "Versions are similare");
+            LOGGER.log(Level.INFO, () -> String.format("Versions with client#%d are similare", serviceThread.getClientNumber()));
         }
     }
 

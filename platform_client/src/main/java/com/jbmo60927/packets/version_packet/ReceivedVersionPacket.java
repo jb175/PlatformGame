@@ -1,7 +1,6 @@
 package com.jbmo60927.packets.version_packet;
 
 import com.jbmo60927.packets.ReceivedPacket;
-import com.jbmo60927.utilz.Constants.PacketType;
 
 import java.util.logging.Level;
 
