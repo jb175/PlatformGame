@@ -193,46 +193,45 @@
 </file>
 <file name="/home/jb/Project/java/PlatformGame/platform_server/src/main/java/com/jbmo60927/thread/ServiceThread.java">
 <error line="1" severity="error" message="Il manque un caractère NewLine à la fin du fichier." source="com.puppycrawl.tools.checkstyle.checks.NewlineAtEndOfFileCheck"/>
-<error line="6" column="8" severity="error" message="Import inutilisé - java.io.FileOutputStream." source="com.puppycrawl.tools.checkstyle.checks.imports.UnusedImportsCheck"/>
-<error line="10" column="8" severity="error" message="Import inutilisé - java.io.OutputStream." source="com.puppycrawl.tools.checkstyle.checks.imports.UnusedImportsCheck"/>
-<error line="18" column="1" severity="error" message="Séparation supplémentaire dans le groupe d&apos;importation avant &apos;org.jsoup.Jsoup&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
-<error line="22" column="1" severity="error" message="L&apos;ordre d&apos;import n&apos;est pas respecté : &apos;com.jbmo60927.App&apos;." source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
-<error line="22" column="1" severity="error" message="Séparation supplémentaire dans le groupe d&apos;importation avant &apos;com.jbmo60927.App&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
-<error line="25" column="1" severity="error" message="Commentaire Javadoc manquant." source="com.puppycrawl.tools.checkstyle.checks.javadoc.MissingJavadocTypeCheck"/>
-<error line="34" severity="error" message="La première ligne de la Javadoc doit se terminer avec un point." source="com.puppycrawl.tools.checkstyle.checks.javadoc.JavadocStyleCheck"/>
-<error line="39" severity="error" message="Line has trailing spaces." source="com.puppycrawl.tools.checkstyle.checks.regexp.RegexpSinglelineCheck"/>
-<error line="51" severity="error" message="Line has trailing spaces." source="com.puppycrawl.tools.checkstyle.checks.regexp.RegexpSinglelineCheck"/>
-<error line="60" column="49" severity="error" message="&apos;3&apos; devrait être défini comme une constante." source="com.puppycrawl.tools.checkstyle.checks.coding.MagicNumberCheck"/>
-<error line="61" severity="error" message="Line has trailing spaces." source="com.puppycrawl.tools.checkstyle.checks.regexp.RegexpSinglelineCheck"/>
-<error line="64" severity="error" message="Line has trailing spaces." source="com.puppycrawl.tools.checkstyle.checks.regexp.RegexpSinglelineCheck"/>
-<error line="66" column="82" severity="error" message="Il manque une espace après &apos;+&apos;." source="com.puppycrawl.tools.checkstyle.checks.whitespace.WhitespaceAroundCheck"/>
-<error line="66" column="82" severity="error" message="Il manque une espace avant &apos;+&apos;." source="com.puppycrawl.tools.checkstyle.checks.whitespace.WhitespaceAroundCheck"/>
-<error line="67" severity="error" message="Line has trailing spaces." source="com.puppycrawl.tools.checkstyle.checks.regexp.RegexpSinglelineCheck"/>
-<error line="69" column="17" severity="error" message="Il manque une espace après &apos;if&apos;." source="com.puppycrawl.tools.checkstyle.checks.whitespace.WhitespaceAfterCheck"/>
-<error line="70" severity="error" message="La ligne excède 120 caractères (trouvé 209)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
-<error line="75" severity="error" message="Line has trailing spaces." source="com.puppycrawl.tools.checkstyle.checks.regexp.RegexpSinglelineCheck"/>
-<error line="80" severity="error" message="Line has trailing spaces." source="com.puppycrawl.tools.checkstyle.checks.regexp.RegexpSinglelineCheck"/>
-<error line="82" severity="error" message="La ligne excède 120 caractères (trouvé 196)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
-<error line="83" severity="error" message="Line has trailing spaces." source="com.puppycrawl.tools.checkstyle.checks.regexp.RegexpSinglelineCheck"/>
-<error line="85" column="11" severity="error" message="Catcher l&apos;exception &apos;Exception&apos; est prohibé." source="com.puppycrawl.tools.checkstyle.checks.coding.IllegalCatchCheck"/>
-<error line="86" severity="error" message="La ligne excède 120 caractères (trouvé 164)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
-<error line="87" severity="error" message="La ligne excède 120 caractères (trouvé 164)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
-<error line="87" column="76" severity="error" message="Il manque une espace après &apos;+&apos;." source="com.puppycrawl.tools.checkstyle.checks.whitespace.WhitespaceAroundCheck"/>
-<error line="87" column="76" severity="error" message="Il manque une espace avant &apos;+&apos;." source="com.puppycrawl.tools.checkstyle.checks.whitespace.WhitespaceAroundCheck"/>
-<error line="87" column="141" severity="error" message="Il manque une espace après &apos;+&apos;." source="com.puppycrawl.tools.checkstyle.checks.whitespace.WhitespaceAroundCheck"/>
-<error line="87" column="141" severity="error" message="Il manque une espace avant &apos;+&apos;." source="com.puppycrawl.tools.checkstyle.checks.whitespace.WhitespaceAroundCheck"/>
-<error line="94" severity="error" message="Line has trailing spaces." source="com.puppycrawl.tools.checkstyle.checks.regexp.RegexpSinglelineCheck"/>
-<error line="97" severity="error" message="La ligne excède 120 caractères (trouvé 126)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
-<error line="106" severity="error" message="La première ligne de la Javadoc doit se terminer avec un point." source="com.puppycrawl.tools.checkstyle.checks.javadoc.JavadocStyleCheck"/>
-<error line="124" column="97" severity="error" message="&apos;3&apos; devrait être défini comme une constante." source="com.puppycrawl.tools.checkstyle.checks.coding.MagicNumberCheck"/>
-<error line="128" column="39" severity="error" message="Les chaînes littérales devraient être sur le côté gauche d&apos;une comparaison &apos;equals&apos;." source="com.puppycrawl.tools.checkstyle.checks.coding.EqualsAvoidNullCheck"/>
-<error line="134" severity="error" message="La ligne excède 120 caractères (trouvé 190)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
-<error line="137" severity="error" message="Line has trailing spaces." source="com.puppycrawl.tools.checkstyle.checks.regexp.RegexpSinglelineCheck"/>
-<error line="145" column="11" severity="error" message="Catcher l&apos;exception &apos;Exception&apos; est prohibé." source="com.puppycrawl.tools.checkstyle.checks.coding.IllegalCatchCheck"/>
-<error line="150" severity="error" message="La première ligne de la Javadoc doit se terminer avec un point." source="com.puppycrawl.tools.checkstyle.checks.javadoc.JavadocStyleCheck"/>
-<error line="158" severity="error" message="La première ligne de la Javadoc doit se terminer avec un point." source="com.puppycrawl.tools.checkstyle.checks.javadoc.JavadocStyleCheck"/>
-<error line="166" severity="error" message="La première ligne de la Javadoc doit se terminer avec un point." source="com.puppycrawl.tools.checkstyle.checks.javadoc.JavadocStyleCheck"/>
-<error line="174" column="13" severity="error" message="Il manque une espace après &apos;if&apos;." source="com.puppycrawl.tools.checkstyle.checks.whitespace.WhitespaceAfterCheck"/>
+<error line="15" column="1" severity="error" message="Séparation supplémentaire dans le groupe d&apos;importation avant &apos;org.jsoup.Jsoup&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="19" column="1" severity="error" message="L&apos;ordre d&apos;import n&apos;est pas respecté : &apos;com.jbmo60927.App&apos;." source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="19" column="1" severity="error" message="Séparation supplémentaire dans le groupe d&apos;importation avant &apos;com.jbmo60927.App&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="22" column="1" severity="error" message="Commentaire Javadoc manquant." source="com.puppycrawl.tools.checkstyle.checks.javadoc.MissingJavadocTypeCheck"/>
+<error line="37" severity="error" message="La première ligne de la Javadoc doit se terminer avec un point." source="com.puppycrawl.tools.checkstyle.checks.javadoc.JavadocStyleCheck"/>
+<error line="42" severity="error" message="Line has trailing spaces." source="com.puppycrawl.tools.checkstyle.checks.regexp.RegexpSinglelineCheck"/>
+<error line="58" column="76" severity="error" message="Il manque une espace après &apos;+&apos;." source="com.puppycrawl.tools.checkstyle.checks.whitespace.WhitespaceAroundCheck"/>
+<error line="58" column="76" severity="error" message="Il manque une espace avant &apos;+&apos;." source="com.puppycrawl.tools.checkstyle.checks.whitespace.WhitespaceAroundCheck"/>
+<error line="58" column="79" severity="error" message="Il manque une espace après &apos;+&apos;." source="com.puppycrawl.tools.checkstyle.checks.whitespace.WhitespaceAroundCheck"/>
+<error line="58" column="79" severity="error" message="Il manque une espace avant &apos;+&apos;." source="com.puppycrawl.tools.checkstyle.checks.whitespace.WhitespaceAroundCheck"/>
+<error line="69" column="40" severity="error" message="&apos;3&apos; devrait être défini comme une constante." source="com.puppycrawl.tools.checkstyle.checks.coding.MagicNumberCheck"/>
+<error line="71" column="31" severity="error" message="&apos;3&apos; devrait être défini comme une constante." source="com.puppycrawl.tools.checkstyle.checks.coding.MagicNumberCheck"/>
+<error line="73" column="35" severity="error" message="&apos;3&apos; devrait être défini comme une constante." source="com.puppycrawl.tools.checkstyle.checks.coding.MagicNumberCheck"/>
+<error line="74" column="11" severity="error" message="Catcher l&apos;exception &apos;Exception&apos; est prohibé." source="com.puppycrawl.tools.checkstyle.checks.coding.IllegalCatchCheck"/>
+<error line="77" severity="error" message="Line has trailing spaces." source="com.puppycrawl.tools.checkstyle.checks.regexp.RegexpSinglelineCheck"/>
+<error line="86" column="49" severity="error" message="&apos;3&apos; devrait être défini comme une constante." source="com.puppycrawl.tools.checkstyle.checks.coding.MagicNumberCheck"/>
+<error line="87" severity="error" message="Line has trailing spaces." source="com.puppycrawl.tools.checkstyle.checks.regexp.RegexpSinglelineCheck"/>
+<error line="90" severity="error" message="Line has trailing spaces." source="com.puppycrawl.tools.checkstyle.checks.regexp.RegexpSinglelineCheck"/>
+<error line="92" column="82" severity="error" message="Il manque une espace après &apos;+&apos;." source="com.puppycrawl.tools.checkstyle.checks.whitespace.WhitespaceAroundCheck"/>
+<error line="92" column="82" severity="error" message="Il manque une espace avant &apos;+&apos;." source="com.puppycrawl.tools.checkstyle.checks.whitespace.WhitespaceAroundCheck"/>
+<error line="93" severity="error" message="Line has trailing spaces." source="com.puppycrawl.tools.checkstyle.checks.regexp.RegexpSinglelineCheck"/>
+<error line="95" column="17" severity="error" message="Il manque une espace après &apos;if&apos;." source="com.puppycrawl.tools.checkstyle.checks.whitespace.WhitespaceAfterCheck"/>
+<error line="96" severity="error" message="La ligne excède 120 caractères (trouvé 209)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
+<error line="101" severity="error" message="Line has trailing spaces." source="com.puppycrawl.tools.checkstyle.checks.regexp.RegexpSinglelineCheck"/>
+<error line="106" severity="error" message="Line has trailing spaces." source="com.puppycrawl.tools.checkstyle.checks.regexp.RegexpSinglelineCheck"/>
+<error line="108" severity="error" message="La ligne excède 120 caractères (trouvé 235)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
+<error line="109" severity="error" message="Line has trailing spaces." source="com.puppycrawl.tools.checkstyle.checks.regexp.RegexpSinglelineCheck"/>
+<error line="111" column="11" severity="error" message="Catcher l&apos;exception &apos;Exception&apos; est prohibé." source="com.puppycrawl.tools.checkstyle.checks.coding.IllegalCatchCheck"/>
+<error line="112" severity="error" message="La ligne excède 120 caractères (trouvé 201)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
+<error line="117" severity="error" message="La première ligne de la Javadoc doit se terminer avec un point." source="com.puppycrawl.tools.checkstyle.checks.javadoc.JavadocStyleCheck"/>
+<error line="135" column="97" severity="error" message="&apos;3&apos; devrait être défini comme une constante." source="com.puppycrawl.tools.checkstyle.checks.coding.MagicNumberCheck"/>
+<error line="139" column="39" severity="error" message="Les chaînes littérales devraient être sur le côté gauche d&apos;une comparaison &apos;equals&apos;." source="com.puppycrawl.tools.checkstyle.checks.coding.EqualsAvoidNullCheck"/>
+<error line="145" severity="error" message="La ligne excède 120 caractères (trouvé 190)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
+<error line="148" severity="error" message="Line has trailing spaces." source="com.puppycrawl.tools.checkstyle.checks.regexp.RegexpSinglelineCheck"/>
+<error line="156" column="11" severity="error" message="Catcher l&apos;exception &apos;Exception&apos; est prohibé." source="com.puppycrawl.tools.checkstyle.checks.coding.IllegalCatchCheck"/>
+<error line="161" severity="error" message="La première ligne de la Javadoc doit se terminer avec un point." source="com.puppycrawl.tools.checkstyle.checks.javadoc.JavadocStyleCheck"/>
+<error line="169" severity="error" message="La première ligne de la Javadoc doit se terminer avec un point." source="com.puppycrawl.tools.checkstyle.checks.javadoc.JavadocStyleCheck"/>
+<error line="177" severity="error" message="La première ligne de la Javadoc doit se terminer avec un point." source="com.puppycrawl.tools.checkstyle.checks.javadoc.JavadocStyleCheck"/>
+<error line="185" column="13" severity="error" message="Il manque une espace après &apos;if&apos;." source="com.puppycrawl.tools.checkstyle.checks.whitespace.WhitespaceAfterCheck"/>
 </file>
 <file name="/home/jb/Project/java/PlatformGame/platform_server/src/test/java/com/jbmo60927/AppTest.java">
 </file>
