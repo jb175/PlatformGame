@@ -7,9 +7,11 @@ import java.util.Objects;
 
 public class SendVersionPacket extends SendPacket implements VersionPacket {
 
-    byte[] packet = new byte[0];
-
     public SendVersionPacket(App app, ServiceThread serviceThread) {
-        super(PacketType.VERSION, new byte[Objects.equals(serviceThread.getClientVersion(), app.getVersion()) ? 1 : 0]);
+        super(PacketType.VERSION, setParameters(app, serviceThread));
+    }
+
+    protected static byte[] setParameters(App app, ServiceThread serviceThread) {
+        return new byte[Objects.equals(serviceThread.getClientVersion(), app.getVersion()) ? 1 : 0];
     }
 }

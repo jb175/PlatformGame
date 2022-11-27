@@ -4,7 +4,7 @@ import com.jbmo60927.packets.SendPacket;
 
 public class SendNewJoinerPacket extends SendPacket implements NewJoinerPacket {
 
-    public SendNewJoinerPacket(byte[] parameters) {
-        super(PacketType.NEWJOINER, parameters);
+    public SendNewJoinerPacket() {
+        super(PacketType.NEWJOINER, new byte[0]);
     }
 }

@@ -4,12 +4,11 @@ import com.jbmo60927.packets.ReceivedPacket;
 
 public class ReceivedNewJoinerPacket extends ReceivedPacket implements NewJoinerPacket {
 
-    public ReceivedNewJoinerPacket(byte[] parameters) {
-        super(PacketType.NEWJOINER, parameters);
+    public ReceivedNewJoinerPacket() {
+        super(PacketType.NEWJOINER, new byte[0]);
     }
 
     @Override
     public void execute() {
-        // TODO Auto-generated method stub
     }
 }

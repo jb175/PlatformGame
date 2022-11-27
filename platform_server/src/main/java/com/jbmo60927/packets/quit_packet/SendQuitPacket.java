@@ -5,6 +5,6 @@ import com.jbmo60927.packets.SendPacket;
 public class SendQuitPacket extends SendPacket implements QuitPacket{
 
     public SendQuitPacket() {
-        super(PacketType.QUIT, new byte[] {});
+        super(PacketType.QUIT, new byte[0]);
     }
 }

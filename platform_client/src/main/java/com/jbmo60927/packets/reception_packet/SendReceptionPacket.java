@@ -4,7 +4,7 @@ import com.jbmo60927.packets.SendPacket;
 
 public class SendReceptionPacket extends SendPacket implements ReceptionPacket{
 
-    public SendReceptionPacket(Boolean valid) {
-        super(PacketType.RECEPTION, new byte[] {(byte) (Boolean.TRUE.equals(valid)?1:0)});
+    public SendReceptionPacket() {
+        super(PacketType.RECEPTION, new byte[0]);
     }
 }

@@ -4,8 +4,8 @@ import com.jbmo60927.packets.ReceivedPacket;
 
 public class ReceivedQuitPacket extends ReceivedPacket implements QuitPacket {
 
-    public ReceivedQuitPacket(byte[] parameters) {
-        super(PacketType.QUIT, parameters);
+    public ReceivedQuitPacket() {
+        super(PacketType.QUIT, new byte[] {});
     }
 
     @Override

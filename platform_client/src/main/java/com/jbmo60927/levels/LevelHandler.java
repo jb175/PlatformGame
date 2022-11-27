@@ -8,14 +8,17 @@ import java.awt.image.BufferedImage;
 
 public class LevelHandler {
 
+    public static final int LEVELNUMBER = 10;
+
     // private Game game;
     private BufferedImage[] levelSprite;
-    private Level levelOne;
+    private Level[] levels = new Level[LEVELNUMBER+1];
+    private int currentLevel = 0;
 
     public LevelHandler(App game) {
         // this.game = game;
         importOutsideSprites();
-        levelOne = new Level(LoadSave.getLevelData());
+        levels[0] = new Level(LoadSave.getLevelData());
     }
 
     private void importOutsideSprites() {
@@ -32,7 +35,7 @@ public class LevelHandler {
         
         for (int j = 0; j < App.TILE_IN_HEIGHT; j++)
             for (int i = 0; i < App.TILE_IN_WIDTH; i++) {
-                int index = levelOne.GetSpriteIndex(i, j);
+                int index = levels[currentLevel].GetSpriteIndex(i, j);
                 g.drawImage(levelSprite[index], i * App.TILE_SIZE, j * App.TILE_SIZE, App.TILE_SIZE, App.TILE_SIZE , null);
             }
     }
@@ -42,6 +45,25 @@ public class LevelHandler {
     }
 
     public Level getCurrentLevel() {
-        return levelOne;
+        return levels[currentLevel];
+    }
+
+    public void setCurrentLevel(int currentLevel) {
+        this.currentLevel = currentLevel;
+    }
+
+    public Level[] getLevels() {
+        return levels;
+    }
+
+    /**
+     * 
+     * @param leveldata
+     * @param number between 0 and 10
+     */
+    public void addLevel(int[][] leveldata, int number) {
+        if (number >= 0 && number < LEVELNUMBER) {
+            levels[number+1] = new Level(leveldata);
+        }
     }
 }

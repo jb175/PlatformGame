@@ -6,19 +6,9 @@ import com.jbmo60927.packets.SendPacket;
 
 public class SendWelcomePacket extends SendPacket implements WelcomePacket{
 
-    private static final String MESSAGE = "";
-    private static final byte[] packet;
-
-    static {
-        byte[] packetMessage = MESSAGE.getBytes(StandardCharsets.UTF_8);
-        packet = new byte[packetMessage.length+1];
-        packet[0] = PacketType.WELCOME;
-        for (int i = 0; i < packetMessage.length; i++) {
-            packet[i+1] = packetMessage[i];
-        }
-    }
+    private static final String MESSAGE = "Hi, i'm a new client";
 
     public SendWelcomePacket() {
-        super(PacketType.WELCOME, packet);
+        super(PacketType.WELCOME, MESSAGE.getBytes(StandardCharsets.UTF_8));
     }
 }

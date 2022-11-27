@@ -16,7 +16,7 @@ public class Playing extends State implements StateMethods {
 
     private MovablePlayer player;
     private HashMap<Integer, OtherPlayer> players = new HashMap<>();
-    private LevelHandler LevelHandler;
+    private LevelHandler levelHandler;
 
     public Playing(App app) {
         super(app);
@@ -24,9 +24,9 @@ public class Playing extends State implements StateMethods {
     }
 
     private void initClasses() {
-        LevelHandler = new LevelHandler(app);
+        levelHandler = new LevelHandler(app);
         player = new MovablePlayer(130*App.SCALE, 130*App.SCALE);
-        player.loadLvlData(LevelHandler.getCurrentLevel().getLvlData());
+        player.loadLvlData(levelHandler.getCurrentLevel().getLvlData());
     }
 
     public MovablePlayer getPlayer() {
@@ -35,6 +35,10 @@ public class Playing extends State implements StateMethods {
 
     public HashMap<Integer, OtherPlayer> getPlayers() {
         return players;
+    }
+
+    public LevelHandler getLevelHandler() {
+        return levelHandler;
     }
 
     @Override
@@ -46,14 +50,14 @@ public class Playing extends State implements StateMethods {
             int index = it.next();
             players.get(index).update();
         }
-        LevelHandler.update();
+        levelHandler.update();
         //send updates to other players
         app.getConnect().getGameLinkThread().sendUpdates();
     }
 
     @Override
     public void draw(Graphics g) {
-        LevelHandler.draw(g); //level behind player
+        levelHandler.draw(g); //level behind player
         player.render(g, app.hitbox);
         for (Iterator<Integer> it = players.keySet().iterator(); it.hasNext(); ) {
             int index = it.next();
@@ -123,5 +127,14 @@ public class Playing extends State implements StateMethods {
             default:
                 break;
 		}
+    }
+
+    public void changeCurrentLevel(int levelNumber) {
+        if(levelNumber >= 0 && levelNumber < 10 && levelHandler.getLevels()[levelNumber+1] != null) {
+            levelHandler.setCurrentLevel(levelNumber+1);
+        } else {
+            levelHandler.setCurrentLevel(0);
+        }
+        player.loadLvlData(levelHandler.getCurrentLevel().getLvlData());
     }
 }

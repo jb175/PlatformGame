@@ -7,13 +7,7 @@ import com.jbmo60927.packets.SendPacket;
 
 public class SendVersionPacket extends SendPacket implements VersionPacket {
 
-    private static final byte[] packet;
-
-    static {
-        packet= App.VERSION.getBytes(StandardCharsets.UTF_8);
-    }
-
     public SendVersionPacket() {
-        super(PacketType.VERSION, packet);
+        super(PacketType.VERSION, App.VERSION.getBytes(StandardCharsets.UTF_8));
     }
 }

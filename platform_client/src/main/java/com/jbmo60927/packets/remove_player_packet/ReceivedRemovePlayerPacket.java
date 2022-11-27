@@ -4,12 +4,11 @@ import com.jbmo60927.packets.ReceivedPacket;
 
 public class ReceivedRemovePlayerPacket extends ReceivedPacket implements RemovePlayerPacket {
 
-    public ReceivedRemovePlayerPacket(byte[] parameters) {
-        super(PacketType.REMOVEPLAYER, parameters);
+    public ReceivedRemovePlayerPacket() {
+        super(PacketType.REMOVEPLAYER, new byte[0]);
     }
 
     @Override
     public void execute() {
-        // TODO Auto-generated method stub
     }
 }

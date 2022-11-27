@@ -47,6 +47,8 @@ public final class App implements Runnable {
     public int port;
     public String name;
     public Boolean hitbox;
+
+    private static final boolean DISPLAYFPS = false;
     
     //value initialized when data is read from a file
     public static final int TILE_SIZE;
@@ -228,7 +230,7 @@ public final class App implements Runnable {
             }
 
             //display FPS & UPS
-            if (System.currentTimeMillis() - lastCheck >= 1000) {
+            if (DISPLAYFPS && System.currentTimeMillis() - lastCheck >= 1000) {
                 lastCheck += 1000; //add one second to the timer
                 System.out.println(String.format("FPS: %s | UPS:%s", frames, updates)); //display values
                 frames=0; //reset frame counter

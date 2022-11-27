@@ -1,27 +1,29 @@
 package com.jbmo60927.thread;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
+import java.io.OutputStream;
 import java.net.Socket;
 import java.nio.charset.StandardCharsets;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.jbmo60927.App;
-import com.jbmo60927.errors.UnknowPacketError;
-import com.jbmo60927.packets.level_packet.SendLevelPacket;
-import com.jbmo60927.packets.new_joiner_packet.ReceivedNewJoinerPacket;
+import com.jbmo60927.packets.welcome_packet.ReceivedWelcomePacket;
+import com.jbmo60927.packets.welcome_packet.SendWelcomePacket;
+import com.jbmo60927.packets.Packet;
+import com.jbmo60927.packets.ReceivedPacket;
+import com.jbmo60927.packets.SendPacket;
+import com.jbmo60927.packets.Packet.PacketType;
+import com.jbmo60927.packets.join_packet.ReceivedJoinPacket;
 import com.jbmo60927.packets.position_packet.ReceivedPositionPacket;
 import com.jbmo60927.packets.quit_packet.ReceivedQuitPacket;
 import com.jbmo60927.packets.reception_packet.ReceivedReceptionPacket;
+import com.jbmo60927.packets.reception_packet.SendReceptionPacket;
+import com.jbmo60927.packets.set_level_packet.SendSetLevelPacket;
 import com.jbmo60927.packets.version_packet.ReceivedVersionPacket;
 import com.jbmo60927.packets.version_packet.SendVersionPacket;
-import com.jbmo60927.packets.welcome_packet.SendWelcomePacket;
-import com.jbmo60927.packets.Packet.PacketType;
+import static com.jbmo60927.utilz.HelpsMethods.bytesToInt;
 
 public class ServiceThread extends Thread {
 
@@ -29,8 +31,8 @@ public class ServiceThread extends Thread {
     private final int clientNumber; //id of the client
     private final Socket socketOfServer; //socket of the client
     private final App app; //link to the data
-    private final BufferedReader is; //input stream
-    private final BufferedWriter os; //output stream
+    private final InputStream is; //input stream
+    private final OutputStream os; //output stream
 
     private String clientVersion = "";
 
@@ -42,32 +44,23 @@ public class ServiceThread extends Thread {
      * @throws IOException exception that could occure when the communication is closed badly 
      */
     public ServiceThread(final Socket socketOfServer, final int clientNumber, final App app) throws IOException {
-        LOGGER.setLevel(Level.INFO);
+        LOGGER.setLevel(Level.FINEST);
         this.clientNumber = clientNumber;
         this.socketOfServer = socketOfServer;
         this.app = app;
 
         //open input and output streams
-        is = new BufferedReader(new InputStreamReader(socketOfServer.getInputStream()));
-        os = new BufferedWriter(new OutputStreamWriter(socketOfServer.getOutputStream()));
+        is = socketOfServer.getInputStream();
+        os = socketOfServer.getOutputStream();
 
-        sendPacket(new SendWelcomePacket().toString());
+        sendPacket(new SendWelcomePacket());
+        receiveInit(PacketType.WELCOME);
+        sendPacket(new SendReceptionPacket());
+        receiveInit(PacketType.VERSION);
+        sendPacket(new SendVersionPacket(app, this));
+        receiveInit(PacketType.RECEPTION);
+        sendPacket(new SendSetLevelPacket(app.getLevelHandler().getLevel(0)));
 
-        receive((byte) PacketType.VERSION);
-
-        sendPacket(new SendVersionPacket(app, this).toString());
-
-        receive((byte) PacketType.RECEPTION);
-
-        sendPacket(new SendLevelPacket(app).toString());
-    }
-
-    private void receive(byte packetType) throws IOException {
-        String line;
-        do {
-            line = is.readLine();
-        } while (line.getBytes()[0] != packetType);
-        createPacket(line);
     }
 
     /**
@@ -76,20 +69,98 @@ public class ServiceThread extends Thread {
     @Override
     public void run() {
         try {
-            
+            while (true) {
+                
+            }
         //error
         } catch (final Exception e) {
             LOGGER.log(Level.SEVERE, "error during the service thread", e);
         }
     }
 
-    /**
-     * allow to write output from outside of the thread
-     * @return the buffer to write
-     */
-    public BufferedWriter getOs() {
-        return os;
+    private int readPacketType() throws IOException {
+        return bytesToInt(is.readNBytes(Packet.PACKETTYPEBYTES));
     }
+
+    private int readPacketSize() throws IOException {
+        return bytesToInt(is.readNBytes(Packet.PACKETSIZEBYTES));
+    }
+
+    private byte[] readPacketParameters(int packetSize) throws IOException {
+        return is.readNBytes(packetSize);
+    }
+
+    /**
+     * used to read a packet
+     * @return a message that could be displayed in logs
+     * @throws IOException if error with connection
+     */
+    private String receiveBase(boolean expectedType, byte packetTypeExpected) throws IOException {
+        int packetType;
+        int packetSize;
+        byte[] parameters;
+        do {
+            packetType = readPacketType();
+            packetSize = readPacketSize();
+            parameters = readPacketParameters(packetSize);
+            int logPacketType = packetType;
+            int logPacketSize = packetSize;
+            byte[] logParameters = parameters;
+            LOGGER.log(Level.FINEST, () -> String.format("packet receive: %d %d %s", logPacketType, logPacketSize, new String(logParameters, StandardCharsets.UTF_8)));
+        } while (expectedType && (packetType != packetTypeExpected));
+
+
+        ReceivedPacket receivedPacket = null;
+        switch (packetType) {
+            case PacketType.RECEPTION:
+                receivedPacket = new ReceivedReceptionPacket();
+                break;
+            case PacketType.WELCOME:
+                receivedPacket = new ReceivedWelcomePacket(parameters);
+                break;
+            case PacketType.VERSION:
+                receivedPacket = new ReceivedVersionPacket(parameters, app, this);
+                break;
+            case PacketType.JOIN:
+                receivedPacket = new ReceivedJoinPacket();
+                break;
+            case PacketType.QUIT:
+                receivedPacket = new ReceivedQuitPacket();
+                break;
+            case PacketType.POSITION:
+                receivedPacket = new ReceivedPositionPacket();
+                break;
+            default:
+                int logPacketType = packetType;
+                int logPacketSize = packetSize;
+                byte[] logParameters = parameters;
+                LOGGER.log(Level.SEVERE, () -> String.format("packet type unknow%npacket type: %d%npacket size: %d%n parameters: %s", logPacketType, logPacketSize, new String(logParameters, StandardCharsets.UTF_8)));
+                break;
+        }
+
+        //return the message
+        if (receivedPacket != null) {
+            receivedPacket.execute();
+            return receivedPacket.getMessage();
+        }
+        return "";
+    }
+
+
+    /**
+     * used to read a packet and display the message it return into logs
+     * @throws IOException if error with connection
+     */
+    private void receive() throws IOException {
+        String message = receiveBase(false, (byte)0);
+        if (LOGGER.isLoggable(Level.INFO))
+            LOGGER.log(Level.INFO, message);
+    }
+
+    private void receiveInit(byte packetType) throws IOException {
+        receiveBase(true, packetType);
+    }
+    
 
     /**
      * get the id of the client
@@ -99,56 +170,44 @@ public class ServiceThread extends Thread {
         return clientNumber;
     }
 
-    /**
-     * broadcast a paquet to every client
-     * @param trame the paquet to broadcast
-     * @throws IOException exception that could occure if something is wrong with the connection
-     */
-    private void broadcast(final String trame) throws IOException {
-        //send data to every other clients
-        for (final ServiceThread thread : app.getPlayers().keySet()) {
-            if(thread != this) {
-                thread.getOs().write(trame);
-                thread.getOs().newLine();
-                thread.getOs().flush();
-            }
-        }
+    public OutputStream getOs() {
+        return os;
     }
 
-    private void sendPacket(String packet) {
+    /**
+     * send a packet on a defined output stream
+     * @param packet the packet to send
+     * @param os the output stream to write on
+     */
+    private void sendPacket(SendPacket packet, OutputStream os) {
         try {
-            os.write(packet);
-            os.newLine();
+            os.write(packet.getPacket());
             os.flush();
+            if (LOGGER.isLoggable(Level.FINEST))
+                LOGGER.log(Level.FINEST, () -> String.format("packet send: %d %d %s", packet.getPacketType(), packet.getPacketSize(), new String(packet.getParameters(), StandardCharsets.UTF_8)));
         } catch (Exception e) {
             LOGGER.log(Level.SEVERE, "error while sending packet", e);
         }
     }
 
-    public void createPacket(String data) throws UnknowPacketError{
-        byte[] byteArray = data.getBytes(StandardCharsets.UTF_8);
-        byte[] parameters = new byte[byteArray.length-1];
-        for (int i = 0; i < parameters.length; i++) {
-            parameters[i] = byteArray[i+1];
-        }
-        switch (byteArray[0]) {
-            case PacketType.VERSION:
-                new ReceivedVersionPacket(parameters, app, this).execute();
-                break;
-            case PacketType.NEWJOINER:
-                new ReceivedNewJoinerPacket(parameters).execute();
-                break;
-            case PacketType.POSITION:
-                new ReceivedPositionPacket(parameters).execute();
-                break;
-            case PacketType.QUIT:
-                new ReceivedQuitPacket(parameters).execute();
-                break;
-            case PacketType.RECEPTION:
-                new ReceivedReceptionPacket(parameters).execute();
-                break;
-            default:
-                throw new UnknowPacketError();
+    /**
+     * send a packet to the output stream of the client
+     * @param packet the packet to send
+     */
+    private void sendPacket(SendPacket packet) {
+        sendPacket(packet, os);
+    }
+
+    /**
+     * broadcast a paquet to every client
+     * @param packet the packet to broadcast to evry client
+     */
+    private void broadcast(SendPacket packet) {
+        //send data to every other clients
+        for (final ServiceThread thread : app.getPlayers().keySet()) {
+            if(thread != this) {
+                sendPacket(packet, thread.getOs());
+            }
         }
     }
 

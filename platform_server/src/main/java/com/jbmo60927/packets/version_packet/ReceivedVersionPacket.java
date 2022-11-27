@@ -3,6 +3,7 @@ package com.jbmo60927.packets.version_packet;
 import com.jbmo60927.App;
 import com.jbmo60927.packets.ReceivedPacket;
 import com.jbmo60927.thread.ServiceThread;
+
 import java.util.Objects;
 import java.util.logging.Level;
 
@@ -12,7 +13,7 @@ public class ReceivedVersionPacket extends ReceivedPacket implements VersionPack
     private ServiceThread serviceThread;
 
     public ReceivedVersionPacket(byte[] parameters, App app, ServiceThread serviceThread) {
-        super(PacketType.VERSION, parameters);
+        super(PacketType.VERSION, new byte[] {});
         serviceThread.setClientVersion(new String(parameters));
         this.app = app;
         this.serviceThread = serviceThread;
@@ -20,6 +21,8 @@ public class ReceivedVersionPacket extends ReceivedPacket implements VersionPack
 
     @Override
     public void execute() {
+        if (LOGGER.isLoggable(Level.FINE))
+            LOGGER.log(Level.FINE, () -> String.format("client version: %s server version: %s", serviceThread.getClientVersion(), app.getVersion()));
         if (!Objects.equals(serviceThread.getClientVersion(), app.getVersion())) {
             throw new VersionError();
         } else {

@@ -4,7 +4,7 @@ import com.jbmo60927.packets.SendPacket;
 
 public class SendRemovePlayerPacket extends SendPacket implements RemovePlayerPacket {
 
-    public SendRemovePlayerPacket(byte[] parameters) {
-        super(PacketType.REMOVEPLAYER, parameters);
+    public SendRemovePlayerPacket() {
+        super(PacketType.REMOVEPLAYER, new byte[0]);
     }
 }
