@@ -31,7 +31,7 @@ public class MyLogger {
         final Logger rootLogger = Logger.getLogger("");
         
         //create file log handler
-        final String date = dateFormatter(System.currentTimeMillis());
+        final String date = fileDateFormatter(System.currentTimeMillis());
         FileHandler logfile;
         try {
             logfile = new FileHandler("log/server_"+date+".log"); //we try to create the log file
@@ -54,7 +54,7 @@ public class MyLogger {
      * @param millisecs current time used for the file name
      * @return a string with the date correctly displayed
      */
-    private static String dateFormatter(final long millisecs) {
+    public static String fileDateFormatter(final long millisecs) {
         final Date resultDate = new Date(millisecs);
         final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss");
         return dateFormat.format(resultDate);

@@ -7,7 +7,7 @@ import com.jbmo60927.packets.ReceivedPacket;
 
 public class ReceivedWelcomePacket extends ReceivedPacket implements WelcomePacket{
     public ReceivedWelcomePacket(byte[] parameters) {
-        super(PacketType.WELCOME, parameters);
+        super(PacketType.WELCOME, parameters, "");
     }
 
     @Override

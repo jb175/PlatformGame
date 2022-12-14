@@ -87,4 +87,8 @@ public class Player extends Entity {
     public String getName() {
         return name;
     }
+
+    public int getPlayerAction() {
+        return playerAction;
+    }
 }

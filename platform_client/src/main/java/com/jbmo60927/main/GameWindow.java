@@ -10,6 +10,7 @@ import javax.swing.JFrame;
 import javax.swing.WindowConstants;
 
 import com.jbmo60927.App;
+import com.jbmo60927.packets.quit_packet.SendQuitPacket;
 
 public class GameWindow {
 	private final JFrame jframe;
@@ -66,7 +67,7 @@ public class GameWindow {
 			public void windowClosing(final WindowEvent e) {
 				try {
 					if (app.getConnect().isConnected()) {
-						app.getConnect().getGameLinkThread().close();
+						app.getConnect().getGameLinkThread().sendPacket(new SendQuitPacket());
 						
 						//wait until disconnection
 						long time = System.currentTimeMillis();

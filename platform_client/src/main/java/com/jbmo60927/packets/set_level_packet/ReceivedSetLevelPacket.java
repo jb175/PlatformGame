@@ -11,7 +11,7 @@ public class ReceivedSetLevelPacket extends ReceivedPacket {
     private App app;
 
     public ReceivedSetLevelPacket(byte[] parameters, App app) {
-        super(PacketType.SETLEVEL, parameters);
+        super(PacketType.SETLEVEL, parameters, "");
         this.app = app;
     }
 
@@ -31,7 +31,6 @@ public class ReceivedSetLevelPacket extends ReceivedPacket {
                 }
             }
             app.getPlaying().getLevelHandler().addLevel(leveldata, levelNumber);
-            app.getPlaying().changeCurrentLevel(levelNumber);
         } else {
             LOGGER.log(Level.SEVERE, "level packet has not a coherent number of data");
         }

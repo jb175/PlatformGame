@@ -7,8 +7,8 @@ import static com.jbmo60927.utilz.HelpsMethods.intToBytes;
 
 public class SendSetLevelPacket extends SendPacket {
 
-    public SendSetLevelPacket(Level level) {
-        super(PacketType.SETLEVEL, convertLevelDataToBytes(level.getLvlData(), 0));
+    public SendSetLevelPacket(Level level, int levelNumber) {
+        super(PacketType.SETLEVEL, convertLevelDataToBytes(level.getLvlData(), levelNumber));
     }
 
     /**

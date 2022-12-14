@@ -1,11 +1,11 @@
 package com.jbmo60927.packets.version_packet;
 
+import java.util.Objects;
+import java.util.logging.Level;
+
 import com.jbmo60927.App;
 import com.jbmo60927.packets.ReceivedPacket;
 import com.jbmo60927.thread.ServiceThread;
-
-import java.util.Objects;
-import java.util.logging.Level;
 
 public class ReceivedVersionPacket extends ReceivedPacket implements VersionPacket {
 
@@ -13,10 +13,10 @@ public class ReceivedVersionPacket extends ReceivedPacket implements VersionPack
     private ServiceThread serviceThread;
 
     public ReceivedVersionPacket(byte[] parameters, App app, ServiceThread serviceThread) {
-        super(PacketType.VERSION, new byte[] {});
+        super(PacketType.VERSION, new byte[] {}, "");
         serviceThread.setClientVersion(new String(parameters));
-        this.app = app;
         this.serviceThread = serviceThread;
+        this.app = app;
     }
 
     @Override
@@ -24,18 +24,11 @@ public class ReceivedVersionPacket extends ReceivedPacket implements VersionPack
         if (LOGGER.isLoggable(Level.FINE))
             LOGGER.log(Level.FINE, () -> String.format("client version: %s server version: %s", serviceThread.getClientVersion(), app.getVersion()));
         if (!Objects.equals(serviceThread.getClientVersion(), app.getVersion())) {
-            throw new VersionError();
-        } else {
-            LOGGER.log(Level.INFO, () -> String.format("Versions with client#%d are similare", serviceThread.getClientNumber()));
-        }
-    }
-
-    /**
-     * Version error that occure when the client and the server does'nt use the same version
-     */
-    class VersionError extends Error {
-        public VersionError() {
-            super("client version is not the one requested to connect to the server");
+            LOGGER.log(Level.INFO, () -> String.format("Version with client#%d is NOT the same", serviceThread.getClientNumber()));
+            // will crash the server (we might clause the connection)
+            // throw new VersionError();
+        } else if (LOGGER.isLoggable(Level.INFO)){
+            LOGGER.log(Level.FINE, () -> String.format("Version with client#%d is the same", serviceThread.getClientNumber()));
         }
     }
 }

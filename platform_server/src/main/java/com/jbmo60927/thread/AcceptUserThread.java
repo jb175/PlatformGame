@@ -1,5 +1,6 @@
 package com.jbmo60927.thread;
 
+import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.logging.Level;
@@ -41,22 +42,20 @@ public class AcceptUserThread extends Thread{
      */
     @Override
     public void run() {
-        try {
-            LOGGER.log(Level.INFO, "thread that accept new client is running");
-            while (!this.isInterrupted()) {
+        LOGGER.log(Level.INFO, "thread that accept new client is running");
+        while (!this.isInterrupted()) {
+            try {
                 //accept client connection request
                 Socket socketOfServer = listener.accept();
 
-                LOGGER.log(Level.INFO, "new connection detected");
+                LOGGER.log(Level.FINE, "new connection detected");
                 //create new Socket at server
                 new ServiceThread(socketOfServer, clientNumber++, app).start();
-
-            }
-            LOGGER.log(Level.SEVERE, "AcceptUserThread stopped");
-        } catch (final Exception e) {
-            if(!this.isInterrupted()) {
+            } catch (IOException e) {
                 LOGGER.log(Level.SEVERE, "Error while trying to accept new user", e);
             }
+
         }
+        LOGGER.log(Level.SEVERE, "AcceptUserThread stopped");
     }
 }

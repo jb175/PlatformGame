@@ -2,7 +2,6 @@ package com.jbmo60927.utilz;
 
 import com.jbmo60927.App;
 import java.awt.geom.Rectangle2D;
-import java.util.Arrays;
 
 public class HelpsMethods {
 	private HelpsMethods() {
@@ -73,6 +72,10 @@ public class HelpsMethods {
 	 */
 	public static byte[] intToBytes(int value, int bytesSize) {
 		byte[] array = new byte[bytesSize];
+
+		//return empty array if value can't be written in the givven bytes. An int is written on 4 bytes so if we require 4 bytes it can always be returned
+		if ((value >> 8*bytesSize) != 0 && bytesSize != 4)
+			return array;
 		switch (bytesSize) {
 			case 4:
 				array[0] = (byte)((value >> 24) & 0xff);
@@ -122,5 +125,16 @@ public class HelpsMethods {
 				break;
 		}
 		return value;
+	}
+
+	public static byte[] floatToBytes(float flt) {
+		return intToBytes(Float.floatToIntBits(flt), 4);
+	}
+
+	public static float bytesToFloat(byte[] array) {
+		float flt = 0;
+		if (array.length == 4)
+			flt = Float.intBitsToFloat(bytesToInt(array));
+		return flt;
 	}
 }

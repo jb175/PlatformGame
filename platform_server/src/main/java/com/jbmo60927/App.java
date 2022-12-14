@@ -18,6 +18,7 @@ import java.util.logging.Logger;
 import com.jbmo60927.entities.Player;
 import com.jbmo60927.levels.LevelHandler;
 import com.jbmo60927.logger.MyLogger;
+import com.jbmo60927.packets.new_joiner_packet.SendNewJoinerPacket;
 import com.jbmo60927.thread.AcceptUserThread;
 import com.jbmo60927.thread.ServiceThread;
 import com.jbmo60927.utilz.PropertyFile;
@@ -189,6 +190,13 @@ public final class App {
 
     public LevelHandler getLevelHandler() {
         return this.LevelHandler;
+    }
+
+    public SendNewJoinerPacket[] sendPlayers() {
+        ArrayList<SendNewJoinerPacket> playersPacket = new ArrayList<>();
+        for (int i = 0; i < players.size(); i++)
+                playersPacket.add(new SendNewJoinerPacket(null));
+        return playersPacket.toArray(new SendNewJoinerPacket[playersPacket.size()]);
     }
 
     /**

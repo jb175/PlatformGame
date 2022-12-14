@@ -5,16 +5,22 @@ package com.jbmo60927.entities;
  */
 public abstract class Entity {
 
-    protected float x,y; //position of the entity
+    //position of the entity
+    protected float x;
+    protected float y;
+
+    //level of the player
+    protected int level;
 
     /**
      * Init the entity.
      * @param x //x coordinate
      * @param y //y coordinate
      */
-    protected Entity(final float x, final float y) {
+    protected Entity(final float x, final float y, int level) {
         this.x = x;
         this.y = y;
+        this.level = level;
     }
 
     /**
@@ -65,5 +71,13 @@ public abstract class Entity {
     public void setPosition(final float x, final float y) {
         this.x = x;
         this.y = y;
+    }
+
+    public int getLevel() {
+        return level;
+    }
+
+    public void setLevel(int level) {
+        this.level = level;
     }
 }

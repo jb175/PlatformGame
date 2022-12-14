@@ -9,13 +9,15 @@ import java.util.logging.LogRecord;
  * formatter used for the log
  */
 public class MyFormatter extends Formatter {
-    
+
     /**
      * this method is called for every log records
      * [Date][ClassName <MethodName>] Level: Message
+     * @param rec the record we wants to log
+     * @return a string to be displayed that contain evry informations we wants
      */
     public String format(final LogRecord rec) {
-        final String date = dateFormatter(rec.getMillis()); //date
+        final String date = MyFormatter.dateFormatter(rec.getMillis()); //date
         final String className = rec.getSourceClassName(); //logger class
         final String methodName = rec.getSourceMethodName(); //logger method
         final String level = rec.getLevel().toString(); //log level
@@ -48,7 +50,7 @@ public class MyFormatter extends Formatter {
      * @param millisecs current time used for the file name
      * @return a string with the date correctly displayed
      */
-    private String dateFormatter(final long millisecs) {
+    public static String dateFormatter(final long millisecs) {
         final Date resultDate = new Date(millisecs);
         final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
         return dateFormat.format(resultDate);

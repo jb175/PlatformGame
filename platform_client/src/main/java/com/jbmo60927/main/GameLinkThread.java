@@ -8,6 +8,14 @@ import java.nio.charset.StandardCharsets;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import com.jbmo60927.App;
+import com.jbmo60927.packets.Packet;
+import com.jbmo60927.packets.Packet.PacketType;
+import com.jbmo60927.packets.join_packet.SendJoinPacket;
+import com.jbmo60927.packets.ReceivedPacket;
+import com.jbmo60927.packets.SendPacket;
+import com.jbmo60927.packets.new_entity_packet.ReceivedNewEntityPacket;
+import com.jbmo60927.packets.new_joiner_packet.ReceivedNewJoinerPacket;
 import com.jbmo60927.packets.position_packet.ReceivedPositionPacket;
 import com.jbmo60927.packets.quit_packet.ReceivedQuitPacket;
 import com.jbmo60927.packets.reception_packet.ReceivedReceptionPacket;
@@ -19,13 +27,8 @@ import com.jbmo60927.packets.version_packet.ReceivedVersionPacket;
 import com.jbmo60927.packets.version_packet.SendVersionPacket;
 import com.jbmo60927.packets.welcome_packet.ReceivedWelcomePacket;
 import com.jbmo60927.packets.welcome_packet.SendWelcomePacket;
-import com.jbmo60927.packets.Packet;
-import com.jbmo60927.packets.ReceivedPacket;
-import com.jbmo60927.packets.SendPacket;
-import com.jbmo60927.packets.Packet.PacketType;
-import com.jbmo60927.packets.new_entity_packet.ReceivedNewEntityPacket;
-import com.jbmo60927.packets.new_joiner_packet.ReceivedNewJoinerPacket;
-import com.jbmo60927.App;
+
+import static com.jbmo60927.utilz.HelpsMethods.bytesToInt;
 
 public class GameLinkThread extends Thread {
 
@@ -52,24 +55,34 @@ public class GameLinkThread extends Thread {
         receiveInit(PacketType.RECEPTION);
         sendPacket(new SendVersionPacket());
         receiveInit(PacketType.VERSION);
+        sendPacket(new SendJoinPacket(app.getPlaying().getPlayer()));
+        receveMultipleInit(PacketType.SETLEVEL);
+        LOGGER.log(Level.INFO, String.format("%d levels have been received", app.getPlaying().getLevelHandler().getLevels().length));
         sendPacket(new SendReceptionPacket());
-        receiveInit(PacketType.SETLEVEL);
+        receveMultipleInit(PacketType.NEWJOINER);
     }
 
     @Override
     public void run() {
-
+        try {
+            while (!this.isInterrupted()) {
+                receive();
+            }
+        //error
+        } catch (final Exception e) {
+            LOGGER.log(Level.SEVERE, "error during the game link thread");
+        }
     }
 
-    private int readPacketType() throws IOException {
+    private static int readPacketType(InputStream is) throws IOException {
         return bytesToInt(is.readNBytes(Packet.PACKETTYPEBYTES));
     }
 
-    private int readPacketSize() throws IOException {
+    private static int readPacketSize(InputStream is) throws IOException {
         return bytesToInt(is.readNBytes(Packet.PACKETSIZEBYTES));
     }
 
-    private byte[] readPacketParameters(int packetSize) throws IOException {
+    private static byte[] readPacketParameters(InputStream is, int packetSize) throws IOException {
         return is.readNBytes(packetSize);
     }
 
@@ -78,23 +91,28 @@ public class GameLinkThread extends Thread {
      * @return a message that could be displayed in logs
      * @throws IOException if error with connection
      */
-    private String receiveBase(boolean expectedType, byte packetTypeExpected) throws IOException {
+    private static String receiveBase(boolean expectedType, boolean untilReception, byte packetTypeExpected, InputStream is, App app) throws IOException {
         int packetType;
         int packetSize;
         byte[] parameters;
         do {
-            packetType = readPacketType();
-            packetSize = readPacketSize();
-            parameters = readPacketParameters(packetSize);
+            packetType = readPacketType(is);
+            packetSize = readPacketSize(is);
+            parameters = readPacketParameters(is, packetSize);
             int logPacketType = packetType;
             int logPacketSize = packetSize;
             byte[] logParameters = parameters;
             LOGGER.log(Level.FINEST, () -> String.format("packet receive: %d %d %s", logPacketType, logPacketSize, new String(logParameters, StandardCharsets.UTF_8)));
+            if(untilReception && packetType == PacketType.RECEPTION)
+                return null;
         } while (expectedType && (packetType != packetTypeExpected));
 
 
         ReceivedPacket receivedPacket = null;
         switch (packetType) {
+            case 0:
+                LOGGER.log(Level.SEVERE, "empty packet");
+                break;
             case PacketType.RECEPTION:
                 receivedPacket = new ReceivedReceptionPacket();
                 break;
@@ -105,25 +123,25 @@ public class GameLinkThread extends Thread {
                 receivedPacket = new ReceivedVersionPacket(parameters);
                 break;
             case PacketType.QUIT:
-                receivedPacket = new ReceivedQuitPacket();
+                receivedPacket = new ReceivedQuitPacket(app);
                 break;
             case PacketType.NEWJOINER:
-                receivedPacket = new ReceivedNewJoinerPacket();
+                receivedPacket = new ReceivedNewJoinerPacket(parameters, app);
                 break;
             case PacketType.POSITION:
                 receivedPacket = new ReceivedPositionPacket();
                 break;
             case PacketType.REMOVEPLAYER:
-                receivedPacket = new ReceivedRemovePlayerPacket();
+                receivedPacket = new ReceivedRemovePlayerPacket(parameters, app);
                 break;
             case PacketType.NEWENTITY:
-                receivedPacket = new ReceivedNewEntityPacket();
+                receivedPacket = new ReceivedNewEntityPacket(parameters, app);
                 break;
             case PacketType.SETLEVEL:
                 receivedPacket = new ReceivedSetLevelPacket(parameters, app);
                 break;
             case PacketType.REMOVELEVEL:
-                receivedPacket = new ReceivedRemoveLevelPacket();
+                receivedPacket = new ReceivedRemoveLevelPacket(parameters, app);
                 break;
             default:
                 int logPacketType = packetType;
@@ -141,51 +159,28 @@ public class GameLinkThread extends Thread {
         return "";
     }
 
-
     /**
      * used to read a packet and display the message it return into logs
      * @throws IOException if error with connection
      */
-    private void receive() throws IOException {
-        String message = receiveBase(false, (byte)0);
-        if (LOGGER.isLoggable(Level.INFO))
+    public void receive() throws IOException {
+        String message = receiveBase(false, false, (byte)0, is, app);
+        if (LOGGER.isLoggable(Level.INFO) && !"".equals(message))
             LOGGER.log(Level.INFO, message);
     }
 
-    private void receiveInit(byte packetType) throws IOException {
-        receiveBase(true, packetType);
+    public void receiveInit(byte packetType) throws IOException {
+        receiveBase(true, false, packetType, is, app);
     }
 
-    private void updatePlayerPosition(String line) {
-        try {
-            app.getPlaying().getPlayers().get(Integer.parseInt(line.split(" ")[1])).setPosition(Float.parseFloat(line.split(" ")[2])*App.SCALE, Float.parseFloat(line.split(" ")[3])*App.SCALE);
-            app.getPlaying().getPlayers().get(Integer.parseInt(line.split(" ")[1])).setPlayerAction(Integer.parseInt(line.split(" ")[4]));
-        } catch (Exception e) {
-            LOGGER.log(Level.SEVERE, "error while receiving player position", e);
-        }
+    public void receveMultipleInit(byte packetType) throws IOException {
+        String message;
+        do {
+            message = receiveBase(true, true, packetType, is, app);
+        } while (message != null);
     }
 
-    public void sendUpdates() {
-        // sendPacket("PLAYER "+app.getPlaying().getPlayer().getData());
-    }
-
-    public void close() {
-        // sendPacket("QUIT");
-        LOGGER.log(Level.INFO, "close request send to server");
-        //stop the connection
-        try {
-            is.close();
-            os.close();
-            socketOfClient.close();
-            app.getConnect().setConnected(false);;
-            LOGGER.log(Level.INFO, "you leave the server");
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-    }
-
-    private void sendPacket(SendPacket packet) {
+    private static void sendPacket(SendPacket packet, OutputStream os) {
         try {
             os.write(packet.getPacket());
             os.flush();
@@ -196,30 +191,14 @@ public class GameLinkThread extends Thread {
         }
     }
 
-    /**
-	 * return a byte array from the int
-	 * @param value the value we wants to convert into bytes
-	 * @param bytesSize the number of bytes we wants [1-4]
-	 * @return the array
-	 */
-	private int bytesToInt(byte[] array) {
-		int value = 0;
-		switch (array.length) {
-			case 4:
-                value = (((int) array[0]) << 24) + (((int) array[1]) << 16) + (((int) array[2]) << 8) + (((int) array[3]) << 0);
-				break;
-			case 3:
-                value = (((int) array[0]) << 16) + (((int) array[1]) << 8) + (((int) array[2]) << 0);
-				break;
-			case 2:
-                value = (((int) array[0]) << 8) + (((int) array[1]) << 0);
-				break;
-			case 1:
-                value = (int) array[0];
-				break;
-			default:
-				break;
-		}
-		return value;
-	}
+    public void sendPacket(SendPacket packet) {
+        sendPacket(packet, os);
+    }
+
+    public void sendMultiple(SendPacket[] packets) {
+        for (SendPacket sendPacket : packets) {
+            sendPacket(sendPacket, os);
+        }
+        sendPacket(new SendReceptionPacket(), os);
+    }
 }

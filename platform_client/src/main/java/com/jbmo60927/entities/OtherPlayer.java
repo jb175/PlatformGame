@@ -17,10 +17,6 @@ public class OtherPlayer extends Player {
         this.name = name;
     }
 
-    public int getPlayerAction() {
-        return playerAction;
-    }
-
     public void setPlayerAction(int playerAction) {
         this.playerAction = playerAction;
     }

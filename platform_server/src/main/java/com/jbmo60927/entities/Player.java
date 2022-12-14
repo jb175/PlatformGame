@@ -16,8 +16,8 @@ public class Player extends Entity {
      * @param y default Y position
      * @param name name of the player
      */
-    public Player(final float x, final float y, final String name) {
-        super(x, y);
+    public Player(final float x, final float y, final int level, final String name) {
+        super(x, y, level);
         this.name = name;
     }
 

@@ -57,9 +57,10 @@ public class ServiceThread extends Thread {
         receiveInit(PacketType.WELCOME);
         sendPacket(new SendReceptionPacket());
         receiveInit(PacketType.VERSION);
-        sendPacket(new SendVersionPacket(app, this));
+        sendPacket(new SendVersionPacket(app));
+        receiveInit(PacketType.JOIN);
+        sendMultiple(app.getLevelHandler().sendLevels());
         receiveInit(PacketType.RECEPTION);
-        sendPacket(new SendSetLevelPacket(app.getLevelHandler().getLevel(0)));
 
     }
 
@@ -69,8 +70,8 @@ public class ServiceThread extends Thread {
     @Override
     public void run() {
         try {
-            while (true) {
-                
+            while (!this.isInterrupted()) {
+                receive();
             }
         //error
         } catch (final Exception e) {
@@ -78,15 +79,15 @@ public class ServiceThread extends Thread {
         }
     }
 
-    private int readPacketType() throws IOException {
+    private static int readPacketType(InputStream is) throws IOException {
         return bytesToInt(is.readNBytes(Packet.PACKETTYPEBYTES));
     }
 
-    private int readPacketSize() throws IOException {
+    private static int readPacketSize(InputStream is) throws IOException {
         return bytesToInt(is.readNBytes(Packet.PACKETSIZEBYTES));
     }
 
-    private byte[] readPacketParameters(int packetSize) throws IOException {
+    private static byte[] readPacketParameters(InputStream is, int packetSize) throws IOException {
         return is.readNBytes(packetSize);
     }
 
@@ -95,23 +96,28 @@ public class ServiceThread extends Thread {
      * @return a message that could be displayed in logs
      * @throws IOException if error with connection
      */
-    private String receiveBase(boolean expectedType, byte packetTypeExpected) throws IOException {
+    private static String receiveBase(boolean expectedType, boolean untilReception, byte packetTypeExpected, InputStream is, App app, ServiceThread st) throws IOException {
         int packetType;
         int packetSize;
         byte[] parameters;
         do {
-            packetType = readPacketType();
-            packetSize = readPacketSize();
-            parameters = readPacketParameters(packetSize);
+            packetType = readPacketType(is);
+            packetSize = readPacketSize(is);
+            parameters = readPacketParameters(is, packetSize);
             int logPacketType = packetType;
             int logPacketSize = packetSize;
             byte[] logParameters = parameters;
             LOGGER.log(Level.FINEST, () -> String.format("packet receive: %d %d %s", logPacketType, logPacketSize, new String(logParameters, StandardCharsets.UTF_8)));
+            if(untilReception && packetType == PacketType.RECEPTION)
+                return null;
         } while (expectedType && (packetType != packetTypeExpected));
 
 
         ReceivedPacket receivedPacket = null;
         switch (packetType) {
+            case 0:
+                LOGGER.log(Level.SEVERE, "empty packet", new IOException());
+                break;
             case PacketType.RECEPTION:
                 receivedPacket = new ReceivedReceptionPacket();
                 break;
@@ -119,13 +125,13 @@ public class ServiceThread extends Thread {
                 receivedPacket = new ReceivedWelcomePacket(parameters);
                 break;
             case PacketType.VERSION:
-                receivedPacket = new ReceivedVersionPacket(parameters, app, this);
+                receivedPacket = new ReceivedVersionPacket(parameters, app, st);
                 break;
             case PacketType.JOIN:
-                receivedPacket = new ReceivedJoinPacket();
+                receivedPacket = new ReceivedJoinPacket(parameters, app);
                 break;
             case PacketType.QUIT:
-                receivedPacket = new ReceivedQuitPacket();
+                receivedPacket = new ReceivedQuitPacket(parameters, app, st);
                 break;
             case PacketType.POSITION:
                 receivedPacket = new ReceivedPositionPacket();
@@ -146,19 +152,47 @@ public class ServiceThread extends Thread {
         return "";
     }
 
-
     /**
      * used to read a packet and display the message it return into logs
      * @throws IOException if error with connection
      */
-    private void receive() throws IOException {
-        String message = receiveBase(false, (byte)0);
-        if (LOGGER.isLoggable(Level.INFO))
+    public void receive() throws IOException {
+        String message = receiveBase(false, false, (byte)0, is, app, this);
+        if (LOGGER.isLoggable(Level.INFO) && !"".equals(message))
             LOGGER.log(Level.INFO, message);
     }
 
-    private void receiveInit(byte packetType) throws IOException {
-        receiveBase(true, packetType);
+    public void receiveInit(byte packetType) throws IOException {
+        receiveBase(true, false, packetType, is, app, this);
+    }
+
+    public void receveMultipleInit(byte packetType) throws IOException {
+        String message;
+        do {
+            message = receiveBase(true, true, packetType, is, app, this);
+        } while (message != null);
+    }
+
+    private static void sendPacket(SendPacket packet, OutputStream os) {
+        try {
+            os.write(packet.getPacket());
+            os.flush();
+            if (LOGGER.isLoggable(Level.FINEST))
+                LOGGER.log(Level.FINEST, () -> String.format("packet send: %d %d %s", packet.getPacketType(), packet.getPacketSize(), new String(packet.getParameters(), StandardCharsets.UTF_8)));
+        } catch (Exception e) {
+            LOGGER.log(Level.SEVERE, "error while sending packet", e);
+        }
+    }
+
+    public void sendPacket(SendPacket packet) {
+        sendPacket(packet, os);
+    }
+
+    public void sendMultiple(SendPacket[] packets) {
+        for (SendPacket sendPacket : packets) {
+            sendPacket(sendPacket, os);
+        }
+        sendPacket(new SendReceptionPacket(), os);
     }
     
 
@@ -170,32 +204,12 @@ public class ServiceThread extends Thread {
         return clientNumber;
     }
 
+    /**
+     * to allow broadcast for packet
+     * @return
+     */
     public OutputStream getOs() {
         return os;
-    }
-
-    /**
-     * send a packet on a defined output stream
-     * @param packet the packet to send
-     * @param os the output stream to write on
-     */
-    private void sendPacket(SendPacket packet, OutputStream os) {
-        try {
-            os.write(packet.getPacket());
-            os.flush();
-            if (LOGGER.isLoggable(Level.FINEST))
-                LOGGER.log(Level.FINEST, () -> String.format("packet send: %d %d %s", packet.getPacketType(), packet.getPacketSize(), new String(packet.getParameters(), StandardCharsets.UTF_8)));
-        } catch (Exception e) {
-            LOGGER.log(Level.SEVERE, "error while sending packet", e);
-        }
-    }
-
-    /**
-     * send a packet to the output stream of the client
-     * @param packet the packet to send
-     */
-    private void sendPacket(SendPacket packet) {
-        sendPacket(packet, os);
     }
 
     /**
@@ -203,7 +217,7 @@ public class ServiceThread extends Thread {
      * @param packet the packet to broadcast to evry client
      */
     private void broadcast(SendPacket packet) {
-        //send data to every other clients
+        //send data to every other clients (evry thread)
         for (final ServiceThread thread : app.getPlayers().keySet()) {
             if(thread != this) {
                 sendPacket(packet, thread.getOs());
@@ -217,5 +231,15 @@ public class ServiceThread extends Thread {
 
     public void setClientVersion(String clientVersion) {
         this.clientVersion = clientVersion;
+    }
+
+    @Override
+    public void interrupt() {
+        try {
+            socketOfServer.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        super.interrupt();
     }
 }

@@ -5,7 +5,7 @@ import com.jbmo60927.packets.ReceivedPacket;
 public class ReceivedPositionPacket extends ReceivedPacket implements PositionPacket {
 
     public ReceivedPositionPacket() {
-        super(PacketType.POSITION, new byte[] {});
+        super(PacketType.POSITION, new byte[] {}, "");
     }
 
     @Override

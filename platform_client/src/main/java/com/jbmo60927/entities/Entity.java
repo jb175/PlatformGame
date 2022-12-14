@@ -11,6 +11,9 @@ public abstract class Entity {
     protected int width, height;
     protected Rectangle2D.Float hitbox;
 
+    //level of the player
+    protected int level;
+
     /**
      * setup the default postion of an entity
      * @param x
@@ -61,5 +64,13 @@ public abstract class Entity {
 
     public Rectangle2D.Float getHitbox() {
         return hitbox;
+    }
+
+    public int getLevel() {
+        return level;
+    }
+
+    public void setLevel(int level) {
+        this.level = level;
     }
 }

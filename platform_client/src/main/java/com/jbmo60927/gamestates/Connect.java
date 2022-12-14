@@ -12,6 +12,7 @@ import java.util.logging.Level;
 
 import com.jbmo60927.App;
 import com.jbmo60927.main.GameLinkThread;
+import com.jbmo60927.packets.join_packet.JoinPacket;
 import com.jbmo60927.ui.Component;
 import com.jbmo60927.ui.Input;
 import com.jbmo60927.ui.LetterNumberInput;
@@ -49,7 +50,7 @@ public class Connect extends State implements StateMethods {
         components[3] = new Component(App.GAME_WIDTH/2, (int) (300 * App.SCALE), 50, "play") {
             @Override
             public void mouseReleased(MouseEvent e) {
-                if (!"".equals(((Input)components[2]).getValue()))
+                if (((Input)components[2]).getValue().length() > 0 && ((Input)components[2]).getValue().length() <= JoinPacket.PLAYERNAMEBYTES)
                     connect();
             }
         };
