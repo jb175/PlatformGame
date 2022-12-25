@@ -7,60 +7,92 @@ public class HelpsMethods {
 
 	/**
 	 * return a byte array from the int
-	 * @param value the value we wants to convert into bytes
+	 * @param i the value we wants to convert into bytes
 	 * @param bytesSize the number of bytes we wants [1-4]
 	 * @return the array
 	 */
-	public static byte[] intToBytes(int value, int bytesSize) {
-		byte[] array = new byte[bytesSize];
+	public static byte[] intToBytes(int i, int bytesSize) {
+		byte[] b = new byte[bytesSize];
 		switch (bytesSize) {
 			case 4:
-				array[0] = (byte)((value >> 24) & 0xff);
-				array[1] = (byte)((value >> 16) & 0xff);
-				array[2] = (byte)((value >> 8) & 0xff);
-				array[3] = (byte)((value >> 0) & 0xff);
+				b[0] = (byte)((i >> 24) & 0xff);
+				b[1] = (byte)((i >> 16) & 0xff);
+				b[2] = (byte)((i >> 8) & 0xff);
+				b[3] = (byte)((i >> 0) & 0xff);
 				break;
 			case 3:
-				array[0] = (byte)((value >> 16) & 0xff);
-				array[1] = (byte)((value >> 8) & 0xff);
-				array[2] = (byte)((value >> 0) & 0xff);
+				b[0] = (byte)((i >> 16) & 0xff);
+				b[1] = (byte)((i >> 8) & 0xff);
+				b[2] = (byte)((i >> 0) & 0xff);
 				break;
 			case 2:
-				array[0] = (byte)((value >> 8) & 0xff);
-				array[1] = (byte)((value >> 0) & 0xff);
+				b[0] = (byte)((i >> 8) & 0xff);
+				b[1] = (byte)((i >> 0) & 0xff);
 				break;
 			case 1:
-				array[0] = (byte)(value & 0xff);
+				b[0] = (byte)(i & 0xff);
 				break;
 			default:
 				break;
 		}
-		return array;
+		return b;
 	}
 
     /**
 	 * return an int from a byte array
-	 * @param array the byte array we wants to convert (1-4 bytes)
+	 * @param b the byte array we wants to convert (1-4 bytes)
 	 * @return the corresponding int
 	 */
-	public static int bytesToInt(byte[] array) {
-		int value = 0;
-		switch (array.length) {
+	public static int bytesToInt(byte[] b) {
+		int i = 0;
+		switch (b.length) {
 			case 4:
-                value = ((array[0]) << 24) + ((array[1]) << 16) + ((array[2]) << 8) + (array[3] & 0xff);
+                i = ((b[0]) << 24) + ((b[1]) << 16) + ((b[2]) << 8) + (b[3] & 0xff);
 				break;
 			case 3:
-                value = ((array[0]) << 16) + ((array[1]) << 8) + (array[2] & 0xff);
+                i = ((b[0]) << 16) + ((b[1]) << 8) + (b[2] & 0xff);
 				break;
 			case 2:
-                value = ((array[0]) << 8) + (array[1] & 0xff);
+                i = ((b[0]) << 8) + (b[1] & 0xff);
 				break;
 			case 1:
-                value = (array[0] & 0xff);
+                i = (b[0] & 0xff);
 				break;
 			default:
 				break;
 		}
-		return value;
+		return i;
+	}
+
+	public static byte intToByte(int i) {
+		return (byte)(i & 0xff);
+	}
+
+	public static int byteToInt(byte b) {
+		return (b & 0xff);
+	}
+
+	public static byte charToByte(char c) {
+		return (byte) c;
+	}
+
+	public static char byteToChar(byte b) {
+		return (char) b;
+	}
+
+	public static byte[] stringToBytes(String s, java.nio.charset.Charset c) {
+		return s.getBytes(c);
+	}
+
+	public static String bytesToString(byte[] b, java.nio.charset.Charset c) {
+		return new String(b, c);
+	}
+
+	public static byte[] stringToBytes(String s) {
+		return stringToBytes(s, java.nio.charset.StandardCharsets.UTF_8);
+	}
+
+	public static String bytesToString(byte[] b) {
+		return bytesToString(b, java.nio.charset.StandardCharsets.UTF_8);
 	}
 }
