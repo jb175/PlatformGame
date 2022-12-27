@@ -1,18 +1,24 @@
 package com.jbmo60927.communication.packets;
 
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 
 import static com.jbmo60927.utilz.HelpsMethods.intToBytes;
 import static com.jbmo60927.utilz.HelpsMethods.bytesToInt;
+
+import com.jbmo60927.communication.TypeList;
 import com.jbmo60927.communication.parameters.Parameter;
 import com.jbmo60927.thread.SendPacketThread;
 
 
 public abstract class Packet {
+
+    protected static final TypeList TYPES = new TypeList(new String[] {
+			"reception", "welcome", "version", "join", "quit",
+			"newjoiner", "position", "removeplayer", "newentity",
+			"setlevel", "removelevel", "changelevel"}
+		);
 
 	//header structure
 	public static final int PACKET_TYPE_BYTES = 1;
@@ -37,17 +43,6 @@ public abstract class Packet {
 		this.packetType = packetType;
         this.parameters = parameters;
     }
-
-	public class PacketTypeLink {
-
-		Constructor<Packet> constructor;
-
-		public PacketTypeLink(byte value, Packet packet) throws InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException, ClassNotFoundException {
-			Class.forName(String.format("com.jbmo60927.communication.packets.%s", "test")) //path of classes
-                    .getDeclaredConstructor(String.class) // types of arguments
-                    .newInstance("");
-		}
-	}
 
 	/**
 	 * Packet type class

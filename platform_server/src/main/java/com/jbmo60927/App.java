@@ -105,7 +105,9 @@ public final class App {
             }
             try {
                 if (LOGGER.isLoggable(Level.INFO)) {
-                    LOGGER.log(Level.INFO, Command.readCommand(command).execute());
+                    String returnString = Command.readCommand(command).execute();
+                    if (!returnString.equals(""))
+                        LOGGER.log(Level.INFO, returnString);
                 }
             } catch (ClassNotFoundException e) {
                 if (LOGGER.isLoggable(Level.INFO))

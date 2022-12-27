@@ -24,23 +24,28 @@ public abstract class Command {
     public abstract String execute();
     
     public static final Command readCommand(String command) throws InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException, ClassNotFoundException {
+        
         String commandName = command.split(" ")[0];
-        String[] rawParameters = command.substring(command.indexOf(" ")+1).split(" ");
         ArrayList<Parameter> parameters = new ArrayList<>();
         Class<?> commandClass = Class.forName(String.format("com.jbmo60927.command.%s", commandName.substring(0, 1).toUpperCase()+commandName.substring(1).toLowerCase()));
         
-        String parameterName;
-        String parameterValue;
-        for (int i = 0; i < rawParameters.length; i++) {
-            try {
-                parameterName = rawParameters[i].split(":")[0];
-                parameterValue = rawParameters[i].split(":")[1];
-
-                if (((TypeList) commandClass.getDeclaredField("TYPES").get(null)).findValue(parameterName) != -1)
-                    parameters.add(new Parameter(((TypeList) commandClass.getDeclaredField("TYPES").get(commandClass)).findValue(parameterName), stringToBytes(parameterValue)));
-                
-            } catch (NoSuchFieldException e) {
-                LOGGER.log(Level.SEVERE, String.format("TypeList not found for command %s", commandClass.getName()), e);
+        //has parameters
+        if (command.contains(" ")) {
+            String[] rawParameters = command.substring(command.indexOf(" ")+1).split(" ");
+            
+            String parameterName;
+            String parameterValue;
+            for (int i = 0; i < rawParameters.length; i++) {
+                try {
+                    parameterName = rawParameters[i].split(":")[0];
+                    parameterValue = rawParameters[i].split(":")[1];
+    
+                    if (((TypeList) commandClass.getDeclaredField("TYPES").get(null)).findValue(parameterName) != -1)
+                        parameters.add(new Parameter(((TypeList) commandClass.getDeclaredField("TYPES").get(commandClass)).findValue(parameterName), stringToBytes(parameterValue)));
+                    
+                } catch (NoSuchFieldException e) {
+                    LOGGER.log(Level.SEVERE, String.format("TypeList not found for command %s", commandClass.getName()), e);
+                }
             }
         }
 
