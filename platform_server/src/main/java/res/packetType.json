@@ -1,0 +1,17 @@
+{
+    "null"          : 0,
+    "reception" 	: 1,
+    "Welcome" 		: 2,
+    "Version" 		: 3,
+    "Join" 			: 4,
+    "Quit" 			: 5,
+
+    "NewJoiner" 	: 16,
+    "Position" 		: 17,
+    "RemovePlayer" 	: 18,
+    "NewEntity"		: 19,
+
+    "SetLevel" 		: 32,
+    "RemoveLevel" 	: 33,
+    "ChangeLevel"	: 34
+}

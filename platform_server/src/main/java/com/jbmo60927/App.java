@@ -3,6 +3,7 @@ package com.jbmo60927;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.lang.reflect.InvocationTargetException;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.net.ServerSocket;
@@ -15,10 +16,10 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import com.jbmo60927.command.Command;
 import com.jbmo60927.entities.Player;
 import com.jbmo60927.levels.LevelHandler;
 import com.jbmo60927.logger.MyLogger;
-import com.jbmo60927.packets.new_joiner_packet.SendNewJoinerPacket;
 import com.jbmo60927.thread.AcceptUserThread;
 import com.jbmo60927.thread.ServiceThread;
 import com.jbmo60927.utilz.PropertyFile;
@@ -34,7 +35,8 @@ public final class App {
     private final HashMap<ServiceThread,Player> players = new HashMap<>(); //map of all player and their thread
     private final PropertyFile propertyFile; //property file
     private final String propertyFileName = "com/jbmo60927/properties/server.xml"; //path for the property file
-    private final BufferedReader ks; //keyboard input stream
+    private final BufferedReader kb; //keyboard input stream
+    private Boolean keyBoardInput;
 
     public static final int TILE_IN_WIDTH = 26;
     public static final int TILE_IN_HEIGHT = 14;
@@ -61,6 +63,8 @@ public final class App {
         //read levelData
         LevelHandler = new LevelHandler();
 
+        kb = new BufferedReader(new InputStreamReader(System.in));
+
         //open the selected port
         ServerSocket listener = null;
         try {
@@ -76,18 +80,42 @@ public final class App {
             acceptUserThread = new AcceptUserThread(listener, this);
             acceptUserThread.start();
 
-            ks = new BufferedReader(new InputStreamReader(System.in));
             LOGGER.log(Level.INFO, () -> String.format("Server (ip:%s port:%s) is waiting to accept user...", getIpV4Address(), Integer.toString(localPort)));
 
-            String str;
-            while ((str = ks.readLine()) != null) {
-                LOGGER.log(Level.INFO, str);
+            keyBoardInput = true;
+            while (Boolean.TRUE.equals(keyBoardInput)) {
+                listenCommand();
             }
         
         //stop the server
+        } catch(Exception e) {
+            LOGGER.log(Level.SEVERE, "an error occure for command input", e);
+            e.printStackTrace();
         } finally {
             //save properties
             System.exit(0);
+        }
+    }
+
+    private void listenCommand() {
+        try {
+            String command = kb.readLine();
+            if (LOGGER.isLoggable(Level.FINEST)) {
+                LOGGER.log(Level.FINEST, String.format("new command: %s", command));
+            }
+            try {
+                if (LOGGER.isLoggable(Level.INFO)) {
+                    LOGGER.log(Level.INFO, Command.readCommand(command).execute());
+                }
+            } catch (ClassNotFoundException e) {
+                if (LOGGER.isLoggable(Level.INFO))
+                    LOGGER.log(Level.INFO, () -> "the command doesn't exist");
+            } catch (InstantiationException | IllegalAccessException | IllegalArgumentException
+                    | InvocationTargetException | NoSuchMethodException | SecurityException e) {
+                LOGGER.log(Level.SEVERE, "the command is not understand", e);
+            }
+        } catch (IOException e) {
+            LOGGER.log(Level.SEVERE, "impossible to read into keyboard input", e);
         }
     }
 
@@ -192,12 +220,12 @@ public final class App {
         return this.LevelHandler;
     }
 
-    public SendNewJoinerPacket[] sendPlayers() {
-        ArrayList<SendNewJoinerPacket> playersPacket = new ArrayList<>();
-        for (int i = 0; i < players.size(); i++)
-                playersPacket.add(new SendNewJoinerPacket(null));
-        return playersPacket.toArray(new SendNewJoinerPacket[playersPacket.size()]);
-    }
+    // public SendNewJoinerPacket[] sendPlayers() {
+    //     ArrayList<SendNewJoinerPacket> playersPacket = new ArrayList<>();
+    //     for (int i = 0; i < players.size(); i++)
+    //             playersPacket.add(new SendNewJoinerPacket(null));
+    //     return playersPacket.toArray(new SendNewJoinerPacket[playersPacket.size()]);
+    // }
 
     /**
      * Run the server for the game Platform.

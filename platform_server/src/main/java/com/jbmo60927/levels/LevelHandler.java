@@ -2,7 +2,6 @@ package com.jbmo60927.levels;
 
 import java.util.ArrayList;
 
-import com.jbmo60927.packets.set_level_packet.SendSetLevelPacket;
 import com.jbmo60927.utilz.LoadSave;
 
 public class LevelHandler {
@@ -39,11 +38,11 @@ public class LevelHandler {
         }
     }
 
-    public SendSetLevelPacket[] sendLevels() {
-        ArrayList<SendSetLevelPacket> levelsPacket = new ArrayList<>();
-        for (int i = 0; i < levels.length; i++)
-            if (levels[i] != null)
-                levelsPacket.add(new SendSetLevelPacket(levels[i], i));
-        return levelsPacket.toArray(new SendSetLevelPacket[levelsPacket.size()]);
-    }
+    // public SendSetLevelPacket[] sendLevels() {
+    //     ArrayList<SendSetLevelPacket> levelsPacket = new ArrayList<>();
+    //     for (int i = 0; i < levels.length; i++)
+    //         if (levels[i] != null)
+    //             levelsPacket.add(new SendSetLevelPacket(levels[i], i));
+    //     return levelsPacket.toArray(new SendSetLevelPacket[levelsPacket.size()]);
+    // }
 }
