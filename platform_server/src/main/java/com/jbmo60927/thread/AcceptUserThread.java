@@ -6,12 +6,18 @@ import java.net.Socket;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import static com.jbmo60927.utilz.HelpsMethods.stringToBytes;
+
 import com.jbmo60927.App;
+import com.jbmo60927.communication.packets.Packet;
+import com.jbmo60927.communication.packets.WelcomePacket;
 
 /**
  * thread to accept new client and redirect them on other new thread
  */
 public class AcceptUserThread extends Thread{
+
+    private static int MAXPLAYER = 10;
 
     //logger for this class
     private static final Logger LOGGER = Logger.getLogger(AcceptUserThread.class.getName());
@@ -24,6 +30,8 @@ public class AcceptUserThread extends Thread{
 
     //all data is stored in the app
     private final App app;
+
+    private ServiceThread[] st = new ServiceThread[MAXPLAYER];
 
     /**
      * init data for the thread that accept new player
@@ -43,19 +51,43 @@ public class AcceptUserThread extends Thread{
     @Override
     public void run() {
         LOGGER.log(Level.INFO, "thread that accept new client is running");
+        Socket socketOfServer;
         while (!this.isInterrupted()) {
             try {
                 //accept client connection request
-                Socket socketOfServer = listener.accept();
+                socketOfServer = listener.accept();
 
                 LOGGER.log(Level.FINE, "new connection detected");
-                //create new Socket at server
-                new ServiceThread(socketOfServer, clientNumber++, app).start();
+
+                for (int i = 0; i < st.length; i++) {
+                    if (st[i] == null || st[i].isInterrupted()) {
+                        //create new Socket at server
+                        st[i] = new ServiceThread(socketOfServer, clientNumber++, app);
+                        st[i].start();
+                        break;
+                    } else if (i == (st.length-1)) {
+                        socketOfServer.getOutputStream().write(stringToBytes("server full"));
+                        socketOfServer.getOutputStream().flush();
+                        socketOfServer.close();
+                    }
+                }
             } catch (IOException e) {
                 LOGGER.log(Level.SEVERE, "Error while trying to accept new user", e);
             }
 
         }
         LOGGER.log(Level.SEVERE, "AcceptUserThread stopped");
+    }
+
+    public ServiceThread[] getSt() {
+        return st;
+    }
+
+    public void broadcast(Packet packet) {
+        for (ServiceThread serviceThread : st) {
+            if (serviceThread != null && !serviceThread.isInterrupted()) {
+                serviceThread.getSendPacket().sendPacket(new WelcomePacket());
+            }
+        }
     }
 }

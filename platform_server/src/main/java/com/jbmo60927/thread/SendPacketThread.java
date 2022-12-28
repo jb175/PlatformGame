@@ -8,8 +8,8 @@ import java.util.Queue;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import com.jbmo60927.communication.Parameter;
 import com.jbmo60927.communication.packets.Packet;
-import com.jbmo60927.communication.parameters.Parameter;
 
 public class SendPacketThread extends Thread {
 

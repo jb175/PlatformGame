@@ -31,7 +31,8 @@ public final class App {
 
     private final int localPort; //default port 
     private final String version; //default version value
-    private Thread acceptUserThread; //thread to accept new client
+    private AcceptUserThread acceptUserThread; //thread to accept new client
+
     private final HashMap<ServiceThread,Player> players = new HashMap<>(); //map of all player and their thread
     private final PropertyFile propertyFile; //property file
     private final String propertyFileName = "com/jbmo60927/properties/server.xml"; //path for the property file
@@ -100,21 +101,21 @@ public final class App {
     private void listenCommand() {
         try {
             String command = kb.readLine();
-            if (LOGGER.isLoggable(Level.FINEST)) {
-                LOGGER.log(Level.FINEST, String.format("new command: %s", command));
-            }
-            try {
-                if (LOGGER.isLoggable(Level.INFO)) {
-                    String returnString = Command.readCommand(command).execute();
-                    if (!returnString.equals(""))
-                        LOGGER.log(Level.INFO, returnString);
+            if (!"".equals(command)) {
+                if (LOGGER.isLoggable(Level.FINEST)) {
+                    LOGGER.log(Level.FINEST, String.format("new command: %s", command));
                 }
-            } catch (ClassNotFoundException e) {
-                if (LOGGER.isLoggable(Level.INFO))
-                    LOGGER.log(Level.INFO, () -> "the command doesn't exist");
-            } catch (InstantiationException | IllegalAccessException | IllegalArgumentException
-                    | InvocationTargetException | NoSuchMethodException | SecurityException e) {
-                LOGGER.log(Level.SEVERE, "the command is not understand", e);
+                try {
+                    String returnString = Command.readCommand(command).execute(this);
+                    if (LOGGER.isLoggable(Level.INFO) && !returnString.equals(""))
+                        LOGGER.log(Level.INFO, returnString);
+                } catch (ClassNotFoundException e) {
+                    if (LOGGER.isLoggable(Level.INFO))
+                        LOGGER.log(Level.INFO, () -> "the command doesn't exist");
+                } catch (InstantiationException | IllegalAccessException | IllegalArgumentException
+                        | InvocationTargetException | NoSuchMethodException | SecurityException e) {
+                    LOGGER.log(Level.SEVERE, "the command is not understand", e);
+                }
             }
         } catch (IOException e) {
             LOGGER.log(Level.SEVERE, "impossible to read into keyboard input", e);
@@ -220,6 +221,14 @@ public final class App {
 
     public LevelHandler getLevelHandler() {
         return this.LevelHandler;
+    }
+
+    public AcceptUserThread getAcceptUserThread() {
+        return acceptUserThread;
+    }
+
+    public void quit() {
+        this.keyBoardInput = false;
     }
 
     // public SendNewJoinerPacket[] sendPlayers() {

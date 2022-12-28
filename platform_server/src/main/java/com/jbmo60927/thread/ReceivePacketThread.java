@@ -1,9 +1,8 @@
 package com.jbmo60927.thread;
 
-import static com.jbmo60927.utilz.HelpsMethods.bytesToInt;
-
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.reflect.InvocationTargetException;
 import java.net.Socket;
 import java.util.LinkedList;
 import java.util.Queue;
@@ -11,7 +10,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.jbmo60927.communication.packets.Packet;
-import com.jbmo60927.communication.parameters.Parameter;
 
 public class ReceivePacketThread extends Thread {
 
@@ -35,46 +33,11 @@ public class ReceivePacketThread extends Thread {
         queue.add(packet);
     }
 
-    private static int readPacketType(InputStream is) throws IOException {
-        return bytesToInt(is.readNBytes(Packet.PACKET_TYPE_BYTES));
-    }
-
-    private static int readPacketParametersSize(InputStream is) throws IOException {
-        return bytesToInt(is.readNBytes(Packet.PACKET_PARAMETER_NUMBER_BYTES));
-    }
-
-    private static Parameter[] readPacketParameters(InputStream is, int parameterNumber) throws IOException {
-        Parameter[] parameters = new Parameter[parameterNumber];
-        int parameterType;
-        int parameterSize;
-        for (int i = 0; i < parameterNumber; i++) {
-            parameterType = bytesToInt(is.readNBytes(Parameter.PARAMETER_TYPE_BYTES));
-            parameterSize = bytesToInt(is.readNBytes(Parameter.PARAMETER_SIZE_BYTES));
-            parameters[i] = new Parameter(parameterType, is.readNBytes(parameterSize));
-        }
-
-        return parameters;
-    }
-
-    private static Packet receive(InputStream is) throws IOException {
-        int packetType = readPacketType(is);
-        int packetParameterNumber = readPacketParametersSize(is);
-        Parameter[] parameters = readPacketParameters(is, packetParameterNumber);
-        if (LOGGER.isLoggable(Level.FINEST)) {
-            String log = "packet received: " + packetType + "with parameters:\n";
-            for (final Parameter parameter : parameters) {
-                log += parameter.getParameterType() + ": " + parameter.getValue();
-            }
-            LOGGER.log(Level.FINEST, log);
-        }
-        return Packet.createPacket(packetType, true, parameters);
-    }
-
     private String receiveFirstPacket() {
         Packet packet = null;
         try {
-            packet = receive(is);
-        } catch (IOException e) {
+            packet = Packet.readPacket(is);
+        } catch (IOException | InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException | SecurityException | ClassNotFoundException e) {
             LOGGER.log(Level.SEVERE, "impossible to read into input stream", e);
         }
 
@@ -90,9 +53,9 @@ public class ReceivePacketThread extends Thread {
         Packet packet = null;
         try {
             do {
-                packet = receive(is);
+                packet = Packet.readPacket(is);
             } while (packet.getPacketType() != packetTypeExpected);
-        } catch (IOException e) {
+        } catch (IOException | InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException | SecurityException | ClassNotFoundException e) {
             LOGGER.log(Level.SEVERE, "impossible to read into input stream", e);
         }
 

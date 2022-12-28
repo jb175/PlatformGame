@@ -3,9 +3,14 @@ package com.jbmo60927.communication.packets;
 import java.nio.charset.StandardCharsets;
 import java.util.logging.Level;
 
-import com.jbmo60927.communication.parameters.Parameter;
+import com.jbmo60927.communication.Parameter;
+import com.jbmo60927.communication.types.StringTypeList;
 
 public class WelcomePacket extends Packet {
+
+    protected static final StringTypeList TYPES = new StringTypeList(new String[] {
+        "message"
+    });
     
     private static final String MESSAGE = "Welcome to the Platform Game. See more information at https://github.com/jb175/PlatformGame";
 
@@ -19,7 +24,7 @@ public class WelcomePacket extends Packet {
 
     private static final Parameter[] setParameters() {
         return new Parameter[] {
-            new Parameter(ParameterType.MESSAGE, MESSAGE.getBytes(StandardCharsets.UTF_8))
+            new Parameter(WelcomePacket.TYPES.findType("message"), MESSAGE.getBytes(StandardCharsets.UTF_8))
         };
     }
 

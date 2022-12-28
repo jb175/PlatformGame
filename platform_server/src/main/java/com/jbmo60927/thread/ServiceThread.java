@@ -191,6 +191,14 @@ public class ServiceThread extends Thread {
         this.clientVersion = clientVersion;
     }
 
+    public ReceivePacketThread getReceveivePacket() {
+        return receveivePacket;
+    }
+
+    public SendPacketThread getSendPacket() {
+        return sendPacket;
+    }
+
     @Override
     public void interrupt() {
         try {

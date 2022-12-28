@@ -1,23 +1,31 @@
 package com.jbmo60927.communication.packets;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 
 import static com.jbmo60927.utilz.HelpsMethods.intToBytes;
 import static com.jbmo60927.utilz.HelpsMethods.bytesToInt;
+import static com.jbmo60927.utilz.HelpsMethods.bytesToString;
 
-import com.jbmo60927.communication.TypeList;
-import com.jbmo60927.communication.parameters.Parameter;
+import com.jbmo60927.communication.Parameter;
+import com.jbmo60927.communication.types.StringTypeList;
 import com.jbmo60927.thread.SendPacketThread;
 
 
 public abstract class Packet {
 
-    protected static final TypeList TYPES = new TypeList(new String[] {
-			"reception", "welcome", "version", "join", "quit",
-			"newjoiner", "position", "removeplayer", "newentity",
-			"setlevel", "removelevel", "changelevel"}
+    private static final String BEGINCLASSPATH = "com.jbmo60927.communication.packets";
+    private static final String TYPELISTFIELDNAME = "TYPES";
+
+    protected static final StringTypeList TYPES = new StringTypeList(new String[] {
+			"Reception", "Welcome", "Version", "Join", "Quit",
+			"NewJoiner", "Position", "RemovePlayer", "NewEntity",
+			"SetLevel", "RemoveLevel", "ChangeLevel"}
 		);
 
 	//header structure
@@ -179,4 +187,70 @@ public abstract class Packet {
 
 	public abstract String getMessage();
     public abstract void execute();
+    
+
+    private static int readPacketType(InputStream is) throws IOException {
+        return bytesToInt(is.readNBytes(Packet.PACKET_TYPE_BYTES));
+    }
+
+    private static int readPacketParametersSize(InputStream is) throws IOException {
+        return bytesToInt(is.readNBytes(Packet.PACKET_PARAMETER_NUMBER_BYTES));
+    }
+
+    private static byte[][][] readPacketRawParameters(InputStream is, int parameterNumber) throws IOException {
+        byte[][][] parameters = new byte[parameterNumber][2][];
+
+        int parameterSize;
+        for (int i = 0; i < parameterNumber; i++) {
+			parameters[i][0] = is.readNBytes(Parameter.PARAMETER_TYPE_BYTES);
+            parameterSize = bytesToInt(is.readNBytes(Parameter.PARAMETER_SIZE_BYTES));
+            parameters[i][1] = is.readNBytes(parameterSize);
+        }
+
+        return parameters;
+    }
+
+    private static Parameter[] readPacketParameters(byte[][][] rawParameters, Class<?> packetClass) throws IOException, IllegalArgumentException, IllegalAccessException, SecurityException {
+        ArrayList<Parameter> parameters = new ArrayList<>();
+               
+        //has parametersParameter
+        if (rawParameters.length>0) {
+            
+            String parameterName;
+            byte[] parameterValue;
+            for (int i = 0; i < rawParameters.length; i++) {
+                try {
+                    parameterName = bytesToString(rawParameters[i][0]);
+                    parameterValue = rawParameters[i][1];
+    
+                    if (((StringTypeList) packetClass.getDeclaredField(Packet.TYPELISTFIELDNAME).get(null)).findValue(parameterName) != -1)
+                        parameters.add(new Parameter(((StringTypeList) packetClass.getDeclaredField(Packet.TYPELISTFIELDNAME).get(packetClass)).findType(parameterName), parameterValue));
+                    
+                } catch (NoSuchFieldException e) {
+                    LOGGER.log(Level.SEVERE, String.format("TypeList not found for command %s", packetClass.getName()), e);
+                }
+            }
+        }
+        return parameters.toArray(new Parameter[parameters.size()]);
+    }
+	
+    public static final Packet readPacket(InputStream is) throws InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException, ClassNotFoundException, IOException {
+        
+		int packetType = readPacketType(is);
+        int packetParameterNumber = readPacketParametersSize(is);
+		byte[][][] packetRawParameters = readPacketRawParameters(is, packetParameterNumber);
+
+		String packetName = Packet.TYPES.findName(packetType);
+		if (packetName != null) {
+			Class<?> packetClass = Class.forName(String.format(Packet.BEGINCLASSPATH+".%s", packetName));
+
+			Parameter[] packetParameters = readPacketParameters(packetRawParameters, packetClass);
+			
+			return (Packet) packetClass //path of classes
+				.getDeclaredConstructor(Parameter[].class) // we take the first constructor (only one permitted)
+				.newInstance(new Object[] {packetParameters});
+		}
+
+		return null;
+    }
 }
