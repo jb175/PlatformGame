@@ -10,7 +10,6 @@ import static com.jbmo60927.utilz.HelpsMethods.stringToBytes;
 
 import com.jbmo60927.App;
 import com.jbmo60927.communication.packets.Packet;
-import com.jbmo60927.communication.packets.WelcomePacket;
 
 /**
  * thread to accept new client and redirect them on other new thread
@@ -63,7 +62,6 @@ public class AcceptUserThread extends Thread{
                     if (st[i] == null || st[i].isInterrupted()) {
                         //create new Socket at server
                         st[i] = new ServiceThread(socketOfServer, clientNumber++, app);
-                        st[i].start();
                         break;
                     } else if (i == (st.length-1)) {
                         socketOfServer.getOutputStream().write(stringToBytes("server full"));
@@ -86,7 +84,7 @@ public class AcceptUserThread extends Thread{
     public void broadcast(Packet packet) {
         for (ServiceThread serviceThread : st) {
             if (serviceThread != null && !serviceThread.isInterrupted()) {
-                serviceThread.getSendPacket().sendPacket(new WelcomePacket());
+                serviceThread.getSendPacket().sendPacket(packet);
             }
         }
     }

@@ -127,6 +127,38 @@ public class HelpsMethods {
 		return value;
 	}
 
+	public static byte intToByte(int i) {
+		return (byte)(i & 0xff);
+	}
+
+	public static int byteToInt(byte b) {
+		return (b & 0xff);
+	}
+
+	public static byte charToByte(char c) {
+		return (byte) c;
+	}
+
+	public static char byteToChar(byte b) {
+		return (char) b;
+	}
+
+	public static byte[] stringToBytes(String s, java.nio.charset.Charset c) {
+		return s.getBytes(c);
+	}
+
+	public static String bytesToString(byte[] b, java.nio.charset.Charset c) {
+		return new String(b, c);
+	}
+
+	public static byte[] stringToBytes(String s) {
+		return stringToBytes(s, java.nio.charset.StandardCharsets.UTF_8);
+	}
+
+	public static String bytesToString(byte[] b) {
+		return bytesToString(b, java.nio.charset.StandardCharsets.UTF_8);
+	}
+
 	public static byte[] floatToBytes(float flt) {
 		return intToBytes(Float.floatToIntBits(flt), 4);
 	}
@@ -136,5 +168,15 @@ public class HelpsMethods {
 		if (array.length == 4)
 			flt = Float.intBitsToFloat(bytesToInt(array));
 		return flt;
+	}
+
+	public static byte[] subByteArray(byte[] mainArray, int begining, int size) {
+		if (mainArray.length >= begining+size) {
+			byte[] subArray = new byte[size];
+			for (int i = 0; i < subArray.length; i++)
+				subArray[i] = mainArray[begining+i];
+			return subArray;
+		}
+		return new byte[] {};
 	}
 }

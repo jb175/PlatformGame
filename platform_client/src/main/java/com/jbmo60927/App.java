@@ -48,6 +48,8 @@ public final class App implements Runnable {
     public String name;
     public Boolean hitbox;
 
+    private Boolean running;
+
     private static final boolean DISPLAYFPS = false;
     
     //value initialized when data is read from a file
@@ -205,10 +207,10 @@ public final class App implements Runnable {
         int frames = 0;
         int updates = 0;
 
-        Boolean running = true;
+        this.running = true;
 
 
-        while (Boolean.TRUE.equals(running)) {
+        while (Boolean.TRUE.equals(this.running)) {
             //to allow in-game fps modification
             if (lastFps != fpsSet)
                 timePerFrame = 1000000000.0 / fpsSet;
@@ -230,9 +232,10 @@ public final class App implements Runnable {
             }
 
             //display FPS & UPS
-            if (DISPLAYFPS && System.currentTimeMillis() - lastCheck >= 1000) {
+            if (System.currentTimeMillis() - lastCheck >= 1000) {
                 lastCheck += 1000; //add one second to the timer
-                System.out.println(String.format("FPS: %s | UPS:%s", frames, updates)); //display values
+                if (DISPLAYFPS)
+                    System.out.println(String.format("FPS: %s | UPS:%s", frames, updates)); //display values
                 frames=0; //reset frame counter
                 updates=0; //reset update counter
             }
@@ -265,6 +268,10 @@ public final class App implements Runnable {
 
     public Connect getConnect() {
         return connect;
+    }
+
+    public void quit() {
+        this.running = false;
     }
 
     /**

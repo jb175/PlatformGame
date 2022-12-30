@@ -15,7 +15,7 @@ public class Sendwelcome extends Command {
 
     @Override
     public String execute(App app) {
-        app.getAcceptUserThread().broadcast(new Welcome());
+        app.getConnect().getGameLinkThread().getSendPacket().sendPacket(new Welcome());
         return "welcome packet sent";
     }
 }

@@ -85,7 +85,7 @@ public final class App {
 
             keyBoardInput = true;
             while (Boolean.TRUE.equals(keyBoardInput)) {
-                listenCommand();
+                readCommand();
             }
         
         //stop the server
@@ -98,27 +98,31 @@ public final class App {
         }
     }
 
-    private void listenCommand() {
+    private void readCommand() {
         try {
             String command = kb.readLine();
-            if (!"".equals(command)) {
-                if (LOGGER.isLoggable(Level.FINEST)) {
-                    LOGGER.log(Level.FINEST, String.format("new command: %s", command));
-                }
-                try {
-                    String returnString = Command.readCommand(command).execute(this);
-                    if (LOGGER.isLoggable(Level.INFO) && !returnString.equals(""))
-                        LOGGER.log(Level.INFO, returnString);
-                } catch (ClassNotFoundException e) {
-                    if (LOGGER.isLoggable(Level.INFO))
-                        LOGGER.log(Level.INFO, () -> "the command doesn't exist");
-                } catch (InstantiationException | IllegalAccessException | IllegalArgumentException
-                        | InvocationTargetException | NoSuchMethodException | SecurityException e) {
-                    LOGGER.log(Level.SEVERE, "the command is not understand", e);
-                }
-            }
+            listenCommand(command);
         } catch (IOException e) {
             LOGGER.log(Level.SEVERE, "impossible to read into keyboard input", e);
+        }
+    }
+
+    private void listenCommand(String command) {
+        if (!"".equals(command)) {
+            if (LOGGER.isLoggable(Level.FINEST)) {
+                LOGGER.log(Level.FINEST, String.format("new command: %s", command));
+            }
+            try {
+                String returnString = Command.readCommand(command).execute(this);
+                if (LOGGER.isLoggable(Level.INFO) && !returnString.equals(""))
+                    LOGGER.log(Level.INFO, returnString);
+            } catch (ClassNotFoundException e) {
+                if (LOGGER.isLoggable(Level.INFO))
+                    LOGGER.log(Level.INFO, () -> "the command doesn't exist");
+            } catch (InstantiationException | IllegalAccessException | IllegalArgumentException
+                    | InvocationTargetException | NoSuchMethodException | SecurityException e) {
+                LOGGER.log(Level.SEVERE, "the command is not understand", e);
+            }
         }
     }
 
@@ -230,13 +234,6 @@ public final class App {
     public void quit() {
         this.keyBoardInput = false;
     }
-
-    // public SendNewJoinerPacket[] sendPlayers() {
-    //     ArrayList<SendNewJoinerPacket> playersPacket = new ArrayList<>();
-    //     for (int i = 0; i < players.size(); i++)
-    //             playersPacket.add(new SendNewJoinerPacket(null));
-    //     return playersPacket.toArray(new SendNewJoinerPacket[playersPacket.size()]);
-    // }
 
     /**
      * Run the server for the game Platform.

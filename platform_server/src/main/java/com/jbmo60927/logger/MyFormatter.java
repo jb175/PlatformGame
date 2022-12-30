@@ -27,15 +27,18 @@ public class MyFormatter extends Formatter {
             final Throwable errorCause = rec.getThrown(); //if the log contain an error
 
             StringBuilder out = new StringBuilder(); //we create a string builder
-
+            out.append(String.format("[%s][%s <%s>] %s: %s", date, className, methodName, level, message));
             //we add basic log informations
-            out.append(String.format("[%s][%s <%s>] %s: %s %n%s%n", date, className, methodName, level, message, errorCause.getMessage()));
+            if (errorCause != null) {
+                out.append(String.format(" %s%n", errorCause.toString()));
             
-            //and all the traces
-            for (StackTraceElement stackTraceElement : errorCause.getStackTrace()) {
-                out.append("        "+stackTraceElement.toString()+"\n");
+                //and all the traces
+                for (StackTraceElement stackTraceElement : errorCause.getStackTrace()) {
+                    out.append("        "+stackTraceElement.toString()+"\n");
+                }
+            } else {
+                out.append("\n");
             }
-
             //and we return the custom error log
             return out.toString();
 

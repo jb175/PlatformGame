@@ -11,8 +11,7 @@ import java.net.UnknownHostException;
 import java.util.logging.Level;
 
 import com.jbmo60927.App;
-import com.jbmo60927.main.GameLinkThread;
-import com.jbmo60927.packets.join_packet.JoinPacket;
+import com.jbmo60927.thread.ServiceThread;
 import com.jbmo60927.ui.Component;
 import com.jbmo60927.ui.Input;
 import com.jbmo60927.ui.LetterNumberInput;
@@ -23,7 +22,7 @@ public class Connect extends State implements StateMethods {
 
     private boolean isConnected = false;
 
-    private GameLinkThread gameLinkThread;
+    private ServiceThread gameLinkThread;
     private BufferedWriter os;
     private Socket socketOfClient;
     private BufferedReader is;
@@ -50,7 +49,7 @@ public class Connect extends State implements StateMethods {
         components[3] = new Component(App.GAME_WIDTH/2, (int) (300 * App.SCALE), 50, "play") {
             @Override
             public void mouseReleased(MouseEvent e) {
-                if (((Input)components[2]).getValue().length() > 0 && ((Input)components[2]).getValue().length() <= JoinPacket.PLAYERNAMEBYTES)
+                if (((Input)components[2]).getValue().length() > 0 && ((Input)components[2]).getValue().length() <= 20)//JoinPacket.PLAYERNAMEBYTES)
                     connect();
             }
         };
@@ -93,8 +92,7 @@ public class Connect extends State implements StateMethods {
             // on machine given ip address port 7777.
             socketOfClient = new Socket(app.ip, app.port);
 
-            gameLinkThread = new GameLinkThread(socketOfClient, app);
-
+            gameLinkThread = new ServiceThread(socketOfClient, app);
             gameLinkThread.start();
             isConnected = true;
             GameStates.setGameState(GameStates.PLAYING);
@@ -110,6 +108,7 @@ public class Connect extends State implements StateMethods {
 
     @Override
     public void mouseClicked(MouseEvent e) {
+        //not used yet
     }
 
     @Override
@@ -178,6 +177,7 @@ public class Connect extends State implements StateMethods {
 
     @Override
     public void keyReleased(KeyEvent e) {
+      // not used yet
     }
 
     public BufferedWriter getOs() {
@@ -192,7 +192,7 @@ public class Connect extends State implements StateMethods {
         return is;
     }
 
-    public GameLinkThread getGameLinkThread() {
+    public ServiceThread getGameLinkThread() {
         return gameLinkThread;
     }
 

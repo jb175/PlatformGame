@@ -10,7 +10,6 @@ import java.util.logging.Level;
 import com.jbmo60927.entities.MovablePlayer;
 import com.jbmo60927.entities.OtherPlayer;
 import com.jbmo60927.levels.LevelHandler;
-import com.jbmo60927.packets.quit_packet.SendQuitPacket;
 import com.jbmo60927.App;
 
 public class Playing extends State implements StateMethods {
@@ -97,7 +96,7 @@ public class Playing extends State implements StateMethods {
 			player.setJump(true);
             break;
         case KeyEvent.VK_ESCAPE:
-            app.getConnect().getGameLinkThread().sendPacket(new SendQuitPacket());
+            //app.getConnect().getGameLinkThread().sendPacket(new SendQuitPacket());
             //wait until disconnection
             long time = System.currentTimeMillis();
             while (app.getConnect().isConnected()) {

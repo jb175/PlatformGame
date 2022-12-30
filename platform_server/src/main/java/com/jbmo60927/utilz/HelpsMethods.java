@@ -95,4 +95,25 @@ public class HelpsMethods {
 	public static String bytesToString(byte[] b) {
 		return bytesToString(b, java.nio.charset.StandardCharsets.UTF_8);
 	}
+
+	public static byte[] floatToBytes(float flt) {
+		return intToBytes(Float.floatToIntBits(flt), 4);
+	}
+
+	public static float bytesToFloat(byte[] array) {
+		float flt = 0;
+		if (array.length == 4)
+			flt = Float.intBitsToFloat(bytesToInt(array));
+		return flt;
+	}
+
+	public static byte[] subByteArray(byte[] mainArray, int begining, int size) {
+		if (mainArray.length >= begining+size) {
+			byte[] subArray = new byte[size];
+			for (int i = 0; i < subArray.length; i++)
+				subArray[i] = mainArray[begining+i];
+			return subArray;
+		}
+		return new byte[] {};
+	}
 }
