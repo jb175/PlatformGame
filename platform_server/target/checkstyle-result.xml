@@ -275,6 +275,20 @@
 <error line="105" column="37" severity="error" message="&apos;4&apos; devrait être défini comme une constante." source="com.puppycrawl.tools.checkstyle.checks.coding.MagicNumberCheck"/>
 <error line="107" column="17" severity="error" message="Le fils de &apos;method def&apos; au niveau d&apos;indentation 16 n&apos;est pas indenté correctement, le niveau attendu est 8." source="com.puppycrawl.tools.checkstyle.checks.indentation.IndentationCheck"/>
 <error line="108" column="9" severity="error" message="&apos;method def rcurly&apos; au niveau d&apos;indentation 8 n&apos;est pas indenté correctement, le niveau attendu est 4." source="com.puppycrawl.tools.checkstyle.checks.indentation.IndentationCheck"/>
+<error line="110" column="9" severity="error" message="&apos;method def modifier&apos; au niveau d&apos;indentation 8 n&apos;est pas indenté correctement, le niveau attendu est 4." source="com.puppycrawl.tools.checkstyle.checks.indentation.IndentationCheck"/>
+<error line="110" column="9" severity="error" message="Commentaire Javadoc manquant." source="com.puppycrawl.tools.checkstyle.checks.javadoc.MissingJavadocMethodCheck"/>
+<error line="111" column="17" severity="error" message="&apos;if&apos; au niveau d&apos;indentation 16 n&apos;est pas indenté correctement, le niveau attendu est 8." source="com.puppycrawl.tools.checkstyle.checks.indentation.IndentationCheck"/>
+<error line="111" column="49" severity="error" message="Il manque une espace après &apos;+&apos;." source="com.puppycrawl.tools.checkstyle.checks.whitespace.WhitespaceAroundCheck"/>
+<error line="111" column="49" severity="error" message="Il manque une espace avant &apos;+&apos;." source="com.puppycrawl.tools.checkstyle.checks.whitespace.WhitespaceAroundCheck"/>
+<error line="112" column="25" severity="error" message="Le fils de &apos;if&apos; au niveau d&apos;indentation 24 n&apos;est pas indenté correctement, le niveau attendu est 12." source="com.puppycrawl.tools.checkstyle.checks.indentation.IndentationCheck"/>
+<error line="113" column="25" severity="error" message="&apos;for&apos; au niveau d&apos;indentation 24 n&apos;est pas indenté correctement, le niveau attendu est 12." source="com.puppycrawl.tools.checkstyle.checks.indentation.IndentationCheck"/>
+<error line="113" column="25" severity="error" message="L&apos;instruction &apos;for&apos; devrait utiliser des accolades (&apos;{&apos; et &apos;}&apos;)." source="com.puppycrawl.tools.checkstyle.checks.blocks.NeedBracesCheck"/>
+<error line="114" column="65" severity="error" message="Il manque une espace après &apos;+&apos;." source="com.puppycrawl.tools.checkstyle.checks.whitespace.WhitespaceAroundCheck"/>
+<error line="114" column="65" severity="error" message="Il manque une espace avant &apos;+&apos;." source="com.puppycrawl.tools.checkstyle.checks.whitespace.WhitespaceAroundCheck"/>
+<error line="115" column="25" severity="error" message="Le fils de &apos;if&apos; au niveau d&apos;indentation 24 n&apos;est pas indenté correctement, le niveau attendu est 12." source="com.puppycrawl.tools.checkstyle.checks.indentation.IndentationCheck"/>
+<error line="116" column="17" severity="error" message="&apos;if rcurly&apos; au niveau d&apos;indentation 16 n&apos;est pas indenté correctement, le niveau attendu est 8." source="com.puppycrawl.tools.checkstyle.checks.indentation.IndentationCheck"/>
+<error line="117" column="17" severity="error" message="Le fils de &apos;method def&apos; au niveau d&apos;indentation 16 n&apos;est pas indenté correctement, le niveau attendu est 8." source="com.puppycrawl.tools.checkstyle.checks.indentation.IndentationCheck"/>
+<error line="118" column="9" severity="error" message="&apos;method def rcurly&apos; au niveau d&apos;indentation 8 n&apos;est pas indenté correctement, le niveau attendu est 4." source="com.puppycrawl.tools.checkstyle.checks.indentation.IndentationCheck"/>
 </file>
 <file name="/home/jb/Project/java/PlatformGame/platform_server/src/main/java/com/jbmo60927/utilz/PropertyFile.java">
 <error line="16" severity="error" message="Line has trailing spaces." source="com.puppycrawl.tools.checkstyle.checks.regexp.RegexpSinglelineCheck"/>
@@ -450,107 +464,142 @@
 <error line="29" column="25" severity="error" message="Il manque une espace avant &apos;+&apos;." source="com.puppycrawl.tools.checkstyle.checks.whitespace.WhitespaceAroundCheck"/>
 </file>
 <file name="/home/jb/Project/java/PlatformGame/platform_server/src/main/java/com/jbmo60927/communication/packets/Welcome.java">
-<error line="6" column="1" severity="error" message="L&apos;ordre d&apos;import n&apos;est pas respecté : &apos;com.jbmo60927.communication.Parameter&apos;." source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
-<error line="6" column="1" severity="error" message="Séparation supplémentaire dans le groupe d&apos;importation avant &apos;com.jbmo60927.communication.Parameter&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
-<error line="9" column="1" severity="error" message="Commentaire Javadoc manquant." source="com.puppycrawl.tools.checkstyle.checks.javadoc.MissingJavadocTypeCheck"/>
-<error line="11" column="5" severity="error" message="Commentaire Javadoc manquant." source="com.puppycrawl.tools.checkstyle.checks.javadoc.JavadocVariableCheck"/>
-<error line="14" severity="error" message="Line has trailing spaces." source="com.puppycrawl.tools.checkstyle.checks.regexp.RegexpSinglelineCheck"/>
-<error line="15" severity="error" message="La ligne excède 120 caractères (trouvé 136)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
-<error line="25" column="20" severity="error" message="Mot-clef &apos;final&apos; redondant." source="com.puppycrawl.tools.checkstyle.checks.modifier.RedundantModifierCheck"/>
+<error line="6" column="1" severity="error" message="L&apos;ordre d&apos;import n&apos;est pas respecté : &apos;java.nio.charset.StandardCharsets&apos;." source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="9" column="1" severity="error" message="L&apos;ordre d&apos;import n&apos;est pas respecté : &apos;com.jbmo60927.communication.Parameter&apos;." source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="9" column="1" severity="error" message="Séparation supplémentaire dans le groupe d&apos;importation avant &apos;com.jbmo60927.communication.Parameter&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="12" column="1" severity="error" message="Commentaire Javadoc manquant." source="com.puppycrawl.tools.checkstyle.checks.javadoc.MissingJavadocTypeCheck"/>
+<error line="14" column="5" severity="error" message="Commentaire Javadoc manquant." source="com.puppycrawl.tools.checkstyle.checks.javadoc.JavadocVariableCheck"/>
+<error line="17" severity="error" message="Line has trailing spaces." source="com.puppycrawl.tools.checkstyle.checks.regexp.RegexpSinglelineCheck"/>
+<error line="18" severity="error" message="La ligne excède 120 caractères (trouvé 136)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
+<error line="28" column="20" severity="error" message="Mot-clef &apos;final&apos; redondant." source="com.puppycrawl.tools.checkstyle.checks.modifier.RedundantModifierCheck"/>
+<error line="36" severity="error" message="La ligne excède 120 caractères (trouvé 146)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
 </file>
 <file name="/home/jb/Project/java/PlatformGame/platform_server/src/main/java/com/jbmo60927/communication/packets/Packet.java">
 <error line="1" severity="error" message="Il manque un caractère NewLine à la fin du fichier." source="com.puppycrawl.tools.checkstyle.checks.NewlineAtEndOfFileCheck"/>
-<error line="11" column="1" severity="error" message="&apos;import&apos; a plus d&apos;une ligne vide avant." source="com.puppycrawl.tools.checkstyle.checks.whitespace.EmptyLineSeparatorCheck"/>
-<error line="12" column="1" severity="error" message="L&apos;ordre d&apos;import n&apos;est pas respecté : &apos;com.jbmo60927.utilz.HelpsMethods.bytesToInt&apos;." source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
-<error line="15" column="1" severity="error" message="L&apos;ordre d&apos;import n&apos;est pas respecté : &apos;com.jbmo60927.communication.Parameter&apos;." source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
-<error line="20" column="1" severity="error" message="&apos;CLASS_DEF&apos; a plus d&apos;une ligne vide avant." source="com.puppycrawl.tools.checkstyle.checks.whitespace.EmptyLineSeparatorCheck"/>
-<error line="20" column="1" severity="error" message="Commentaire Javadoc manquant." source="com.puppycrawl.tools.checkstyle.checks.javadoc.MissingJavadocTypeCheck"/>
-<error line="25" column="5" severity="error" message="Commentaire Javadoc manquant." source="com.puppycrawl.tools.checkstyle.checks.javadoc.JavadocVariableCheck"/>
-<error line="25" column="5" severity="error" message="La définition des variables n&apos;est pas triée suivant leur portée." source="com.puppycrawl.tools.checkstyle.checks.coding.DeclarationOrderCheck"/>
-<error line="26" column="1" severity="error" message="Le fichier contient des caractères de tabulation (ce n&apos;est que la première occurence)." source="com.puppycrawl.tools.checkstyle.checks.whitespace.FileTabCharacterCheck"/>
-<error line="26" column="25" severity="error" message="Le fils de &apos;array initialization&apos; au niveau d&apos;indentation 24 n&apos;est pas indenté correctement, le niveau attendu est 8." source="com.puppycrawl.tools.checkstyle.checks.indentation.IndentationCheck"/>
+<error line="7" column="1" severity="error" message="L&apos;ordre d&apos;import n&apos;est pas respecté : &apos;java.io.IOException&apos;." source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="13" column="1" severity="error" message="L&apos;ordre d&apos;import n&apos;est pas respecté : &apos;com.jbmo60927.communication.Parameter&apos;." source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="13" column="1" severity="error" message="Séparation supplémentaire dans le groupe d&apos;importation avant &apos;com.jbmo60927.communication.Parameter&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="18" column="1" severity="error" message="&apos;CLASS_DEF&apos; a plus d&apos;une ligne vide avant." source="com.puppycrawl.tools.checkstyle.checks.whitespace.EmptyLineSeparatorCheck"/>
+<error line="18" column="1" severity="error" message="Commentaire Javadoc manquant." source="com.puppycrawl.tools.checkstyle.checks.javadoc.MissingJavadocTypeCheck"/>
+<error line="26" column="5" severity="error" message="Commentaire Javadoc manquant." source="com.puppycrawl.tools.checkstyle.checks.javadoc.JavadocVariableCheck"/>
+<error line="26" column="5" severity="error" message="La définition des variables n&apos;est pas triée suivant leur portée." source="com.puppycrawl.tools.checkstyle.checks.coding.DeclarationOrderCheck"/>
+<error line="27" column="1" severity="error" message="Le fichier contient des caractères de tabulation (ce n&apos;est que la première occurence)." source="com.puppycrawl.tools.checkstyle.checks.whitespace.FileTabCharacterCheck"/>
 <error line="27" column="25" severity="error" message="Le fils de &apos;array initialization&apos; au niveau d&apos;indentation 24 n&apos;est pas indenté correctement, le niveau attendu est 8." source="com.puppycrawl.tools.checkstyle.checks.indentation.IndentationCheck"/>
 <error line="28" column="25" severity="error" message="Le fils de &apos;array initialization&apos; au niveau d&apos;indentation 24 n&apos;est pas indenté correctement, le niveau attendu est 8." source="com.puppycrawl.tools.checkstyle.checks.indentation.IndentationCheck"/>
-<error line="32" column="9" severity="error" message="&apos;member def modifier&apos; au niveau d&apos;indentation 8 n&apos;est pas indenté correctement, le niveau attendu est 4." source="com.puppycrawl.tools.checkstyle.checks.indentation.IndentationCheck"/>
-<error line="32" column="9" severity="error" message="Commentaire Javadoc manquant." source="com.puppycrawl.tools.checkstyle.checks.javadoc.JavadocVariableCheck"/>
-<error line="32" column="9" severity="error" message="La définition des variables n&apos;est pas triée suivant leur portée." source="com.puppycrawl.tools.checkstyle.checks.coding.DeclarationOrderCheck"/>
-<error line="33" column="9" severity="error" message="&apos;member def modifier&apos; au niveau d&apos;indentation 8 n&apos;est pas indenté correctement, le niveau attendu est 4." source="com.puppycrawl.tools.checkstyle.checks.indentation.IndentationCheck"/>
-<error line="33" column="9" severity="error" message="Commentaire Javadoc manquant." source="com.puppycrawl.tools.checkstyle.checks.javadoc.JavadocVariableCheck"/>
-<error line="33" column="9" severity="error" message="La définition des variables n&apos;est pas triée suivant leur portée." source="com.puppycrawl.tools.checkstyle.checks.coding.DeclarationOrderCheck"/>
-<error line="35" column="9" severity="error" message="Commentaire au niveau d&apos;indentation 1 au lieu de 4, l&apos;indentation doit être au même niveau que la ligne 36." source="com.puppycrawl.tools.checkstyle.checks.indentation.CommentsIndentationCheck"/>
-<error line="36" column="5" severity="error" message="Commentaire Javadoc manquant." source="com.puppycrawl.tools.checkstyle.checks.javadoc.JavadocVariableCheck"/>
-<error line="36" column="32" severity="error" message="La variable &apos;packetType&apos; devrait être privée et avoir des accesseurs." source="com.puppycrawl.tools.checkstyle.checks.design.VisibilityModifierCheck"/>
+<error line="29" column="25" severity="error" message="Le fils de &apos;array initialization&apos; au niveau d&apos;indentation 24 n&apos;est pas indenté correctement, le niveau attendu est 8." source="com.puppycrawl.tools.checkstyle.checks.indentation.IndentationCheck"/>
+<error line="33" column="9" severity="error" message="&apos;//&apos; a plus d&apos;une ligne vide avant." source="com.puppycrawl.tools.checkstyle.checks.whitespace.EmptyLineSeparatorCheck"/>
+<error line="34" column="9" severity="error" message="&apos;member def modifier&apos; au niveau d&apos;indentation 8 n&apos;est pas indenté correctement, le niveau attendu est 4." source="com.puppycrawl.tools.checkstyle.checks.indentation.IndentationCheck"/>
+<error line="34" column="9" severity="error" message="Commentaire Javadoc manquant." source="com.puppycrawl.tools.checkstyle.checks.javadoc.JavadocVariableCheck"/>
+<error line="34" column="9" severity="error" message="La définition des variables n&apos;est pas triée suivant leur portée." source="com.puppycrawl.tools.checkstyle.checks.coding.DeclarationOrderCheck"/>
+<error line="35" column="9" severity="error" message="&apos;member def modifier&apos; au niveau d&apos;indentation 8 n&apos;est pas indenté correctement, le niveau attendu est 4." source="com.puppycrawl.tools.checkstyle.checks.indentation.IndentationCheck"/>
+<error line="35" column="9" severity="error" message="Commentaire Javadoc manquant." source="com.puppycrawl.tools.checkstyle.checks.javadoc.JavadocVariableCheck"/>
+<error line="35" column="9" severity="error" message="La définition des variables n&apos;est pas triée suivant leur portée." source="com.puppycrawl.tools.checkstyle.checks.coding.DeclarationOrderCheck"/>
 <error line="37" column="9" severity="error" message="Commentaire au niveau d&apos;indentation 1 au lieu de 4, l&apos;indentation doit être au même niveau que la ligne 38." source="com.puppycrawl.tools.checkstyle.checks.indentation.CommentsIndentationCheck"/>
 <error line="38" column="5" severity="error" message="Commentaire Javadoc manquant." source="com.puppycrawl.tools.checkstyle.checks.javadoc.JavadocVariableCheck"/>
-<error line="38" column="33" severity="error" message="La variable &apos;parameters&apos; devrait être privée et avoir des accesseurs." source="com.puppycrawl.tools.checkstyle.checks.design.VisibilityModifierCheck"/>
-<error line="40" column="9" severity="error" message="Commentaire au niveau d&apos;indentation 1 au lieu de 4, l&apos;indentation doit être au même niveau que la ligne 41." source="com.puppycrawl.tools.checkstyle.checks.indentation.CommentsIndentationCheck"/>
-<error line="41" column="5" severity="error" message="Commentaire Javadoc manquant." source="com.puppycrawl.tools.checkstyle.checks.javadoc.JavadocVariableCheck"/>
-<error line="41" column="5" severity="error" message="La définition des variables statiques n&apos;apparaît pas dans le bon ordre." source="com.puppycrawl.tools.checkstyle.checks.coding.DeclarationOrderCheck"/>
-<error line="43" severity="error" message="La première ligne de la Javadoc doit se terminer avec un point." source="com.puppycrawl.tools.checkstyle.checks.javadoc.JavadocStyleCheck"/>
-<error line="43" column="9" severity="error" message="Commentaire de bloc au niveau d&apos;indentation 1 au lieu de 4, l&apos;indentation doit être au même niveau que la ligne 49." source="com.puppycrawl.tools.checkstyle.checks.indentation.CommentsIndentationCheck"/>
-<error line="46" column="12" severity="error" message="Balise Javadoc @param inutilisée pour &apos;packetSize&apos;." source="com.puppycrawl.tools.checkstyle.checks.javadoc.JavadocMethodCheck"/>
-<error line="51" column="17" severity="error" message="Le fils de &apos;ctor def&apos; au niveau d&apos;indentation 16 n&apos;est pas indenté correctement, le niveau attendu est 8." source="com.puppycrawl.tools.checkstyle.checks.indentation.IndentationCheck"/>
-<error line="55" column="9" severity="error" message="&apos;method def modifier&apos; au niveau d&apos;indentation 8 n&apos;est pas indenté correctement, le niveau attendu est 4." source="com.puppycrawl.tools.checkstyle.checks.indentation.IndentationCheck"/>
-<error line="56" column="5" severity="error" message="&apos;METHOD_DEF&apos; doit être séparé de la déclaration précédente." source="com.puppycrawl.tools.checkstyle.checks.whitespace.EmptyLineSeparatorCheck"/>
-<error line="58" severity="error" message="La première ligne de la Javadoc doit se terminer avec un point." source="com.puppycrawl.tools.checkstyle.checks.javadoc.JavadocStyleCheck"/>
-<error line="58" column="9" severity="error" message="Commentaire de bloc au niveau d&apos;indentation 1 au lieu de 4, l&apos;indentation doit être au même niveau que la ligne 62." source="com.puppycrawl.tools.checkstyle.checks.indentation.CommentsIndentationCheck"/>
-<error line="66" column="9" severity="error" message="&apos;method def modifier&apos; au niveau d&apos;indentation 8 n&apos;est pas indenté correctement, le niveau attendu est 4." source="com.puppycrawl.tools.checkstyle.checks.indentation.IndentationCheck"/>
-<error line="70" column="5" severity="error" message="Commentaire Javadoc manquant." source="com.puppycrawl.tools.checkstyle.checks.javadoc.MissingJavadocMethodCheck"/>
-<error line="71" column="17" severity="error" message="Le fils de &apos;method def&apos; au niveau d&apos;indentation 16 n&apos;est pas indenté correctement, le niveau attendu est 8." source="com.puppycrawl.tools.checkstyle.checks.indentation.IndentationCheck"/>
-<error line="71" column="24" severity="error" message="&apos;packetType&apos; masque un attribut." source="com.puppycrawl.tools.checkstyle.checks.coding.HiddenFieldCheck"/>
-<error line="72" column="17" severity="error" message="Le fils de &apos;method def&apos; au niveau d&apos;indentation 16 n&apos;est pas indenté correctement, le niveau attendu est 8." source="com.puppycrawl.tools.checkstyle.checks.indentation.IndentationCheck"/>
-<error line="74" column="17" severity="error" message="Le fils de &apos;method def&apos; au niveau d&apos;indentation 16 n&apos;est pas indenté correctement, le niveau attendu est 8." source="com.puppycrawl.tools.checkstyle.checks.indentation.IndentationCheck"/>
-<error line="74" column="57" severity="error" message="Il manque une espace après &apos;+&apos;." source="com.puppycrawl.tools.checkstyle.checks.whitespace.WhitespaceAroundCheck"/>
-<error line="74" column="57" severity="error" message="Il manque une espace avant &apos;+&apos;." source="com.puppycrawl.tools.checkstyle.checks.whitespace.WhitespaceAroundCheck"/>
-<error line="75" column="17" severity="error" message="&apos;for&apos; au niveau d&apos;indentation 16 n&apos;est pas indenté correctement, le niveau attendu est 8." source="com.puppycrawl.tools.checkstyle.checks.indentation.IndentationCheck"/>
-<error line="76" column="25" severity="error" message="Le fils de &apos;for&apos; au niveau d&apos;indentation 24 n&apos;est pas indenté correctement, le niveau attendu est 12." source="com.puppycrawl.tools.checkstyle.checks.indentation.IndentationCheck"/>
-<error line="76" column="35" severity="error" message="Parenthèses inutiles autour la partie droite de l&apos;affectation." source="com.puppycrawl.tools.checkstyle.checks.coding.UnnecessaryParenthesesCheck"/>
-<error line="76" column="63" severity="error" message="Il manque une espace après &apos;+&apos;." source="com.puppycrawl.tools.checkstyle.checks.whitespace.WhitespaceAroundCheck"/>
-<error line="76" column="63" severity="error" message="Il manque une espace avant &apos;+&apos;." source="com.puppycrawl.tools.checkstyle.checks.whitespace.WhitespaceAroundCheck"/>
-<error line="77" column="17" severity="error" message="&apos;for rcurly&apos; au niveau d&apos;indentation 16 n&apos;est pas indenté correctement, le niveau attendu est 8." source="com.puppycrawl.tools.checkstyle.checks.indentation.IndentationCheck"/>
-<error line="85" column="44" severity="error" message="Il manque une espace après &apos;+&apos;." source="com.puppycrawl.tools.checkstyle.checks.whitespace.WhitespaceAroundCheck"/>
-<error line="85" column="44" severity="error" message="Il manque une espace avant &apos;+&apos;." source="com.puppycrawl.tools.checkstyle.checks.whitespace.WhitespaceAroundCheck"/>
-<error line="87" column="17" severity="error" message="&apos;if&apos; au niveau d&apos;indentation 16 n&apos;est pas indenté correctement, le niveau attendu est 8." source="com.puppycrawl.tools.checkstyle.checks.indentation.IndentationCheck"/>
-<error line="88" column="25" severity="error" message="Le fils de &apos;if&apos; au niveau d&apos;indentation 24 n&apos;est pas indenté correctement, le niveau attendu est 12." source="com.puppycrawl.tools.checkstyle.checks.indentation.IndentationCheck"/>
-<error line="88" column="68" severity="error" message="Il manque une espace après &apos;+&apos;." source="com.puppycrawl.tools.checkstyle.checks.whitespace.WhitespaceAroundCheck"/>
-<error line="88" column="68" severity="error" message="Il manque une espace avant &apos;+&apos;." source="com.puppycrawl.tools.checkstyle.checks.whitespace.WhitespaceAroundCheck"/>
-<error line="89" column="25" severity="error" message="&apos;for&apos; au niveau d&apos;indentation 24 n&apos;est pas indenté correctement, le niveau attendu est 12." source="com.puppycrawl.tools.checkstyle.checks.indentation.IndentationCheck"/>
-<error line="90" column="33" severity="error" message="&apos;for&apos; au niveau d&apos;indentation 32 n&apos;est pas indenté correctement, le niveau attendu est 16." source="com.puppycrawl.tools.checkstyle.checks.indentation.IndentationCheck"/>
-<error line="91" column="41" severity="error" message="Le fils de &apos;for&apos; au niveau d&apos;indentation 40 n&apos;est pas indenté correctement, le niveau attendu est 20." source="com.puppycrawl.tools.checkstyle.checks.indentation.IndentationCheck"/>
-<error line="91" column="74" severity="error" message="Il manque une espace après &apos;+&apos;." source="com.puppycrawl.tools.checkstyle.checks.whitespace.WhitespaceAroundCheck"/>
-<error line="91" column="74" severity="error" message="Il manque une espace avant &apos;+&apos;." source="com.puppycrawl.tools.checkstyle.checks.whitespace.WhitespaceAroundCheck"/>
-<error line="92" column="33" severity="error" message="&apos;for rcurly&apos; au niveau d&apos;indentation 32 n&apos;est pas indenté correctement, le niveau attendu est 16." source="com.puppycrawl.tools.checkstyle.checks.indentation.IndentationCheck"/>
-<error line="93" column="33" severity="error" message="Le fils de &apos;for&apos; au niveau d&apos;indentation 32 n&apos;est pas indenté correctement, le niveau attendu est 16." source="com.puppycrawl.tools.checkstyle.checks.indentation.IndentationCheck"/>
-<error line="94" column="25" severity="error" message="&apos;for rcurly&apos; au niveau d&apos;indentation 24 n&apos;est pas indenté correctement, le niveau attendu est 12." source="com.puppycrawl.tools.checkstyle.checks.indentation.IndentationCheck"/>
-<error line="95" column="17" severity="error" message="&apos;if rcurly&apos; au niveau d&apos;indentation 16 n&apos;est pas indenté correctement, le niveau attendu est 8." source="com.puppycrawl.tools.checkstyle.checks.indentation.IndentationCheck"/>
-<error line="98" column="9" severity="error" message="&apos;method def rcurly&apos; au niveau d&apos;indentation 8 n&apos;est pas indenté correctement, le niveau attendu est 4." source="com.puppycrawl.tools.checkstyle.checks.indentation.IndentationCheck"/>
-<error line="100" severity="error" message="La ligne excède 120 caractères (trouvé 206)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
-<error line="102" severity="error" message="Line has trailing spaces." source="com.puppycrawl.tools.checkstyle.checks.regexp.RegexpSinglelineCheck"/>
-<error line="104" column="34" severity="error" message="Il manque une espace après &apos;&gt;&apos;." source="com.puppycrawl.tools.checkstyle.checks.whitespace.WhitespaceAroundCheck"/>
-<error line="104" column="34" severity="error" message="Il manque une espace avant &apos;&gt;&apos;." source="com.puppycrawl.tools.checkstyle.checks.whitespace.WhitespaceAroundCheck"/>
-<error line="105" severity="error" message="Line has trailing spaces." source="com.puppycrawl.tools.checkstyle.checks.regexp.RegexpSinglelineCheck"/>
-<error line="114" severity="error" message="Line has trailing spaces." source="com.puppycrawl.tools.checkstyle.checks.regexp.RegexpSinglelineCheck"/>
-<error line="115" severity="error" message="La ligne excède 120 caractères (trouvé 139)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
-<error line="115" column="21" severity="error" message="L&apos;instruction &apos;if&apos; devrait utiliser des accolades (&apos;{&apos; et &apos;}&apos;)." source="com.puppycrawl.tools.checkstyle.checks.blocks.NeedBracesCheck"/>
-<error line="116" severity="error" message="La ligne excède 120 caractères (trouvé 186)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
+<error line="38" column="32" severity="error" message="La variable &apos;packetType&apos; devrait être privée et avoir des accesseurs." source="com.puppycrawl.tools.checkstyle.checks.design.VisibilityModifierCheck"/>
+<error line="39" column="9" severity="error" message="Commentaire au niveau d&apos;indentation 1 au lieu de 4, l&apos;indentation doit être au même niveau que la ligne 40." source="com.puppycrawl.tools.checkstyle.checks.indentation.CommentsIndentationCheck"/>
+<error line="40" column="5" severity="error" message="Commentaire Javadoc manquant." source="com.puppycrawl.tools.checkstyle.checks.javadoc.JavadocVariableCheck"/>
+<error line="40" column="33" severity="error" message="La variable &apos;parameters&apos; devrait être privée et avoir des accesseurs." source="com.puppycrawl.tools.checkstyle.checks.design.VisibilityModifierCheck"/>
+<error line="42" column="9" severity="error" message="Commentaire au niveau d&apos;indentation 1 au lieu de 4, l&apos;indentation doit être au même niveau que la ligne 43." source="com.puppycrawl.tools.checkstyle.checks.indentation.CommentsIndentationCheck"/>
+<error line="43" column="5" severity="error" message="Commentaire Javadoc manquant." source="com.puppycrawl.tools.checkstyle.checks.javadoc.JavadocVariableCheck"/>
+<error line="43" column="5" severity="error" message="La définition des variables statiques n&apos;apparaît pas dans le bon ordre." source="com.puppycrawl.tools.checkstyle.checks.coding.DeclarationOrderCheck"/>
+<error line="45" severity="error" message="La première ligne de la Javadoc doit se terminer avec un point." source="com.puppycrawl.tools.checkstyle.checks.javadoc.JavadocStyleCheck"/>
+<error line="45" column="9" severity="error" message="Commentaire de bloc au niveau d&apos;indentation 1 au lieu de 4, l&apos;indentation doit être au même niveau que la ligne 51." source="com.puppycrawl.tools.checkstyle.checks.indentation.CommentsIndentationCheck"/>
+<error line="48" column="12" severity="error" message="Balise Javadoc @param inutilisée pour &apos;packetSize&apos;." source="com.puppycrawl.tools.checkstyle.checks.javadoc.JavadocMethodCheck"/>
+<error line="53" column="17" severity="error" message="Le fils de &apos;ctor def&apos; au niveau d&apos;indentation 16 n&apos;est pas indenté correctement, le niveau attendu est 8." source="com.puppycrawl.tools.checkstyle.checks.indentation.IndentationCheck"/>
+<error line="60" severity="error" message="La première ligne de la Javadoc doit se terminer avec un point." source="com.puppycrawl.tools.checkstyle.checks.javadoc.JavadocStyleCheck"/>
+<error line="60" column="9" severity="error" message="Commentaire de bloc au niveau d&apos;indentation 1 au lieu de 4, l&apos;indentation doit être au même niveau que la ligne 64." source="com.puppycrawl.tools.checkstyle.checks.indentation.CommentsIndentationCheck"/>
+<error line="68" severity="error" message="La première ligne de la Javadoc doit se terminer avec un point." source="com.puppycrawl.tools.checkstyle.checks.javadoc.JavadocStyleCheck"/>
+<error line="72" column="9" severity="error" message="&apos;method def modifier&apos; au niveau d&apos;indentation 8 n&apos;est pas indenté correctement, le niveau attendu est 4." source="com.puppycrawl.tools.checkstyle.checks.indentation.IndentationCheck"/>
+<error line="76" severity="error" message="La première ligne de la Javadoc doit se terminer avec un point." source="com.puppycrawl.tools.checkstyle.checks.javadoc.JavadocStyleCheck"/>
+<error line="83" severity="error" message="La ligne excède 120 caractères (trouvé 136)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
+<error line="84" severity="error" message="Line has trailing spaces." source="com.puppycrawl.tools.checkstyle.checks.regexp.RegexpSinglelineCheck"/>
+<error line="89" column="9" severity="error" message="L&apos;instruction &apos;if&apos; devrait utiliser des accolades (&apos;{&apos; et &apos;}&apos;)." source="com.puppycrawl.tools.checkstyle.checks.blocks.NeedBracesCheck"/>
+<error line="91" severity="error" message="Line has trailing spaces." source="com.puppycrawl.tools.checkstyle.checks.regexp.RegexpSinglelineCheck"/>
+<error line="93" column="9" severity="error" message="L&apos;instruction &apos;else&apos; devrait utiliser des accolades (&apos;{&apos; et &apos;}&apos;)." source="com.puppycrawl.tools.checkstyle.checks.blocks.NeedBracesCheck"/>
+<error line="97" severity="error" message="La première ligne de la Javadoc doit se terminer avec un point." source="com.puppycrawl.tools.checkstyle.checks.javadoc.JavadocStyleCheck"/>
+<error line="107" severity="error" message="La ligne excède 120 caractères (trouvé 185)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
+<error line="109" column="9" severity="error" message="Commentaire au niveau d&apos;indentation 8 au lieu de 2, l&apos;indentation doit être au même niveau que la ligne 110." source="com.puppycrawl.tools.checkstyle.checks.indentation.CommentsIndentationCheck"/>
+<error line="110" column="17" severity="error" message="Le fils de &apos;method def&apos; au niveau d&apos;indentation 16 n&apos;est pas indenté correctement, le niveau attendu est 8." source="com.puppycrawl.tools.checkstyle.checks.indentation.IndentationCheck"/>
+<error line="110" column="57" severity="error" message="Il manque une espace après &apos;+&apos;." source="com.puppycrawl.tools.checkstyle.checks.whitespace.WhitespaceAroundCheck"/>
+<error line="110" column="57" severity="error" message="Il manque une espace avant &apos;+&apos;." source="com.puppycrawl.tools.checkstyle.checks.whitespace.WhitespaceAroundCheck"/>
+<error line="111" column="17" severity="error" message="&apos;for&apos; au niveau d&apos;indentation 16 n&apos;est pas indenté correctement, le niveau attendu est 8." source="com.puppycrawl.tools.checkstyle.checks.indentation.IndentationCheck"/>
+<error line="112" severity="error" message="La ligne excède 120 caractères (trouvé 129)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
+<error line="112" column="25" severity="error" message="Le fils de &apos;for&apos; au niveau d&apos;indentation 24 n&apos;est pas indenté correctement, le niveau attendu est 12." source="com.puppycrawl.tools.checkstyle.checks.indentation.IndentationCheck"/>
+<error line="112" column="35" severity="error" message="Parenthèses inutiles autour la partie droite de l&apos;affectation." source="com.puppycrawl.tools.checkstyle.checks.coding.UnnecessaryParenthesesCheck"/>
+<error line="112" column="69" severity="error" message="Il manque une espace après &apos;+&apos;." source="com.puppycrawl.tools.checkstyle.checks.whitespace.WhitespaceAroundCheck"/>
+<error line="112" column="69" severity="error" message="Il manque une espace avant &apos;+&apos;." source="com.puppycrawl.tools.checkstyle.checks.whitespace.WhitespaceAroundCheck"/>
+<error line="112" column="100" severity="error" message="Il manque une espace après &apos;+&apos;." source="com.puppycrawl.tools.checkstyle.checks.whitespace.WhitespaceAroundCheck"/>
+<error line="112" column="100" severity="error" message="Il manque une espace avant &apos;+&apos;." source="com.puppycrawl.tools.checkstyle.checks.whitespace.WhitespaceAroundCheck"/>
+<error line="113" column="17" severity="error" message="&apos;for rcurly&apos; au niveau d&apos;indentation 16 n&apos;est pas indenté correctement, le niveau attendu est 8." source="com.puppycrawl.tools.checkstyle.checks.indentation.IndentationCheck"/>
 <error line="117" severity="error" message="Line has trailing spaces." source="com.puppycrawl.tools.checkstyle.checks.regexp.RegexpSinglelineCheck"/>
-<error line="119" severity="error" message="La ligne excède 120 caractères (trouvé 123)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
-<error line="125" severity="error" message="Line has trailing spaces." source="com.puppycrawl.tools.checkstyle.checks.regexp.RegexpSinglelineCheck"/>
-<error line="126" severity="error" message="La ligne excède 120 caractères (trouvé 245)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
-<error line="126" column="5" severity="error" message="Commentaire Javadoc manquant." source="com.puppycrawl.tools.checkstyle.checks.javadoc.MissingJavadocMethodCheck"/>
-<error line="127" severity="error" message="Line has trailing spaces." source="com.puppycrawl.tools.checkstyle.checks.regexp.RegexpSinglelineCheck"/>
-<error line="128" column="17" severity="error" message="Le fils de &apos;method def&apos; au niveau d&apos;indentation 16 n&apos;est pas indenté correctement, le niveau attendu est 8." source="com.puppycrawl.tools.checkstyle.checks.indentation.IndentationCheck"/>
-<error line="131" column="17" severity="error" message="Le fils de &apos;method def&apos; au niveau d&apos;indentation 16 n&apos;est pas indenté correctement, le niveau attendu est 8." source="com.puppycrawl.tools.checkstyle.checks.indentation.IndentationCheck"/>
-<error line="132" column="17" severity="error" message="&apos;if&apos; au niveau d&apos;indentation 16 n&apos;est pas indenté correctement, le niveau attendu est 8." source="com.puppycrawl.tools.checkstyle.checks.indentation.IndentationCheck"/>
-<error line="133" column="25" severity="error" message="Le fils de &apos;if&apos; au niveau d&apos;indentation 24 n&apos;est pas indenté correctement, le niveau attendu est 12." source="com.puppycrawl.tools.checkstyle.checks.indentation.IndentationCheck"/>
-<error line="133" column="97" severity="error" message="Il manque une espace après &apos;+&apos;." source="com.puppycrawl.tools.checkstyle.checks.whitespace.WhitespaceAroundCheck"/>
-<error line="133" column="97" severity="error" message="Il manque une espace avant &apos;+&apos;." source="com.puppycrawl.tools.checkstyle.checks.whitespace.WhitespaceAroundCheck"/>
-<error line="135" column="25" severity="error" message="Le fils de &apos;if&apos; au niveau d&apos;indentation 24 n&apos;est pas indenté correctement, le niveau attendu est 12." source="com.puppycrawl.tools.checkstyle.checks.indentation.IndentationCheck"/>
+<error line="122" column="9" severity="error" message="&apos;//&apos; a plus d&apos;une ligne vide avant." source="com.puppycrawl.tools.checkstyle.checks.whitespace.EmptyLineSeparatorCheck"/>
+<error line="122" column="9" severity="error" message="Commentaire au niveau d&apos;indentation 8 au lieu de 2, l&apos;indentation doit être au même niveau que la ligne 123." source="com.puppycrawl.tools.checkstyle.checks.indentation.CommentsIndentationCheck"/>
+<error line="123" severity="error" message="La ligne excède 120 caractères (trouvé 122)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
+<error line="123" column="17" severity="error" message="Le fils de &apos;method def&apos; au niveau d&apos;indentation 16 n&apos;est pas indenté correctement, le niveau attendu est 8." source="com.puppycrawl.tools.checkstyle.checks.indentation.IndentationCheck"/>
+<error line="124" column="9" severity="error" message="Commentaire au niveau d&apos;indentation 8 au lieu de 2, l&apos;indentation doit être au même niveau que la ligne 125." source="com.puppycrawl.tools.checkstyle.checks.indentation.CommentsIndentationCheck"/>
+<error line="125" column="17" severity="error" message="Le fils de &apos;method def&apos; au niveau d&apos;indentation 16 n&apos;est pas indenté correctement, le niveau attendu est 8." source="com.puppycrawl.tools.checkstyle.checks.indentation.IndentationCheck"/>
+<error line="133" severity="error" message="Line has trailing spaces." source="com.puppycrawl.tools.checkstyle.checks.regexp.RegexpSinglelineCheck"/>
+<error line="134" column="9" severity="error" message="L&apos;instruction &apos;for&apos; devrait utiliser des accolades (&apos;{&apos; et &apos;}&apos;)." source="com.puppycrawl.tools.checkstyle.checks.blocks.NeedBracesCheck"/>
 <error line="136" severity="error" message="Line has trailing spaces." source="com.puppycrawl.tools.checkstyle.checks.regexp.RegexpSinglelineCheck"/>
-<error line="137" column="25" severity="error" message="Le fils de &apos;if&apos; au niveau d&apos;indentation 24 n&apos;est pas indenté correctement, le niveau attendu est 12." source="com.puppycrawl.tools.checkstyle.checks.indentation.IndentationCheck"/>
-<error line="138" severity="error" message="La ligne excède 120 caractères (trouvé 128)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
-<error line="140" column="17" severity="error" message="&apos;if rcurly&apos; au niveau d&apos;indentation 16 n&apos;est pas indenté correctement, le niveau attendu est 8." source="com.puppycrawl.tools.checkstyle.checks.indentation.IndentationCheck"/>
-<error line="142" column="17" severity="error" message="Le fils de &apos;method def&apos; au niveau d&apos;indentation 16 n&apos;est pas indenté correctement, le niveau attendu est 8." source="com.puppycrawl.tools.checkstyle.checks.indentation.IndentationCheck"/>
+<error line="137" column="9" severity="error" message="L&apos;instruction &apos;for&apos; devrait utiliser des accolades (&apos;{&apos; et &apos;}&apos;)." source="com.puppycrawl.tools.checkstyle.checks.blocks.NeedBracesCheck"/>
+<error line="144" severity="error" message="La ligne excède 120 caractères (trouvé 203)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
+<error line="148" severity="error" message="Line has trailing spaces." source="com.puppycrawl.tools.checkstyle.checks.regexp.RegexpSinglelineCheck"/>
+<error line="149" column="13" severity="error" message="L&apos;instruction &apos;for&apos; devrait utiliser des accolades (&apos;{&apos; et &apos;}&apos;)." source="com.puppycrawl.tools.checkstyle.checks.blocks.NeedBracesCheck"/>
+<error line="151" severity="error" message="Line has trailing spaces." source="com.puppycrawl.tools.checkstyle.checks.regexp.RegexpSinglelineCheck"/>
+<error line="152" column="13" severity="error" message="L&apos;instruction &apos;for&apos; devrait utiliser des accolades (&apos;{&apos; et &apos;}&apos;)." source="com.puppycrawl.tools.checkstyle.checks.blocks.NeedBracesCheck"/>
+<error line="154" severity="error" message="Line has trailing spaces." source="com.puppycrawl.tools.checkstyle.checks.regexp.RegexpSinglelineCheck"/>
+<error line="155" column="13" severity="error" message="L&apos;instruction &apos;for&apos; devrait utiliser des accolades (&apos;{&apos; et &apos;}&apos;)." source="com.puppycrawl.tools.checkstyle.checks.blocks.NeedBracesCheck"/>
+<error line="161" column="9" severity="error" message="&apos;method def rcurly&apos; au niveau d&apos;indentation 8 n&apos;est pas indenté correctement, le niveau attendu est 4." source="com.puppycrawl.tools.checkstyle.checks.indentation.IndentationCheck"/>
+<error line="163" severity="error" message="La première ligne de la Javadoc doit se terminer avec un point." source="com.puppycrawl.tools.checkstyle.checks.javadoc.JavadocStyleCheck"/>
+<error line="174" column="61" severity="error" message="Il manque une espace après &apos;+&apos;." source="com.puppycrawl.tools.checkstyle.checks.whitespace.WhitespaceAroundCheck"/>
+<error line="174" column="61" severity="error" message="Il manque une espace avant &apos;+&apos;." source="com.puppycrawl.tools.checkstyle.checks.whitespace.WhitespaceAroundCheck"/>
+<error line="175" severity="error" message="La ligne excède 120 caractères (trouvé 158)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
+<error line="187" column="9" severity="error" message="L&apos;instruction &apos;for&apos; devrait utiliser des accolades (&apos;{&apos; et &apos;}&apos;)." source="com.puppycrawl.tools.checkstyle.checks.blocks.NeedBracesCheck"/>
+<error line="189" severity="error" message="Line has trailing spaces." source="com.puppycrawl.tools.checkstyle.checks.regexp.RegexpSinglelineCheck"/>
+<error line="190" column="9" severity="error" message="L&apos;instruction &apos;for&apos; devrait utiliser des accolades (&apos;{&apos; et &apos;}&apos;)." source="com.puppycrawl.tools.checkstyle.checks.blocks.NeedBracesCheck"/>
+<error line="207" severity="error" message="La ligne excède 120 caractères (trouvé 130)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
+<error line="208" severity="error" message="La ligne excède 120 caractères (trouvé 134)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
+<error line="208" column="57" severity="error" message="Il manque une espace après &apos;+&apos;." source="com.puppycrawl.tools.checkstyle.checks.whitespace.WhitespaceAroundCheck"/>
+<error line="208" column="57" severity="error" message="Il manque une espace avant &apos;+&apos;." source="com.puppycrawl.tools.checkstyle.checks.whitespace.WhitespaceAroundCheck"/>
+<error line="208" column="88" severity="error" message="Il manque une espace après &apos;+&apos;." source="com.puppycrawl.tools.checkstyle.checks.whitespace.WhitespaceAroundCheck"/>
+<error line="208" column="88" severity="error" message="Il manque une espace avant &apos;+&apos;." source="com.puppycrawl.tools.checkstyle.checks.whitespace.WhitespaceAroundCheck"/>
+<error line="208" column="119" severity="error" message="Il manque une espace après &apos;+&apos;." source="com.puppycrawl.tools.checkstyle.checks.whitespace.WhitespaceAroundCheck"/>
+<error line="208" column="119" severity="error" message="Il manque une espace avant &apos;+&apos;." source="com.puppycrawl.tools.checkstyle.checks.whitespace.WhitespaceAroundCheck"/>
+<error line="239" severity="error" message="La première ligne de la Javadoc doit se terminer avec un point." source="com.puppycrawl.tools.checkstyle.checks.javadoc.JavadocStyleCheck"/>
+<error line="251" severity="error" message="La ligne excède 120 caractères (trouvé 236)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
+<error line="252" severity="error" message="Line has trailing spaces." source="com.puppycrawl.tools.checkstyle.checks.regexp.RegexpSinglelineCheck"/>
+<error line="255" severity="error" message="Line has trailing spaces." source="com.puppycrawl.tools.checkstyle.checks.regexp.RegexpSinglelineCheck"/>
+<error line="272" severity="error" message="La ligne excède 120 caractères (trouvé 121)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
+<error line="273" severity="error" message="La ligne excède 120 caractères (trouvé 189)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
+<error line="274" column="21" severity="error" message="Il est interdit d&apos;affecter une valeur au paramètre &apos;read&apos;." source="com.puppycrawl.tools.checkstyle.checks.coding.ParameterAssignmentCheck"/>
+<error line="274" column="21" severity="error" message="Il manque une espace après &apos;+=&apos;." source="com.puppycrawl.tools.checkstyle.checks.whitespace.WhitespaceAroundCheck"/>
+<error line="274" column="21" severity="error" message="Il manque une espace avant &apos;+=&apos;." source="com.puppycrawl.tools.checkstyle.checks.whitespace.WhitespaceAroundCheck"/>
+<error line="278" column="21" severity="error" message="Il est interdit d&apos;affecter une valeur au paramètre &apos;read&apos;." source="com.puppycrawl.tools.checkstyle.checks.coding.ParameterAssignmentCheck"/>
+<error line="278" column="21" severity="error" message="Il manque une espace après &apos;+=&apos;." source="com.puppycrawl.tools.checkstyle.checks.whitespace.WhitespaceAroundCheck"/>
+<error line="278" column="21" severity="error" message="Il manque une espace avant &apos;+=&apos;." source="com.puppycrawl.tools.checkstyle.checks.whitespace.WhitespaceAroundCheck"/>
+<error line="282" column="21" severity="error" message="Il est interdit d&apos;affecter une valeur au paramètre &apos;read&apos;." source="com.puppycrawl.tools.checkstyle.checks.coding.ParameterAssignmentCheck"/>
+<error line="282" column="21" severity="error" message="Il manque une espace après &apos;+=&apos;." source="com.puppycrawl.tools.checkstyle.checks.whitespace.WhitespaceAroundCheck"/>
+<error line="282" column="21" severity="error" message="Il manque une espace avant &apos;+=&apos;." source="com.puppycrawl.tools.checkstyle.checks.whitespace.WhitespaceAroundCheck"/>
+<error line="283" severity="error" message="Line has trailing spaces." source="com.puppycrawl.tools.checkstyle.checks.regexp.RegexpSinglelineCheck"/>
+<error line="286" severity="error" message="Line has trailing spaces." source="com.puppycrawl.tools.checkstyle.checks.regexp.RegexpSinglelineCheck"/>
+<error line="296" severity="error" message="Line has trailing spaces." source="com.puppycrawl.tools.checkstyle.checks.regexp.RegexpSinglelineCheck"/>
+<error line="297" severity="error" message="La première ligne de la Javadoc doit se terminer avec un point." source="com.puppycrawl.tools.checkstyle.checks.javadoc.JavadocStyleCheck"/>
+<error line="303" column="17" severity="error" message="&apos;try&apos; au niveau d&apos;indentation 16 n&apos;est pas indenté correctement, le niveau attendu est 8." source="com.puppycrawl.tools.checkstyle.checks.indentation.IndentationCheck"/>
+<error line="310" column="17" severity="error" message="Il manque une espace après &apos;+=&apos;." source="com.puppycrawl.tools.checkstyle.checks.whitespace.WhitespaceAroundCheck"/>
+<error line="310" column="17" severity="error" message="Il manque une espace avant &apos;+=&apos;." source="com.puppycrawl.tools.checkstyle.checks.whitespace.WhitespaceAroundCheck"/>
+<error line="313" column="13" severity="error" message="&apos;//&apos; a plus d&apos;une ligne vide avant." source="com.puppycrawl.tools.checkstyle.checks.whitespace.EmptyLineSeparatorCheck"/>
+<error line="314" severity="error" message="La ligne excède 120 caractères (trouvé 126)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
+<error line="315" column="17" severity="error" message="Il manque une espace après &apos;+=&apos;." source="com.puppycrawl.tools.checkstyle.checks.whitespace.WhitespaceAroundCheck"/>
+<error line="315" column="17" severity="error" message="Il manque une espace avant &apos;+=&apos;." source="com.puppycrawl.tools.checkstyle.checks.whitespace.WhitespaceAroundCheck"/>
+<error line="320" column="95" severity="error" message="Il manque une espace après &apos;+&apos;." source="com.puppycrawl.tools.checkstyle.checks.whitespace.WhitespaceAroundCheck"/>
+<error line="320" column="95" severity="error" message="Il manque une espace avant &apos;+&apos;." source="com.puppycrawl.tools.checkstyle.checks.whitespace.WhitespaceAroundCheck"/>
+<error line="323" severity="error" message="La ligne excède 120 caractères (trouvé 127)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
+<error line="324" severity="error" message="Line has trailing spaces." source="com.puppycrawl.tools.checkstyle.checks.regexp.RegexpSinglelineCheck"/>
+<error line="330" severity="error" message="Line has trailing spaces." source="com.puppycrawl.tools.checkstyle.checks.regexp.RegexpSinglelineCheck"/>
+<error line="332" severity="error" message="La ligne excède 120 caractères (trouvé 207)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
+<error line="336" column="9" severity="error" message="Commentaire au niveau d&apos;indentation 8 au lieu de 2, l&apos;indentation doit être au même niveau que la ligne 337." source="com.puppycrawl.tools.checkstyle.checks.indentation.CommentsIndentationCheck"/>
+<error line="337" column="17" severity="error" message="Le fils de &apos;method def&apos; au niveau d&apos;indentation 16 n&apos;est pas indenté correctement, le niveau attendu est 8." source="com.puppycrawl.tools.checkstyle.checks.indentation.IndentationCheck"/>
 </file>
 <file name="/home/jb/Project/java/PlatformGame/platform_server/src/main/java/com/jbmo60927/communication/Parameter.java">
 <error line="1" severity="error" message="Il manque un caractère NewLine à la fin du fichier." source="com.puppycrawl.tools.checkstyle.checks.NewlineAtEndOfFileCheck"/>
@@ -620,13 +669,13 @@
 <error line="166" severity="error" message="Line has trailing spaces." source="com.puppycrawl.tools.checkstyle.checks.regexp.RegexpSinglelineCheck"/>
 <error line="167" severity="error" message="La première ligne de la Javadoc doit se terminer avec un point." source="com.puppycrawl.tools.checkstyle.checks.javadoc.JavadocStyleCheck"/>
 <error line="176" column="11" severity="error" message="Catcher l&apos;exception &apos;Exception&apos; est prohibé." source="com.puppycrawl.tools.checkstyle.checks.coding.IllegalCatchCheck"/>
-<error line="179" column="9" severity="error" message="Il manque une espace après &apos;for&apos;." source="com.puppycrawl.tools.checkstyle.checks.whitespace.WhitespaceAfterCheck"/>
+<error line="179" column="9" severity="error" message="Il manque une espace après &apos;for&apos;." source="com.puppycrawl.tools.checkstyle.checks.whitespace.WhitespaceAroundCheck"/>
 <error line="179" column="43" severity="error" message="Il manque une espace avant &apos;{&apos;." source="com.puppycrawl.tools.checkstyle.checks.whitespace.WhitespaceAroundCheck"/>
-<error line="180" column="13" severity="error" message="Il manque une espace après &apos;if&apos;." source="com.puppycrawl.tools.checkstyle.checks.whitespace.WhitespaceAfterCheck"/>
+<error line="180" column="13" severity="error" message="Il manque une espace après &apos;if&apos;." source="com.puppycrawl.tools.checkstyle.checks.whitespace.WhitespaceAroundCheck"/>
 <error line="180" column="40" severity="error" message="Il manque une espace avant &apos;{&apos;." source="com.puppycrawl.tools.checkstyle.checks.whitespace.WhitespaceAroundCheck"/>
 <error line="194" severity="error" message="La première ligne de la Javadoc doit se terminer avec un point." source="com.puppycrawl.tools.checkstyle.checks.javadoc.JavadocStyleCheck"/>
 <error line="204" column="13" severity="error" message="L&apos;instruction &apos;if&apos; devrait utiliser des accolades (&apos;{&apos; et &apos;}&apos;)." source="com.puppycrawl.tools.checkstyle.checks.blocks.NeedBracesCheck"/>
-<error line="207" column="13" severity="error" message="Il manque une espace après &apos;while&apos;." source="com.puppycrawl.tools.checkstyle.checks.whitespace.WhitespaceAfterCheck"/>
+<error line="207" column="13" severity="error" message="Il manque une espace après &apos;while&apos;." source="com.puppycrawl.tools.checkstyle.checks.whitespace.WhitespaceAroundCheck"/>
 </file>
 <file name="/home/jb/Project/java/PlatformGame/platform_server/src/main/java/com/jbmo60927/thread/AcceptUserThread.java">
 <error line="11" column="1" severity="error" message="L&apos;ordre d&apos;import n&apos;est pas respecté : &apos;com.jbmo60927.App&apos;." source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
@@ -642,12 +691,21 @@
 </file>
 <file name="/home/jb/Project/java/PlatformGame/platform_server/src/main/java/com/jbmo60927/thread/SendPacketThread.java">
 <error line="1" severity="error" message="Il manque un caractère NewLine à la fin du fichier." source="com.puppycrawl.tools.checkstyle.checks.NewlineAtEndOfFileCheck"/>
-<error line="9" column="1" severity="error" message="L&apos;ordre d&apos;import n&apos;est pas respecté : &apos;com.jbmo60927.communication.Parameter&apos;." source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
-<error line="9" column="1" severity="error" message="Séparation supplémentaire dans le groupe d&apos;importation avant &apos;com.jbmo60927.communication.Parameter&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
-<error line="12" column="1" severity="error" message="Commentaire Javadoc manquant." source="com.puppycrawl.tools.checkstyle.checks.javadoc.MissingJavadocTypeCheck"/>
-<error line="12" column="30" severity="error" message="Il manque une espace avant &apos;{&apos;." source="com.puppycrawl.tools.checkstyle.checks.whitespace.WhitespaceAroundCheck"/>
-<error line="15" column="5" severity="error" message="La définition des variables statiques n&apos;apparaît pas dans le bon ordre." source="com.puppycrawl.tools.checkstyle.checks.coding.DeclarationOrderCheck"/>
-<error line="37" column="11" severity="error" message="Catcher l&apos;exception &apos;Exception&apos; est prohibé." source="com.puppycrawl.tools.checkstyle.checks.coding.IllegalCatchCheck"/>
+<error line="5" column="1" severity="error" message="L&apos;ordre d&apos;import n&apos;est pas respecté : &apos;java.io.IOException&apos;." source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="11" column="1" severity="error" message="L&apos;ordre d&apos;import n&apos;est pas respecté : &apos;com.jbmo60927.communication.Parameter&apos;." source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="11" column="1" severity="error" message="Séparation supplémentaire dans le groupe d&apos;importation avant &apos;com.jbmo60927.communication.Parameter&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="14" column="1" severity="error" message="Commentaire Javadoc manquant." source="com.puppycrawl.tools.checkstyle.checks.javadoc.MissingJavadocTypeCheck"/>
+<error line="14" column="30" severity="error" message="Il manque une espace avant &apos;{&apos;." source="com.puppycrawl.tools.checkstyle.checks.whitespace.WhitespaceAroundCheck"/>
+<error line="20" column="5" severity="error" message="La définition des variables statiques n&apos;apparaît pas dans le bon ordre." source="com.puppycrawl.tools.checkstyle.checks.coding.DeclarationOrderCheck"/>
+<error line="22" severity="error" message="La première ligne de la Javadoc doit se terminer avec un point." source="com.puppycrawl.tools.checkstyle.checks.javadoc.JavadocStyleCheck"/>
+<error line="32" severity="error" message="La première ligne de la Javadoc doit se terminer avec un point." source="com.puppycrawl.tools.checkstyle.checks.javadoc.JavadocStyleCheck"/>
+<error line="41" severity="error" message="La première ligne de la Javadoc doit se terminer avec un point." source="com.puppycrawl.tools.checkstyle.checks.javadoc.JavadocStyleCheck"/>
+<error line="50" severity="error" message="La ligne excède 120 caractères (trouvé 169)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
+<error line="53" severity="error" message="La ligne excède 120 caractères (trouvé 204)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
+<error line="55" column="13" severity="error" message="L&apos;instruction &apos;if&apos; devrait utiliser des accolades (&apos;{&apos; et &apos;}&apos;)." source="com.puppycrawl.tools.checkstyle.checks.blocks.NeedBracesCheck"/>
+<error line="62" column="13" severity="error" message="L&apos;instruction &apos;if&apos; devrait utiliser des accolades (&apos;{&apos; et &apos;}&apos;)." source="com.puppycrawl.tools.checkstyle.checks.blocks.NeedBracesCheck"/>
+<error line="64" severity="error" message="Line has trailing spaces." source="com.puppycrawl.tools.checkstyle.checks.regexp.RegexpSinglelineCheck"/>
+<error line="71" severity="error" message="La ligne excède 120 caractères (trouvé 159)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
 </file>
 <file name="/home/jb/Project/java/PlatformGame/platform_server/src/main/java/com/jbmo60927/thread/ServiceThread.java">
 <error line="1" severity="error" message="Il manque un caractère NewLine à la fin du fichier." source="com.puppycrawl.tools.checkstyle.checks.NewlineAtEndOfFileCheck"/>
@@ -662,20 +720,27 @@
 <error line="44" column="5" severity="error" message="&apos;/*&apos; a plus d&apos;une ligne vide avant." source="com.puppycrawl.tools.checkstyle.checks.whitespace.EmptyLineSeparatorCheck"/>
 <error line="52" severity="error" message="La première ligne de la Javadoc doit se terminer avec un point." source="com.puppycrawl.tools.checkstyle.checks.javadoc.JavadocStyleCheck"/>
 <error line="60" severity="error" message="La première ligne de la Javadoc doit se terminer avec un point." source="com.puppycrawl.tools.checkstyle.checks.javadoc.JavadocStyleCheck"/>
-<error line="67" column="13" severity="error" message="Il manque une espace après &apos;if&apos;." source="com.puppycrawl.tools.checkstyle.checks.whitespace.WhitespaceAfterCheck"/>
+<error line="67" column="13" severity="error" message="Il manque une espace après &apos;if&apos;." source="com.puppycrawl.tools.checkstyle.checks.whitespace.WhitespaceAroundCheck"/>
 <error line="89" column="5" severity="error" message="Commentaire Javadoc manquant." source="com.puppycrawl.tools.checkstyle.checks.javadoc.MissingJavadocMethodCheck"/>
 <error line="91" column="13" severity="error" message="L&apos;instruction &apos;if&apos; devrait utiliser des accolades (&apos;{&apos; et &apos;}&apos;)." source="com.puppycrawl.tools.checkstyle.checks.blocks.NeedBracesCheck"/>
 <error line="96" column="9" severity="error" message="L&apos;instruction &apos;if&apos; devrait utiliser des accolades (&apos;{&apos; et &apos;}&apos;)." source="com.puppycrawl.tools.checkstyle.checks.blocks.NeedBracesCheck"/>
 </file>
 <file name="/home/jb/Project/java/PlatformGame/platform_server/src/main/java/com/jbmo60927/thread/ReceivePacketThread.java">
 <error line="1" severity="error" message="Il manque un caractère NewLine à la fin du fichier." source="com.puppycrawl.tools.checkstyle.checks.NewlineAtEndOfFileCheck"/>
-<error line="10" column="1" severity="error" message="L&apos;ordre d&apos;import n&apos;est pas respecté : &apos;com.jbmo60927.communication.packets.Packet&apos;." source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
-<error line="10" column="1" severity="error" message="Séparation supplémentaire dans le groupe d&apos;importation avant &apos;com.jbmo60927.communication.packets.Packet&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
-<error line="13" column="1" severity="error" message="Commentaire Javadoc manquant." source="com.puppycrawl.tools.checkstyle.checks.javadoc.MissingJavadocTypeCheck"/>
-<error line="16" column="5" severity="error" message="La définition des variables statiques n&apos;apparaît pas dans le bon ordre." source="com.puppycrawl.tools.checkstyle.checks.coding.DeclarationOrderCheck"/>
-<error line="19" column="5" severity="error" message="Commentaire Javadoc manquant." source="com.puppycrawl.tools.checkstyle.checks.javadoc.MissingJavadocMethodCheck"/>
-<error line="36" severity="error" message="La ligne excède 120 caractères (trouvé 207)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
-<error line="56" severity="error" message="La ligne excède 120 caractères (trouvé 207)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
+<error line="5" column="1" severity="error" message="L&apos;ordre d&apos;import n&apos;est pas respecté : &apos;java.io.IOException&apos;." source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="12" column="1" severity="error" message="L&apos;ordre d&apos;import n&apos;est pas respecté : &apos;com.jbmo60927.communication.Parameter&apos;." source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="12" column="1" severity="error" message="Séparation supplémentaire dans le groupe d&apos;importation avant &apos;com.jbmo60927.communication.Parameter&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="15" column="1" severity="error" message="Commentaire Javadoc manquant." source="com.puppycrawl.tools.checkstyle.checks.javadoc.MissingJavadocTypeCheck"/>
+<error line="21" column="5" severity="error" message="La définition des variables statiques n&apos;apparaît pas dans le bon ordre." source="com.puppycrawl.tools.checkstyle.checks.coding.DeclarationOrderCheck"/>
+<error line="26" severity="error" message="La première ligne de la Javadoc doit se terminer avec un point." source="com.puppycrawl.tools.checkstyle.checks.javadoc.JavadocStyleCheck"/>
+<error line="38" severity="error" message="La première ligne de la Javadoc doit se terminer avec un point." source="com.puppycrawl.tools.checkstyle.checks.javadoc.JavadocStyleCheck"/>
+<error line="48" severity="error" message="La première ligne de la Javadoc doit se terminer avec un point." source="com.puppycrawl.tools.checkstyle.checks.javadoc.JavadocStyleCheck"/>
+<error line="60" column="13" severity="error" message="L&apos;instruction &apos;if&apos; devrait utiliser des accolades (&apos;{&apos; et &apos;}&apos;)." source="com.puppycrawl.tools.checkstyle.checks.blocks.NeedBracesCheck"/>
+<error line="63" severity="error" message="Line has trailing spaces." source="com.puppycrawl.tools.checkstyle.checks.regexp.RegexpSinglelineCheck"/>
+<error line="69" severity="error" message="La ligne excède 120 caractères (trouvé 121)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
+<error line="84" severity="error" message="La ligne excède 120 caractères (trouvé 172)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
+<error line="87" severity="error" message="La ligne excède 120 caractères (trouvé 204)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
+<error line="89" column="13" severity="error" message="L&apos;instruction &apos;if&apos; devrait utiliser des accolades (&apos;{&apos; et &apos;}&apos;)." source="com.puppycrawl.tools.checkstyle.checks.blocks.NeedBracesCheck"/>
 </file>
 <file name="/home/jb/Project/java/PlatformGame/platform_server/src/main/java/com/jbmo60927/errors/UnknowPacketError.java">
 <error line="3" column="1" severity="error" message="Commentaire Javadoc manquant." source="com.puppycrawl.tools.checkstyle.checks.javadoc.MissingJavadocTypeCheck"/>
@@ -690,6 +755,12 @@
 <error line="10" column="1" severity="error" message="Commentaire Javadoc manquant." source="com.puppycrawl.tools.checkstyle.checks.javadoc.MissingJavadocTypeCheck"/>
 <error line="18" column="53" severity="error" message="Il manque une espace après &apos;conversion de type&apos;." source="com.puppycrawl.tools.checkstyle.checks.whitespace.WhitespaceAfterCheck"/>
 <error line="18" column="59" severity="error" message="&apos;0xff&apos; devrait être défini comme une constante." source="com.puppycrawl.tools.checkstyle.checks.coding.MagicNumberCheck"/>
+</file>
+<file name="/home/jb/Project/java/PlatformGame/platform_server/src/test/java/com/jbmo60927/communication/packets/PacketTest.java">
+<error line="6" column="1" severity="error" message="Séparation supplémentaire dans le groupe d&apos;importation avant &apos;org.junit.jupiter.api.Test&apos;" source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
+<error line="8" column="1" severity="error" message="Commentaire Javadoc manquant." source="com.puppycrawl.tools.checkstyle.checks.javadoc.MissingJavadocTypeCheck"/>
+<error line="10" severity="error" message="La ligne excède 120 caractères (trouvé 241)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
+<error line="11" severity="error" message="Line has trailing spaces." source="com.puppycrawl.tools.checkstyle.checks.regexp.RegexpSinglelineCheck"/>
 </file>
 <file name="/home/jb/Project/java/PlatformGame/platform_server/src/test/java/com/jbmo60927/logger/MyLoggerTest.java">
 <error line="5" column="1" severity="error" message="L&apos;ordre d&apos;import n&apos;est pas respecté : &apos;org.junit.jupiter.api.Test&apos;." source="com.puppycrawl.tools.checkstyle.checks.imports.ImportOrderCheck"/>
