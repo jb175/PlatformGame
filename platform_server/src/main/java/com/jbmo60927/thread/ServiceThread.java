@@ -35,8 +35,8 @@ public class ServiceThread {
         this.socketOfServer = socketOfServer;
         this.app = app;
         this.os = socketOfServer.getOutputStream();
-        this.receveivePacket = new ReceivePacketThread(socketOfServer, this);
-        this.sendPacket = new SendPacketThread(socketOfServer);
+        this.receveivePacket = new ReceivePacketThread(socketOfServer, this.app, this);
+        this.sendPacket = new SendPacketThread(socketOfServer, this.app);
         receveivePacket.start();
     }
     

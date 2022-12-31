@@ -10,6 +10,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import com.jbmo60927.App;
 import com.jbmo60927.communication.Parameter;
 import com.jbmo60927.communication.types.StringType;
 import com.jbmo60927.communication.types.StringTypeList;
@@ -299,7 +300,7 @@ public abstract class Packet {
      * @param rawPacket the byte array containing the packet
      * @return the packet
      */
-    public static final Packet readPacket(final byte[] rawPacket) {
+    public static final Packet readPacket(final byte[] rawPacket, final App app) {
 		try {
             //a field to read all the raw packet without forgeting a value
             int read = 0;
@@ -321,11 +322,19 @@ public abstract class Packet {
 
                 //we get the parameters using the dedicated method
                 final Parameter[] packetParameters = readPacketParameters(packetClass, rawPacket, read, packetParameterNumber);
-                    
-                //we return the packet
-                return (Packet) packetClass //path of classes
-                    .getDeclaredConstructor(Parameter[].class) // we take the first constructor (only one permitted)
-                    .newInstance(new Object[] {packetParameters}); //the constructor only require the parameter array
+                
+                //we return the packet with the parameters and the app as parameters
+                try {
+                    return (Packet) packetClass //path of classes
+                        .getDeclaredConstructor(Parameter[].class, App.class) // we try to find a constructor with a parameter array and an app as parameters
+                        .newInstance(new Object[] {packetParameters}, app); //the constructor require the parameter array and the app
+                
+                //if it doesn't work, we try again without the app
+                } catch (NoSuchMethodException e) {
+                    return (Packet) packetClass //path of classes
+                        .getDeclaredConstructor(Parameter[].class) // we try to find a constructor with a parameter array as parameters
+                        .newInstance(new Object[] {packetParameters}); //the constructor only require the parameter array
+                }
             }
         
         //if an error occure

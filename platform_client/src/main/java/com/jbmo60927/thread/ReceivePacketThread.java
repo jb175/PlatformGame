@@ -9,6 +9,7 @@ import java.net.SocketException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import com.jbmo60927.App;
 import com.jbmo60927.communication.Parameter;
 import com.jbmo60927.communication.packets.Packet;
 
@@ -20,8 +21,8 @@ public class ReceivePacketThread extends Thread {
     //logger for this class
     private static final Logger LOGGER = Logger.getLogger(ReceivePacketThread.class.getName());
 
-    //access to the service thread to be able to close the connection
-    private final ServiceThread serviceThread;
+    //access to the app to be able to close the connection and transfer game data
+    private final App app;
 
     /**
      * this class is used to receive packets from the client/server
@@ -29,10 +30,10 @@ public class ReceivePacketThread extends Thread {
      * @param serviceThread the service thread that strat this thread
      * @throws IOException exeption that could occure when the socket is closed
      */
-    public ReceivePacketThread(final Socket socketOfServer, final ServiceThread serviceThread) throws IOException {
+    public ReceivePacketThread(final Socket socketOfServer, final App app) throws IOException {
         this.is = socketOfServer.getInputStream();
         LOGGER.setLevel(Level.FINE);
-        this.serviceThread = serviceThread;
+        this.app = app;
     }
 
     /**
@@ -62,12 +63,12 @@ public class ReceivePacketThread extends Thread {
 
             
             //we crete the corresponding packet
-            packet = Packet.readPacket(rawPacket);
+            packet = Packet.readPacket(rawPacket, app);
 
         } catch (final SocketException e) {
 
             //the socket exeption occure when the port is closed on the other side so the thread can't read any more data
-            this.serviceThread.interrupt();
+            this.app.getConnect().getGameLinkThread().interrupt();
             //we log a message to explain
             LOGGER.log(Level.SEVERE, "socket closed");
 
@@ -95,7 +96,7 @@ public class ReceivePacketThread extends Thread {
         } else {
 
             //we close the connection
-            this.serviceThread.interrupt();
+            this.app.getConnect().getGameLinkThread().interrupt();
             //we log a message to explain
             LOGGER.log(Level.SEVERE, "socket closed");
         }

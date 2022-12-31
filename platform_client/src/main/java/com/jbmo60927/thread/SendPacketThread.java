@@ -8,6 +8,7 @@ import java.net.Socket;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import com.jbmo60927.App;
 import com.jbmo60927.communication.Parameter;
 import com.jbmo60927.communication.packets.Packet;
 
@@ -15,6 +16,9 @@ public class SendPacketThread{
 
     //output stream to write data to the client/server
     private final OutputStream os;
+
+    //the app to 
+    private final App app;
 
     //logger for this class
     private static final Logger LOGGER = Logger.getLogger(SendPacketThread.class.getName());
@@ -24,9 +28,10 @@ public class SendPacketThread{
      * @param socketOfServer the socket where we should write data
      * @throws IOException exeption that could occure when the socket is closed
      */
-    public SendPacketThread(final Socket socketOfServer) throws IOException {
+    public SendPacketThread(final Socket socketOfServer, final App app) throws IOException {
         this.os = socketOfServer.getOutputStream();
         LOGGER.setLevel(Level.FINE);
+        this.app = app;
     }
 
     /**

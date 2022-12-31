@@ -29,8 +29,8 @@ public class ServiceThread extends Thread {
         this.app = app;
         this.socketOfClient = socketOfClient;
 
-        this.receveivePacket = new ReceivePacketThread(socketOfClient, this);
-        this.sendPacket = new SendPacketThread(socketOfClient);
+        this.receveivePacket = new ReceivePacketThread(this.socketOfClient, this.app);
+        this.sendPacket = new SendPacketThread(this.socketOfClient, this.app);
 
         this.receveivePacket.start();
         
