@@ -16,7 +16,7 @@ import com.jbmo60927.communication.packets.Packet;
  */
 public class AcceptUserThread extends Thread{
 
-    private static int MAXPLAYER = 10;
+    private static final int MAXPLAYER = 2;
 
     //logger for this class
     private static final Logger LOGGER = Logger.getLogger(AcceptUserThread.class.getName());

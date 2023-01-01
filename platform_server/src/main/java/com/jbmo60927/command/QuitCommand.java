@@ -8,18 +8,18 @@ import static com.jbmo60927.utilz.HelpsMethods.bytesToString;
 
 import java.util.Objects;
 
-public class Quit extends Command {
+public class QuitCommand extends Command {
 
     protected static final StringTypeList TYPES = new StringTypeList(new String[] {"message"});
 
-    public Quit(Parameter[] parameters) {
+    public QuitCommand(Parameter[] parameters) {
         super(parameters);
     }
 
     @Override
     public String execute(App app) {
         app.quit();
-        String stopReason = bytesToString(Parameter.hasParameter(parameters, Say.TYPES.findType("message")));
+        String stopReason = bytesToString(Parameter.hasParameter(parameters, SayCommand.TYPES.findType("message")));
         if (Objects.equals("", stopReason))
             return "the serveur is stopping";
         return "the server is stopping\n" + stopReason;

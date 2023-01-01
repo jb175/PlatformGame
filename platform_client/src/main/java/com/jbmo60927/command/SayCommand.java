@@ -7,16 +7,16 @@ import static com.jbmo60927.utilz.HelpsMethods.bytesToString;
 
 import com.jbmo60927.App;
 
-public class Say extends Command {
+public class SayCommand extends Command {
 
     protected static final StringTypeList TYPES = new StringTypeList(new String[] {"message"});
 
-    public Say(Parameter[] parameters) {
+    public SayCommand(Parameter[] parameters) {
         super(parameters);
     }
 
     @Override
     public String execute(App app) {
-        return bytesToString(Parameter.hasParameter(parameters, Say.TYPES.findType("message")));
+        return bytesToString(Parameter.hasParameter(parameters, SayCommand.TYPES.findType("message")));
     }
 }

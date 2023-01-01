@@ -5,11 +5,11 @@ import com.jbmo60927.communication.Parameter;
 import com.jbmo60927.communication.types.StringTypeList;
 import com.jbmo60927.communication.packets.Welcome;
 
-public class Sendwelcome extends Command {
+public class WelcomeCommand extends Command {
 
     protected static final StringTypeList TYPES = new StringTypeList(new String[] {});
 
-    public Sendwelcome(Parameter[] parameters) {
+    public WelcomeCommand(Parameter[] parameters) {
         super(parameters);
     }
 

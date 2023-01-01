@@ -75,7 +75,7 @@ public class ServiceThread extends Thread {
                     LOGGER.log(Level.INFO, returnString);
             } catch (ClassNotFoundException e) {
                 if (LOGGER.isLoggable(Level.INFO))
-                    LOGGER.log(Level.INFO, () -> "the command doesn't exist");
+                LOGGER.log(Level.INFO, () -> String.format("the command %s.%s%s doesn't exist", Command.BEGINCLASSPATH, command.split(Command.COMMANDSEP)[0], Command.COMMANDCLASSEND));
             } catch (InstantiationException | IllegalAccessException | IllegalArgumentException
                     | InvocationTargetException | NoSuchMethodException | SecurityException e) {
                 LOGGER.log(Level.SEVERE, "the command is not understand", e);

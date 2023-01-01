@@ -13,8 +13,9 @@ import static com.jbmo60927.utilz.HelpsMethods.stringToBytes;
 
 public abstract class Command {
 
-    private static final String BEGINCLASSPATH = "com.jbmo60927.command";
-    private static final String COMMANDSEP = " ";
+    public static final String BEGINCLASSPATH = "com.jbmo60927.command";
+    public static final String COMMANDCLASSEND = "Command";
+    public static final String COMMANDSEP = " ";
     private static final String COMMANDPARAMETERSEP = ":";
     private static final String TYPELISTFIELDNAME = "TYPES";
 
@@ -58,7 +59,7 @@ public abstract class Command {
     public static final Command readCommand(String command) throws InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException, ClassNotFoundException {
         
         String commandName = command.split(Command.COMMANDSEP)[0];
-        Class<?> commandClass = Class.forName(String.format(Command.BEGINCLASSPATH+".%s", commandName.substring(0, 1).toUpperCase()+commandName.substring(1).toLowerCase()));
+        Class<?> commandClass = Class.forName(String.format("%s.%s%s", Command.BEGINCLASSPATH, commandName.substring(0, 1).toUpperCase()+commandName.substring(1).toLowerCase(), Command.COMMANDCLASSEND));
         
         Parameter[] parameters = Command.readCommandParameters(command, commandClass);
 
