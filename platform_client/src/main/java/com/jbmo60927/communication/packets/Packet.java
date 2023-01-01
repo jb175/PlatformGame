@@ -25,8 +25,8 @@ public abstract class Packet {
 
     //packet types list
     protected static final StringTypeList TYPES = new StringTypeList(new String[] {
-			"Reception", "Welcome", "Version", "Join", "Quit",
-			"NewJoiner", "Position", "RemovePlayer", "NewEntity",
+			"Reception", "Welcome", "Version", "Join", "Quit", "Say",
+			"NewJoiner", "Position", "RemovePlayer", "NewEntity", "Setname",
 			"SetLevel", "RemoveLevel", "ChangeLevel"}
 		);
 
@@ -75,6 +75,45 @@ public abstract class Packet {
     }
 
     /**
+     * add a parameter to a parameter array
+     * @param parameters the array of parameter on wich we wants to add a new parameter
+     * @param parameter the parameter we wants to add
+     * @return the array with the parameter
+     */
+    public static Parameter[] addParameter(Parameter[] parameters, Parameter parameter) {
+
+        //if there is already a parameter like tyhis one on the array we get is position
+        int indexOfType = Parameter.hasParameter(parameters, parameter.getParameterType());
+
+        //and we modify the value
+        if (indexOfType >= 0 && indexOfType < parameters.length) {
+            parameters[indexOfType] = parameter;
+            return parameters;
+
+        //otherwise we need to create a new temporary array to contain the new parameter
+        } else if (indexOfType == -1) {
+
+            //we create the array
+            Parameter[] newParameters = new Parameter[parameters.length+1];
+
+            //we copy it from the old one
+            int c = 0;
+            for (Parameter p : parameters)
+                newParameters[c++] = p;
+
+            //we add the new paramter
+            newParameters[c] = parameter;
+
+            //and we return the new array
+            return newParameters;
+        }
+
+        //if something goes wrong we display an error and return the old array
+        LOGGER.log(Level.SEVERE, () -> String.format("can't add parameter (%s pos:%d)", parameter.getParameterType().getTypeName(), indexOfType));
+        return parameters;
+    }
+
+    /**
      * return the value we should use for a given parameter (the one receive from the packet or a default one)
      * @param parameterType type of the parameter we wants to search the value
      * @param parameters parameters from the packet we receive
@@ -84,7 +123,7 @@ public abstract class Packet {
     protected static byte[] getParameterValue(final StringType parameterType, final Parameter[] parameters, final byte[] defaultValue) {
         
         //we try to get the value from the packet we receive
-        final byte[] parameterValue = Parameter.hasParameter(parameters, parameterType);
+        final byte[] parameterValue = Parameter.getParameter(parameters, parameterType);
 
         //if something was return we return this value
         if (parameterValue != new byte[] {})
@@ -328,7 +367,7 @@ public abstract class Packet {
                 try {
                     return (Packet) packetClass //path of classes
                         .getDeclaredConstructor(Parameter[].class, App.class) // we try to find a constructor with a parameter array and an app as parameters
-                        .newInstance(new Object[] {packetParameters}, app); //the constructor require the parameter array and the app
+                        .newInstance(new Object[] {packetParameters, app}); //the constructor require the parameter array and the app
                 
                 //if it doesn't work, we try again without the app
                 } catch (NoSuchMethodException e) {
@@ -340,7 +379,7 @@ public abstract class Packet {
         
         //if an error occure
         } catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException | SecurityException | ClassNotFoundException | IOException e) {
-            LOGGER.log(Level.SEVERE, "error while reading the packet", e);
+            LOGGER.log(Level.SEVERE, "error while reading the packet (possibly an error betwwen Packets.TYPES between client/server", e);
         }
 
         //return an empty packet

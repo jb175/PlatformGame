@@ -8,6 +8,7 @@ import java.util.logging.Logger;
 
 import com.jbmo60927.App;
 import com.jbmo60927.communication.packets.Packet;
+import com.jbmo60927.entities.ServerPlayer;
 
 public class ServiceThread {
 
@@ -61,14 +62,13 @@ public class ServiceThread {
     }
 
     /**
-     * broadcast a paquet to every other client
-     * @param packet the packet to broadcast to evry client
+     * broadcast a paquet to every other clients
+     * @param packet the packet to broadcast to evry clients
      */
-    private void broadcast(Packet packet) {
-        //send data to every other clients (evry thread)
-        for (final ServiceThread thread : app.getPlayers().keySet()) {
-            if(thread != this) {
-                thread.sendPacket.sendPacket(packet);
+    public void broadcast(Packet packet) {
+        for (ServerPlayer player : app.getAcceptUserThread().getPlayers()) {
+            if (player != null && !player.getServiceThread().isInterrupted() && !player.getServiceThread().equals(this)) {
+                player.getServiceThread().getSendPacket().sendPacket(packet);
             }
         }
     }

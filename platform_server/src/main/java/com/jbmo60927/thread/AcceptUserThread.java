@@ -17,7 +17,7 @@ import com.jbmo60927.entities.ServerPlayer;
  */
 public class AcceptUserThread extends Thread{
 
-    private static final int MAXPLAYER = 2;
+    public static final int MAXPLAYER = 10;
 
     //logger for this class
     private static final Logger LOGGER = Logger.getLogger(AcceptUserThread.class.getName());
@@ -31,7 +31,7 @@ public class AcceptUserThread extends Thread{
     //all data is stored in the app
     private final App app;
 
-    private ServerPlayer[] st = new ServerPlayer[MAXPLAYER];
+    private ServerPlayer[] players = new ServerPlayer[MAXPLAYER];
 
     /**
      * init data for the thread that accept new player
@@ -59,12 +59,12 @@ public class AcceptUserThread extends Thread{
 
                 LOGGER.log(Level.FINE, "new connection detected");
 
-                for (int i = 0; i < st.length; i++) {
-                    if (st[i] == null || st[i].getServiceThread().isInterrupted()) {
+                for (int i = 0; i < players.length; i++) {
+                    if (players[i] == null || players[i].getServiceThread().isInterrupted()) {
                         //create new Socket at server
-                        st[i] = new ServerPlayer(new ServiceThread(socketOfServer, clientNumber++, app, i));
+                        players[i] = new ServerPlayer(new ServiceThread(socketOfServer, clientNumber++, app, i));
                         break;
-                    } else if (i == (st.length-1)) {
+                    } else if (i == (players.length-1)) {
                         socketOfServer.getOutputStream().write(stringToBytes("server full"));
                         socketOfServer.getOutputStream().flush();
                         socketOfServer.close();
@@ -78,15 +78,21 @@ public class AcceptUserThread extends Thread{
         LOGGER.log(Level.SEVERE, "AcceptUserThread stopped");
     }
 
-    public ServerPlayer[] getSt() {
-        return st;
+    public ServerPlayer[] getPlayers() {
+        return players;
     }
 
+    /**
+     * to broadcast a packet to every clients
+     * @param packet the packet to broadcast
+     */
     public void broadcast(Packet packet) {
-        for (ServerPlayer player : st) {
+        for (ServerPlayer player : players) {
             if (player != null && !player.getServiceThread().isInterrupted()) {
                 player.getServiceThread().getSendPacket().sendPacket(packet);
             }
         }
     }
+
+
 }

@@ -19,7 +19,7 @@ public class QuitCommand extends Command {
     @Override
     public String execute(App app) {
         app.quit();
-        String stopReason = bytesToString(Parameter.hasParameter(parameters, SayCommand.TYPES.findType("message")));
+        String stopReason = bytesToString(Parameter.getParameter(parameters, SayCommand.TYPES.findType("message")));
         if (Objects.equals("", stopReason))
             return "the serveur is stopping";
         return "the server is stopping\n" + stopReason;

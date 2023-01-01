@@ -25,11 +25,19 @@ public class Parameter {
         return value;
     }
 
-    public static byte[] hasParameter(Parameter[] parameters, StringType parameterType) {
+    public static byte[] getParameter(Parameter[] parameters, StringType parameterType) {
         for (Parameter parameter : parameters) {
             if (Objects.equals(parameter.getParameterType().getTypeName(), parameterType.getTypeName()))
                 return parameter.getValue();
         }
         return new byte[] {};
+    }
+
+    public static int hasParameter(Parameter[] parameters, StringType parameterType) {
+        for (int i = 0; i < parameters.length; i++) {
+            if (Objects.equals(parameters[i].getParameterType().getTypeName(), parameterType.getTypeName()))
+                return i;
+        }
+        return -1;
     }
 }

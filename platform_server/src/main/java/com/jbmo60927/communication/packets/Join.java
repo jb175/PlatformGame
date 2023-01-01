@@ -9,6 +9,7 @@ import java.util.logging.Level;
 import com.jbmo60927.App;
 import com.jbmo60927.communication.Parameter;
 import com.jbmo60927.communication.types.StringTypeList;
+import com.jbmo60927.entities.ServerPlayer;
 
 public class Join extends Packet {
 
@@ -17,34 +18,47 @@ public class Join extends Packet {
     });
 
     private final App app;
+    private int playerListNumber;
 
-    public Join(Parameter[] parameters, App app) {
+    public Join(Parameter[] parameters, App app, int playerListNumber) {
         super(Packet.TYPES.findType("Join"), parameters);
         this.app = app;
-    }
-
-    public Join(App app) {
-        super(Packet.TYPES.findType("Join"), setParameters(app));
-        this.app = app;
-    }
-
-    private static final Parameter[] setParameters(App app) {
-        return new Parameter[] {
-            new Parameter(Join.TYPES.findType("name"), stringToBytes("server")),
-            new Parameter(Join.TYPES.findType("version"), stringToBytes(app.getVersion()))
-        };
+        this.playerListNumber = playerListNumber;
     }
 
     @Override
     public void execute() {
-        String name = bytesToString(Packet.getParameterValue(Join.TYPES.findType("name"), parameters, stringToBytes("")));
+        String name = bytesToString(Packet.getParameterValue(Join.TYPES.findType("name"), parameters, stringToBytes("default")));
         String version = bytesToString(Packet.getParameterValue(Join.TYPES.findType("version"), parameters, stringToBytes("")));
 
-        if (!"".equals(version) && Objects.equals(version, app.getVersion()))
-            LOGGER.log(Level.INFO, "versions are the same");
-        else
-            LOGGER.log(Level.INFO, () -> String.format("version are not the same (client:%s server:%s)", version, app.getVersion()));
-            
+        if (!"".equals(version) && Objects.equals(version, app.getVersion())) {
+            String newName = name;
+            int alreadyUsedName = 0;
+            long millis = System.currentTimeMillis();
+            while (System.currentTimeMillis() < millis+2000) {
+                int c = 0;
+                for (ServerPlayer player : app.getAcceptUserThread().getPlayers()) {
+                    if(player != null && player.getName().equals(newName))
+                        break;
+                    c++;
+                }
+                if (c >= app.getAcceptUserThread().getPlayers().length)
+                    break;
+                else {
+                    newName = String.format("%s(%d)", name, alreadyUsedName+2);
+                }
+            }
+            if (System.currentTimeMillis() >= millis+2000) {
+                LOGGER.log(Level.SEVERE, () -> "can't give a name to the player");
+            }
 
+            LOGGER.log(Level.INFO, "versions are the same");
+            app.getAcceptUserThread().getPlayers()[playerListNumber].setName(newName);
+            app.getAcceptUserThread().getPlayers()[playerListNumber].getServiceThread().getSendPacket().sendPacket(new Setname(newName));
+        }
+        else {
+            LOGGER.log(Level.INFO, () -> String.format("version are not the same (client:%s server:%s)", version, app.getVersion()));
+            app.getAcceptUserThread().getPlayers()[playerListNumber].getServiceThread().interrupt();
+        }
     }
 }

@@ -67,7 +67,7 @@ public class ReceivePacketThread extends Thread {
 
             
             //we crete the corresponding packet
-            packet = Packet.readPacket(rawPacket, app);
+            packet = Packet.readPacket(rawPacket, app, serviceThread.getPlayerListNumber());
 
         } catch (final SocketException e) {
 

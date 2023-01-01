@@ -7,7 +7,7 @@ public class ServerPlayer extends Player{
     private final ServiceThread serviceThread;
 
     public ServerPlayer(ServiceThread serviceThread) {
-        super(0, 0, -1, "default name");
+        super(0, 0, -1, "");
         this.serviceThread = serviceThread;
     }
 

@@ -14,11 +14,6 @@ public class Join extends Packet {
 
     private final App app;
 
-    public Join(Parameter[] parameters, App app) {
-        super(Packet.TYPES.findType("Join"), parameters);
-        this.app = app;
-    }
-
     public Join(App app) {
         super(Packet.TYPES.findType("Join"), setParameters(app));
         this.app = app;
