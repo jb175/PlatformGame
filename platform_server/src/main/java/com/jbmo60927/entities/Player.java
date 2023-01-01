@@ -44,4 +44,12 @@ public class Player extends Entity {
     public String getName() {
         return name;
     }
+
+    /**
+     * the name is stored after the creation of the player
+     * @param name the name of the player
+     */
+    public void setName(String name) {
+        this.name = name;
+    }
 }

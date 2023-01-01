@@ -10,6 +10,7 @@ import static com.jbmo60927.utilz.HelpsMethods.stringToBytes;
 
 import com.jbmo60927.App;
 import com.jbmo60927.communication.packets.Packet;
+import com.jbmo60927.entities.ServerPlayer;
 
 /**
  * thread to accept new client and redirect them on other new thread
@@ -30,7 +31,7 @@ public class AcceptUserThread extends Thread{
     //all data is stored in the app
     private final App app;
 
-    private ServiceThread[] st = new ServiceThread[MAXPLAYER];
+    private ServerPlayer[] st = new ServerPlayer[MAXPLAYER];
 
     /**
      * init data for the thread that accept new player
@@ -59,9 +60,9 @@ public class AcceptUserThread extends Thread{
                 LOGGER.log(Level.FINE, "new connection detected");
 
                 for (int i = 0; i < st.length; i++) {
-                    if (st[i] == null || st[i].isInterrupted()) {
+                    if (st[i] == null || st[i].getServiceThread().isInterrupted()) {
                         //create new Socket at server
-                        st[i] = new ServiceThread(socketOfServer, clientNumber++, app);
+                        st[i] = new ServerPlayer(new ServiceThread(socketOfServer, clientNumber++, app, i));
                         break;
                     } else if (i == (st.length-1)) {
                         socketOfServer.getOutputStream().write(stringToBytes("server full"));
@@ -77,14 +78,14 @@ public class AcceptUserThread extends Thread{
         LOGGER.log(Level.SEVERE, "AcceptUserThread stopped");
     }
 
-    public ServiceThread[] getSt() {
+    public ServerPlayer[] getSt() {
         return st;
     }
 
     public void broadcast(Packet packet) {
-        for (ServiceThread serviceThread : st) {
-            if (serviceThread != null && !serviceThread.isInterrupted()) {
-                serviceThread.getSendPacket().sendPacket(packet);
+        for (ServerPlayer player : st) {
+            if (player != null && !player.getServiceThread().isInterrupted()) {
+                player.getServiceThread().getSendPacket().sendPacket(packet);
             }
         }
     }

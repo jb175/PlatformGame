@@ -18,6 +18,7 @@ public class ServiceThread {
     private final OutputStream os;
     private final ReceivePacketThread receveivePacket;
     private final SendPacketThread sendPacket;
+    private final int playerListNumber;
 
 
     private String clientVersion = "";
@@ -27,13 +28,15 @@ public class ServiceThread {
      * @param socketOfServer socket of the client
      * @param clientNumber id of the client
      * @param app link to the data
+     * @param playerListNumber the position of the player in the list from AcceptUserThread
      * @throws IOException exception that could occure when the communication is closed badly 
      */
-    public ServiceThread(final Socket socketOfServer, final int clientNumber, final App app) throws IOException {
+    public ServiceThread(final Socket socketOfServer, final int clientNumber, final App app, final int playerListNumber) throws IOException {
         LOGGER.setLevel(Level.FINEST);
         this.clientNumber = clientNumber;
         this.socketOfServer = socketOfServer;
         this.app = app;
+        this.playerListNumber = playerListNumber;
         this.os = socketOfServer.getOutputStream();
         this.receveivePacket = new ReceivePacketThread(socketOfServer, this.app, this);
         this.sendPacket = new SendPacketThread(socketOfServer, this.app);
@@ -84,6 +87,10 @@ public class ServiceThread {
 
     public SendPacketThread getSendPacket() {
         return sendPacket;
+    }
+
+    public int getPlayerListNumber() {
+        return playerListNumber;
     }
 
     public void interrupt() {
