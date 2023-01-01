@@ -65,16 +65,8 @@ public class GameWindow {
 			@Override
 			public void windowClosing(final WindowEvent e) {
 				try {
-					if (app.getConnect().isConnected()) {
-						//app.getConnect().getGameLinkThread().sendPacket(new SendQuitPacket());
-						
-						//wait until disconnection
-						long time = System.currentTimeMillis();
-						while (app.getConnect().isConnected()) {
-							if (System.currentTimeMillis() > time+3000)
-								LOGGER.log(Level.SEVERE, "cant disconnect player");
-						}
-					}
+					if (app.getConnect().getGameLinkThread() != null)
+						app.getConnect().getGameLinkThread().interrupt();
 				} finally {
 					app.saveData();
 				}

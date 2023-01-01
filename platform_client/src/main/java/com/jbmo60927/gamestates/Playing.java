@@ -96,13 +96,7 @@ public class Playing extends State implements StateMethods {
 			player.setJump(true);
             break;
         case KeyEvent.VK_ESCAPE:
-            //app.getConnect().getGameLinkThread().sendPacket(new SendQuitPacket());
-            //wait until disconnection
-            long time = System.currentTimeMillis();
-            while (app.getConnect().isConnected()) {
-                if (System.currentTimeMillis() > time+3000)
-                    LOGGER.log(Level.SEVERE, "Cant disconnect player");
-            }
+            app.getConnect().getGameLinkThread().interrupt();
             app.setPlaying(new Playing(app));
             GameStates.setGameState(GameStates.MENU);
             break;

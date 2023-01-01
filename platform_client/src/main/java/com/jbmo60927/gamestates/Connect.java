@@ -3,8 +3,6 @@ package com.jbmo60927.gamestates;
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.IOException;
 import java.net.Socket;
 import java.net.UnknownHostException;
@@ -20,12 +18,8 @@ import com.jbmo60927.ui.PointNumberInput;
 
 public class Connect extends State implements StateMethods {
 
-    private boolean isConnected = false;
-
     private ServiceThread gameLinkThread;
-    private BufferedWriter os;
     private Socket socketOfClient;
-    private BufferedReader is;
     
     //components
     private int selectedComponent = -1;
@@ -94,7 +88,6 @@ public class Connect extends State implements StateMethods {
 
             gameLinkThread = new ServiceThread(socketOfClient, app);
             gameLinkThread.start();
-            isConnected = true;
             GameStates.setGameState(GameStates.PLAYING);
 
         } catch (UnknownHostException e) {
@@ -180,29 +173,7 @@ public class Connect extends State implements StateMethods {
       // not used yet
     }
 
-    public BufferedWriter getOs() {
-        return os;
-    }
-
-    public Socket getSocketOfClient() {
-        return socketOfClient;
-    }
-
-    public BufferedReader getIs() {
-        return is;
-    }
-
     public ServiceThread getGameLinkThread() {
         return gameLinkThread;
     }
-
-    public boolean isConnected() {
-        return isConnected;
-    }
-
-
-    public void setConnected(boolean isConnected) {
-        this.isConnected = isConnected;
-    }
-
 }
