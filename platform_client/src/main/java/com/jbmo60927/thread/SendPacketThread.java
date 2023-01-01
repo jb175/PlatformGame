@@ -52,13 +52,13 @@ public class SendPacketThread{
         try {
 
             //if we are autorized we log a description of the packet to send
-            String log = String.format("SEND new PACKET%ntype:%s, parameter number:%d parameters:", packet.getPacketType().getTypeName(), packet.getParameters().length);
+            StringBuilder log = new StringBuilder();
+            log.append(String.format("SEND new PACKET%ntype:%s, parameter number:%d parameters:", packet.getPacketType().getTypeName(), packet.getParameters().length));
             int parameterNumber = 0;
-            for (final Parameter parameter : packet.getParameters()) {
-                log += String.format("%n\t%d: type:%s, size:%d, value:%s", parameterNumber++, parameter.getParameterType().getTypeName(), parameter.getValue().length, bytesToString(parameter.getValue()));
-            }
+            for (final Parameter parameter : packet.getParameters())
+                log.append(String.format("%n\t%d: type:%s, size:%d, value:%s", parameterNumber++, parameter.getParameterType().getTypeName(), parameter.getValue().length, bytesToString(parameter.getValue())));
             if (LOGGER.isLoggable(Level.INFO))
-                LOGGER.log(Level.INFO, log);
+                LOGGER.log(Level.INFO, log.toString());
 
             //we get the packet ready to be send (raw-packet)
             final byte[] rawPacket = Packet.getCompactPacket(packet);

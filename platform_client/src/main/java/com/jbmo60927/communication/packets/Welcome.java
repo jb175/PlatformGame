@@ -6,7 +6,6 @@ import static com.jbmo60927.utilz.HelpsMethods.stringToBytes;
 import java.nio.charset.StandardCharsets;
 import java.util.logging.Level;
 
-import com.jbmo60927.App;
 import com.jbmo60927.communication.Parameter;
 import com.jbmo60927.communication.types.StringTypeList;
 
@@ -18,7 +17,7 @@ public class Welcome extends Packet {
     
     private static final String MESSAGE = "Welcome to the Platform Game. See more information at https://github.com/jb175/PlatformGame";
 
-    public Welcome(Parameter[] parameters, App app) {
+    public Welcome(Parameter[] parameters) {
         super(Packet.TYPES.findType("Welcome"), parameters);
     }
 

@@ -10,6 +10,7 @@ import java.util.logging.Logger;
 
 import com.jbmo60927.App;
 import com.jbmo60927.command.Command;
+import com.jbmo60927.communication.packets.Join;
 
 public class ServiceThread extends Thread {
 
@@ -34,6 +35,8 @@ public class ServiceThread extends Thread {
 
         this.receveivePacket.start();
         
+        this.sendPacket.sendPacket(new Join(app));
+
         kb = new BufferedReader(new InputStreamReader(System.in));
     }
 

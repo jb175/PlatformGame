@@ -1,6 +1,10 @@
 package com.jbmo60927.communication.packets;
 
+import static com.jbmo60927.utilz.HelpsMethods.bytesToString;
 import static com.jbmo60927.utilz.HelpsMethods.stringToBytes;
+
+import java.util.Objects;
+import java.util.logging.Level;
 
 import com.jbmo60927.App;
 import com.jbmo60927.communication.Parameter;
@@ -26,12 +30,21 @@ public class Join extends Packet {
 
     private static final Parameter[] setParameters(App app) {
         return new Parameter[] {
-            new Parameter(Join.TYPES.findType("name"), stringToBytes(app.getPlaying().getPlayer().getName())),
-            new Parameter(Join.TYPES.findType("version"), stringToBytes(App.VERSION))
+            new Parameter(Join.TYPES.findType("name"), stringToBytes("server")),
+            new Parameter(Join.TYPES.findType("version"), stringToBytes(app.getVersion()))
         };
     }
 
     @Override
     public void execute() {
+        String name = bytesToString(Packet.getParameterValue(Join.TYPES.findType("name"), parameters, stringToBytes("")));
+        String version = bytesToString(Packet.getParameterValue(Join.TYPES.findType("version"), parameters, stringToBytes("")));
+
+        if (!"".equals(version) && Objects.equals(version, app.getVersion()))
+            LOGGER.log(Level.INFO, "versions are the same");
+        else
+            LOGGER.log(Level.INFO, () -> String.format("version are not the same (client:%s server:%s)", version, app.getVersion()));
+            
+
     }
 }

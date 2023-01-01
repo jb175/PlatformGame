@@ -294,10 +294,11 @@ public abstract class Packet {
         //return the array
         return parameters;
     }
-	
+    
     /**
      * create a packet from the byte array containing a row packet
      * @param rawPacket the byte array containing the packet
+     * @param app the app to use it into packets
      * @return the packet
      */
     public static final Packet readPacket(final byte[] rawPacket, final App app) {
