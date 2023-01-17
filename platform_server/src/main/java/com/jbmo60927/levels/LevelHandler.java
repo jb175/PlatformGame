@@ -10,7 +10,7 @@ public class LevelHandler {
     private int currentLevel = 0;
 
     public LevelHandler() {
-        levels[0] = new Level(LoadSave.getLevelData());
+        addLevel(LoadSave.getLevelData(), 0);
     }
 
     public Level getCurrentLevel() {
