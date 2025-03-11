@@ -56,7 +56,7 @@ public class MyLogger {
      */
     private static String dateFormatter(final long millisecs) {
         final Date resultDate = new Date(millisecs);
-        final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss");
+        final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss");
         return dateFormat.format(resultDate);
     }
 }
